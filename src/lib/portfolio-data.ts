@@ -1,0 +1,92 @@
+import { Github, Linkedin, Mail, ExternalLink, Code2 } from "lucide-react";
+
+export const profile = {
+  name: "Sahil Pal",
+  role: "Software Engineer",
+  summary: "Software engineer focused on building production-grade systems and developer tools, with experience in REST APIs, async pipelines, worker queues, and scalable data services.",
+  links: {
+    github: "https://github.com/saahilpal",
+    linkedin: "https://www.linkedin.com/in/sahiilpal",
+    email: "saahilpal17@gmail.com",
+    leetcode: "https://leetcode.com/u/saahiilpal/",
+    resume: "/resume.pdf",
+  },
+};
+
+export const projects = [
+  {
+    name: "RAG Doc Analyzer",
+    type: "Document Q&A platform",
+    links: [
+      { label: "Live", url: "https://www.docanalyzer.app/" },
+      { label: "GitHub", url: "https://github.com/saahilpal/RAG-DOCAnalyzer" },
+    ],
+    stack: ["Next.js", "Express", "PostgreSQL", "Gemini", "pgvector"],
+    highlights: [
+      "Implemented a grounded RAG pipeline using Gemini embeddings, pgvector similarity search, and PostgreSQL full-text fallback with SSE response delivery.",
+      "Built a chat-first platform with Firebase authentication, JWT sessions, persistent workspaces, and multi-document conversations.",
+      "Designed async ingestion (Multer, SHA-256 deduplication, Supabase Storage) and a PostgreSQL worker queue using FOR UPDATE SKIP LOCKED.",
+      "Added ownership checks, quotas, and health endpoints to ensure reliable production workflows."
+    ],
+  },
+  {
+    name: "LeetSync",
+    type: "Chrome extension + product site",
+    links: [
+      { label: "Live", url: "https://github.com/saahilpal/leetsync-web" }, // Using site repo as proxy
+      { label: "GitHub", url: "https://github.com/saahilpal/LeetSync" },
+    ],
+    stack: ["TypeScript", "Vite", "Manifest V3"],
+    highlights: [
+      "Built a Manifest V3 Chrome extension to capture LeetCode editor content and metadata, converting solutions into structured Markdown.",
+      "Implemented page-context injection (popup + Shadow DOM) for in-tab capture of problem-solving notes and metadata.",
+      "Automated GitHub synchronization via Contents API across structured DSA folders, eliminating manual workflows.",
+      "Launched a companion site with installation guides and setup scripts to streamline onboarding."
+    ],
+  }
+];
+
+export const experience = [
+  {
+    role: "Intern",
+    company: "Kristu Jayanti Software Development Centre — Kristu Jayanti University",
+    date: "June 2025 – July 2025",
+    highlights: [
+      "Built a Java 17 + Vert.x backend exposing REST APIs for authentication, profiles, items, search, and moderation.",
+      "Implemented production-grade authentication including JWT sessions, email verification, password reset, Redis token blacklisting, and role-based access control.",
+      "Designed MongoDB-backed workflows with SMTP notifications, scheduled cleanup jobs, and asynchronous handlers coordinating database, cache, and email systems."
+    ],
+    stack: ["Java 17", "Vert.x", "MongoDB", "Redis"],
+  }
+];
+
+export const skills = [
+  {
+    category: "Languages",
+    items: ["Java", "C++", "TypeScript", "JavaScript", "SQL"]
+  },
+  {
+    category: "Backend & Systems",
+    items: ["REST APIs", "JWT", "OAuth", "SSE", "Worker Queues", "Async Pipelines"]
+  },
+  {
+    category: "Databases & Search",
+    items: ["PostgreSQL", "MongoDB", "Redis", "pgvector", "Full-Text Search"]
+  },
+  {
+    category: "Tools & Frameworks",
+    items: ["Vert.x", "Express", "Next.js", "React", "Tailwind CSS", "Vite", "Manifest V3", "GitHub Actions"]
+  },
+  {
+    category: "Concepts",
+    items: ["RAG", "Vector Search", "Event-Driven Architecture"]
+  }
+];
+
+export const education = [
+  {
+    degree: "Bachelor of Computer Applications (BCA)",
+    school: "Kristu Jayanti College, Bengaluru",
+    date: "2023 – 2026",
+  }
+];
