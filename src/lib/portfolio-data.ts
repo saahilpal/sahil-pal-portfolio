@@ -33,7 +33,7 @@ export const projects = [
     name: "LeetSync",
     type: "Chrome extension + product site",
     links: [
-      { label: "Live", url: "https://github.com/saahilpal/leetsync-web" }, // Using site repo as proxy
+      { label: "Live", url: "https://leetsync-web.vercel.app/" },
       { label: "GitHub", url: "https://github.com/saahilpal/LeetSync" },
     ],
     stack: ["TypeScript", "Vite", "Manifest V3"],
