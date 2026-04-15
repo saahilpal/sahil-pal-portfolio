@@ -392,7 +392,3 @@ export function TerminalPortfolio({ onExit }: { onExit?: () => void }) {
     </div>
   );
 }
-} />
-    </div>
-  );
-}
