@@ -183,7 +183,7 @@ export function TerminalPortfolio({ onExit }: { onExit?: () => void }) {
       if (bootLine < bootSequenceLines.length) {
         const timer = setTimeout(() => {
           setBootLine(prev => prev + 1);
-        }, 120); // slightly slower for dramatic effect
+        }, 40); // fast boot sequence
         return () => clearTimeout(timer);
       } else {
         const timer = setTimeout(() => {
@@ -193,7 +193,7 @@ export function TerminalPortfolio({ onExit }: { onExit?: () => void }) {
             type: "SYS",
             content: ["Type 'help' to see available commands. Press ESC or type 'exit' to return to GUI."]
           }]);
-        }, 500); // Wait half a second before prompt appears
+        }, 150); // Wait briefly before prompt appears
         return () => clearTimeout(timer);
       }
     }
@@ -389,6 +389,10 @@ export function TerminalPortfolio({ onExit }: { onExit?: () => void }) {
           }
         `
       }} />
+    </div>
+  );
+}
+} />
     </div>
   );
 }
