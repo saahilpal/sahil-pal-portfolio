@@ -15,6 +15,21 @@ export const profile = {
 
 export const projects = [
   {
+    name: "Synap",
+    type: "Developer Tools / AI Infrastructure / Open Source",
+    links: [
+      { label: "Docs", url: "https://github.com/saahilpal/synapse#readme" },
+      { label: "GitHub", url: "https://github.com/saahilpal/synapse" },
+    ],
+    stack: ["Python", "SQLite", "Tree-sitter", "MCP", "Vector Search", "AsyncIO"],
+    highlights: [
+      "Designed a 3-lane hybrid retrieval engine merging lexical (FTS5), structural (Tree-sitter AST graph), and semantic vector searches using Reciprocal Rank Fusion.",
+      "Built an MCP-native server serving structured, token-budget-aware codebase context packages directly to Cursor, Claude, and coding agents.",
+      "Engineered an O(1) memory indexing daemon using parallel AST parsing, background embedding generation, and a WAL-mode SQLite state engine.",
+      "Optimized index retrieval to sub-2s latency on 50k+ symbol codebases, supporting multi-language parsing (Python, TS/JS, Go, Rust, C++)."
+    ],
+  },
+  {
     name: "RAG Doc Analyzer",
     type: "Document Q&A platform",
     links: [
