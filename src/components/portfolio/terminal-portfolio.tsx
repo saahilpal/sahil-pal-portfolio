@@ -337,18 +337,19 @@ export function TerminalPortfolio({ onExit }: { onExit?: () => void }) {
                     {log.type !== "CMD" && (
                       <div className="pl-0 md:pl-4 space-y-1">
                         {log.content.map((line, i) => (
-                          <motion.div 
+                          <div 
                             key={i} 
-                            initial={{ opacity: 0, x: -5 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: i * 0.02 }}
+                            style={{ 
+                              animationDelay: `${i * 0.005}s`,
+                              transform: "translate3d(-4px, 0, 0)"
+                            }}
                             className={cn(
-                              "mb-1 whitespace-pre-wrap break-words",
+                              "mb-1 whitespace-pre-wrap break-words terminal-line-anim",
                               log.type === "ERR" ? "text-red-400" : "text-[#d4d4d8]"
                             )}
                           >
                             {line}
-                          </motion.div>
+                          </div>
                         ))}
                       </div>
                     )}
@@ -386,6 +387,14 @@ export function TerminalPortfolio({ onExit }: { onExit?: () => void }) {
           @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
+          }
+          .terminal-line-anim {
+            opacity: 0;
+            animation: terminal-fade-in 0.08s ease-out forwards;
+            will-change: transform, opacity;
+          }
+          @keyframes terminal-fade-in {
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
           }
         `
       }} />

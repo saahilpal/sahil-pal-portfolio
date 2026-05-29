@@ -14,7 +14,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const [cursorType, setCursorType] = useState<"default" | "interactive" | "text">("default");
 
   useEffect(() => {
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
@@ -50,11 +49,16 @@ function CustomCursor() {
       
       const isInteractive = target.closest('a, button, [role="button"], .group, input, textarea') !== null;
       if (isInteractive) {
-        setCursorType("interactive");
+        const isSynapCard = target.closest('.project-card-synap') !== null;
+        if (isSynapCard) {
+          ringRef.current?.setAttribute("data-cursor", "interactive-synap");
+        } else {
+          ringRef.current?.setAttribute("data-cursor", "interactive");
+        }
       } else if (target.closest('p, h1, h2, h3, h4, li, span') && !isInteractive) {
-        setCursorType("text");
+        ringRef.current?.setAttribute("data-cursor", "text");
       } else {
-        setCursorType("default");
+        ringRef.current?.setAttribute("data-cursor", "default");
       }
     };
 
@@ -85,12 +89,8 @@ function CustomCursor() {
     <>
       <div
         ref={ringRef}
-        className={cn(
-          "custom-cursor fixed top-0 left-0 rounded-full pointer-events-none z-[9999] opacity-0 transition-[width,height,background-color,border-radius,border-color] duration-300 ease-out will-change-transform",
-          cursorType === "default" && "w-8 h-8 border border-[#00ff41] bg-transparent",
-          cursorType === "interactive" && "w-14 h-14 bg-[#00ff41]/15 border border-transparent",
-          cursorType === "text" && "w-6 h-[2px] rounded-none bg-[#00ff41] border border-transparent"
-        )}
+        className="custom-cursor-ring fixed top-0 left-0 rounded-full pointer-events-none z-[9999] opacity-0 transition-[width,height,background-color,border-radius,border-color] duration-300 ease-out will-change-transform"
+        data-cursor="default"
       />
       <div
         ref={dotRef}
@@ -281,9 +281,8 @@ function Navbar({ onToggleTerminal }: { onToggleTerminal: () => void }) {
 
 // --- Project Card with 3D Mouse-Tracking Tilt & Glow ---
 function ProjectCard({ project, idx }: { project: any; idx: number }) {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -291,22 +290,36 @@ function ProjectCard({ project, idx }: { project: any; idx: number }) {
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
-    const mouseX = e.clientX - rect.left - width / 2;
-    const mouseY = e.clientY - rect.top - height / 2;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
     
     // Rotate ±4deg max
-    const rX = -(mouseY / (height / 2)) * 4;
-    const rY = (mouseX / (width / 2)) * 4;
+    const rX = -((mouseY - height / 2) / (height / 2)) * 4;
+    const rY = ((mouseX - width / 2) / (width / 2)) * 4;
     
-    setTilt({ x: rX, y: rY });
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) translateY(-6px)`;
+    if (isSynap) {
+      cardRef.current.style.boxShadow = "0 20px 50px rgba(139, 92, 246, 0.1)";
+    } else {
+      cardRef.current.style.boxShadow = "0 20px 50px rgba(0, 255, 65, 0.05)";
+    }
+
+    if (glowRef.current) {
+      glowRef.current.style.background = isSynap 
+        ? `radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(139, 92, 246, 0.08), transparent 40%)`
+        : `radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(0, 255, 65, 0.04), transparent 40%)`;
+      glowRef.current.style.opacity = "1";
+    }
   };
 
   const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 });
+    if (cardRef.current) {
+      cardRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)";
+      cardRef.current.style.boxShadow = "";
+    }
+    if (glowRef.current) {
+      glowRef.current.style.opacity = "0";
+    }
   };
 
   const Icon = project.name.includes("RAG") ? Brain : Code2;
@@ -323,11 +336,10 @@ function ProjectCard({ project, idx }: { project: any; idx: number }) {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
         "group relative p-6 md:p-8 rounded-xl bg-[#121212]/50 border transition-all duration-300 overflow-hidden z-10 will-change-transform",
-        isSynap ? "border-[#8b5cf6]/20 hover:border-[#8b5cf6]/40" : "border-[#222] hover:border-[#333]",
-        (tilt.x || tilt.y) && (isSynap ? "shadow-[0_20px_50px_rgba(139,92,246,0.1)]" : "shadow-[0_20px_50px_rgba(0,255,65,0.05)]")
+        isSynap ? "border-[#8b5cf6]/20 hover:border-[#8b5cf6]/40 project-card-synap" : "border-[#222] hover:border-[#333]"
       )}
       style={{
-        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(${tilt.x || tilt.y ? -6 : 0}px)`,
+        transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)",
         transition: "transform 0.1s ease-out, box-shadow 0.3s ease, border-color 0.3s ease",
       }}
     >
@@ -339,12 +351,8 @@ function ProjectCard({ project, idx }: { project: any; idx: number }) {
 
       {/* Mouse-Tracking Glow Effect */}
       <div 
+        ref={glowRef}
         className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-0"
-        style={{
-          background: isSynap 
-            ? `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(139, 92, 246, 0.08), transparent 40%)`
-            : `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(0, 255, 65, 0.04), transparent 40%)`
-        }}
       />
       
       {/* Large translucent index behind */}
@@ -428,6 +436,7 @@ function ProjectCard({ project, idx }: { project: any; idx: number }) {
 export default function Portfolio() {
   const [showTerminal, setShowTerminal] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
+  const lenisRef = useRef<Lenis | null>(null);
 
   // Global Keyboard Shortcut for Terminal
   useEffect(() => {
@@ -450,6 +459,16 @@ export default function Portfolio() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Pause Lenis scroll when terminal is active
+  useEffect(() => {
+    if (!lenisRef.current) return;
+    if (showTerminal) {
+      lenisRef.current.stop();
+    } else {
+      lenisRef.current.start();
+    }
+  }, [showTerminal]);
+
   // Initialize Lenis + GSAP ScrollTrigger
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -464,10 +483,15 @@ export default function Portfolio() {
     gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis({
-      lerp: 0.08,
-      duration: 1.2,
+      lerp: 0.1, // Snappier scroll to reduce lag
+      duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
     });
+    lenisRef.current = lenis;
+
+    if (showTerminal) {
+      lenis.stop();
+    }
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -592,6 +616,7 @@ export default function Portfolio() {
             filter: blur(140px);
             opacity: 0.04;
             pointer-events: none;
+            will-change: transform;
           }
           .orb-blue {
             width: 450px;
@@ -606,12 +631,41 @@ export default function Portfolio() {
             animation: drift-violet 25s ease-in-out infinite alternate;
           }
           @keyframes drift-blue {
-            0% { transform: translate(-10%, -10%) scale(1); }
-            100% { transform: translate(30%, 20%) scale(1.15); }
+            0% { transform: translate3d(-10%, -10%, 0) scale(1); }
+            100% { transform: translate3d(30%, 20%, 0) scale(1.15); }
           }
           @keyframes drift-violet {
-            0% { transform: translate(20%, 30%) scale(1.1); }
-            100% { transform: translate(-20%, -10%) scale(0.9); }
+            0% { transform: translate3d(20%, 30%, 0) scale(1.1); }
+            100% { transform: translate3d(-20%, -10%, 0) scale(0.9); }
+          }
+
+          .custom-cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--color-accent);
+            background-color: transparent;
+            border-radius: 50%;
+          }
+          .custom-cursor-ring[data-cursor="interactive"] {
+            width: 56px;
+            height: 56px;
+            background-color: rgba(0, 255, 65, 0.15);
+            border-color: transparent;
+            border-radius: 50%;
+          }
+          .custom-cursor-ring[data-cursor="interactive-synap"] {
+            width: 56px;
+            height: 56px;
+            background-color: rgba(139, 92, 246, 0.25);
+            border-color: transparent;
+            border-radius: 50%;
+          }
+          .custom-cursor-ring[data-cursor="text"] {
+            width: 24px;
+            height: 2px;
+            border-radius: 0;
+            background-color: var(--color-accent);
+            border-color: transparent;
           }
         `
       }} />
