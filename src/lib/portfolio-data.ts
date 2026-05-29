@@ -86,15 +86,19 @@ export const skills = [
   },
   {
     category: "Databases & Search",
-    items: ["PostgreSQL", "SQLite", "MongoDB", "Redis", "pgvector", "FTS5", "Hybrid Search (RRF/BM25)"]
+    items: ["PostgreSQL", "SQLite", "MongoDB", "Redis", "pgvector", "FTS5", "Vector Databases", "Hybrid Search (RRF/BM25)"]
   },
   {
     category: "Tools & Frameworks",
-    items: ["Next.js", "Express", "Vert.x", "FastMCP", "Tree-sitter", "Vite", "Manifest V3", "React", "Tailwind CSS"]
+    items: ["Next.js", "Express", "Vert.x", "FastMCP", "Tree-sitter", "Vite", "Manifest V3", "React", "Tailwind CSS", "tiktoken", "GSAP", "Framer Motion"]
   },
   {
     category: "Concepts",
-    items: ["LLM Agents", "RAG", "Knowledge Graphs", "AST Parsing", "Event-Driven Architecture"]
+    items: ["LLM Agents", "RAG", "Knowledge Graphs", "AST Parsing", "Event-Driven Architecture", "Hybrid Retrieval", "Reciprocal Rank Fusion"]
+  },
+  {
+    category: "AI/ML",
+    items: ["LLM Integration", "Vector Embeddings", "Prompt Engineering", "Semantic Search", "RAG Systems", "MCP Protocol", "Context Engineering"]
   }
 ];
 
