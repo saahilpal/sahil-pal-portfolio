@@ -78,23 +78,23 @@ export const experience = [
 export const skills = [
   {
     category: "Languages",
-    items: ["Java", "C++", "TypeScript", "JavaScript", "SQL"]
+    items: ["Python", "Java", "C++", "TypeScript", "JavaScript", "SQL"]
   },
   {
     category: "Backend & Systems",
-    items: ["REST APIs", "JWT", "OAuth", "SSE", "Worker Queues", "Async Pipelines"]
+    items: ["REST APIs", "AsyncIO", "Worker Queues", "Async Pipelines", "SSE", "JWT", "OAuth"]
   },
   {
     category: "Databases & Search",
-    items: ["PostgreSQL", "MongoDB", "Redis", "pgvector", "Full-Text Search"]
+    items: ["PostgreSQL", "SQLite", "MongoDB", "Redis", "pgvector", "FTS5", "Hybrid Search (RRF/BM25)"]
   },
   {
     category: "Tools & Frameworks",
-    items: ["Vert.x", "Express", "Next.js", "React", "Tailwind CSS", "Vite", "Manifest V3", "GitHub Actions"]
+    items: ["Next.js", "Express", "Vert.x", "FastMCP", "Tree-sitter", "Vite", "Manifest V3", "React", "Tailwind CSS"]
   },
   {
     category: "Concepts",
-    items: ["RAG", "Vector Search", "Event-Driven Architecture"]
+    items: ["LLM Agents", "RAG", "Knowledge Graphs", "AST Parsing", "Event-Driven Architecture"]
   }
 ];
 
