@@ -391,7 +391,6 @@ export function TerminalPortfolio({ onExit }: { onExit?: () => void }) {
           .terminal-line-anim {
             opacity: 0;
             animation: terminal-fade-in 0.08s ease-out forwards;
-            will-change: transform, opacity;
           }
           @keyframes terminal-fade-in {
             to { opacity: 1; transform: translate3d(0, 0, 0); }

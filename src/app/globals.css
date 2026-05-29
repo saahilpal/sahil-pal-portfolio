@@ -5,43 +5,94 @@
   --font-mono: var(--font-mono), ui-monospace, monospace;
 }
 
-:root {
-  --color-bg: #0a0a0a;
-  --color-surface: #121212;
-  --color-surface-hover: #1a1a1a;
-  --color-border: #222222;
-  --color-text: #ededed;
-  --color-text-muted: #a1a1aa;
-  --color-accent: #00ff41;
+/* Tailwind 4 theme colors — supports opacity modifiers via color-mix() */
+@theme {
+  --color-accent: var(--t-accent);
+  --color-violet: var(--t-violet);
+  --color-violet-soft: var(--t-violet-soft);
 }
 
+/* ═══════════════════════════════════════════
+   DARK THEME (default)
+   ═══════════════════════════════════════════ */
+:root {
+  /* Structural */
+  --color-bg: #0a0a0a;
+  --color-surface: #121212;
+  --color-surface-50: rgba(18, 18, 18, 0.5);
+  --color-surface-hover: #1a1a1a;
+  --color-border: #222222;
+  --color-border-hover: #333333;
+  --color-text: #ededed;
+  --color-text-muted: #a1a1aa;
+  --color-text-dim: #71717a;
+
+  /* Accent (referenced by @theme) */
+  --t-accent: #00ff41;
+  --t-violet: #8b5cf6;
+  --t-violet-soft: #c084fc;
+
+  /* RGB components for inline canvas/JS styles */
+  --accent-rgb: 0, 255, 65;
+  --violet-rgb: 139, 92, 246;
+  --neural-color: 0, 255, 65;
+  --shadow-glow: 0 0 8px rgba(0, 255, 65, 0.3);
+
+  color-scheme: dark;
+}
+
+/* ═══════════════════════════════════════════
+   LIGHT THEME
+   ═══════════════════════════════════════════ */
+html.light {
+  --color-bg: #f9f9fb; /* Brighter, cleaner off-white */
+  --color-surface: #ffffff;
+  --color-surface-50: #ffffff;
+  --color-surface-hover: #f5f5f7;
+  --color-border: #e2e2e7; /* Slightly softer but clean border */
+  --color-border-hover: #d1d1d6;
+  --color-text: #000000;
+  --color-text-muted: #1c1c1e;
+  --color-text-dim: #636366;
+
+  --t-accent: #005bb5; /* Darker, more visible blue for light mode */
+  --t-violet: #5856d6;
+  --t-violet-soft: #af52de;
+
+  --accent-rgb: 0, 91, 181;
+  --violet-rgb: 88, 86, 214;
+  --neural-color: 0, 91, 181;
+  --shadow-glow: 0 4px 20px rgba(0, 91, 181, 0.2); /* Stronger depth shadow */
+
+  color-scheme: light;
+}
+
+/* ═══════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════ */
 body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom Scrollbar for better UI */
-::-webkit-scrollbar {
-  width: 8px;
+/* Custom Text Highlighter (Peak Creativity) */
+::selection {
+  background-color: var(--t-accent);
+  color: var(--color-bg);
+  text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.5);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-bg); 
-}
- 
-::-webkit-scrollbar-thumb {
-  background: var(--color-border); 
-  border-radius: 4px;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted); 
-}
-
-/* Typography refinements */
+/* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -52,43 +103,13 @@ a {
   text-decoration: none;
   transition: color 0.2s ease;
 }
+a:hover { color: var(--color-text); }
 
-a:hover {
-  color: var(--color-text);
-}
+.text-balance { text-wrap: balance; }
 
-.text-balance {
-  text-wrap: balance;
-}
-
-/* CRT Scanline Effects */
-@keyframes crt-scan {
-  0% { transform: translateY(-100vh); }
-  100% { transform: translateY(100vh); }
-}
-
-.crt-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.25) 51%);
-  background-size: 100% 4px;
-  z-index: 40;
-  opacity: 0.15;
-}
-
-.crt-scanline {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 10vh;
-  background: linear-gradient(to bottom, transparent, rgba(0, 255, 65, 0.05), transparent);
-  animation: crt-scan 8s linear infinite;
-  pointer-events: none;
-  z-index: 41;
-}
-
+/* ═══════════════════════════════════════════
+   NOISE OVERLAY (Static cached SVG data URI)
+   ═══════════════════════════════════════════ */
 .noise-overlay {
   position: fixed;
   inset: 0;
@@ -99,13 +120,45 @@ a:hover {
   z-index: 50;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
+html.light .noise-overlay { opacity: 0.03; }
 
+/* ═══════════════════════════════════════════
+   CURSOR (hide native for mouse devices)
+   ═══════════════════════════════════════════ */
 @media (pointer: fine) {
   body, a, button, [role="button"], input, textarea {
     cursor: none !important;
   }
 }
 
+/* ═══════════════════════════════════════════
+   VIEW TRANSITIONS (for theme switch)
+   ═══════════════════════════════════════════ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+.light::view-transition-old(root) {
+  z-index: 9999;
+}
+
+.light::view-transition-new(root) {
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
