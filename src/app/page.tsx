@@ -308,12 +308,12 @@ function Navbar({ onToggleTerminal }: { onToggleTerminal: () => void }) {
               </span>
             </a>
             
-            <div className="hidden lg:flex items-center gap-4 border-l border-[var(--color-border)] pl-6 font-mono text-[10px] text-[var(--color-text-dim)] uppercase tracking-[0.2em]">
-              <div className="flex items-center gap-2">
-                <span className="w-1 h-1 bg-accent/40 rounded-full" />
-                <span>Status: <span className="text-accent/80">Active</span></span>
+            <div className="hidden md:flex items-center gap-4 border-l border-[var(--color-border)] pl-6 font-mono text-[10px] text-[var(--color-text-dim)] uppercase tracking-[0.2em]">
+              <div className="flex items-center gap-2 px-2.5 py-1 bg-accent/5 border border-accent/20 rounded-md">
+                <span className="w-1.5 h-1.5 bg-[#00ff41] rounded-full animate-pulse shadow-[0_0_5px_#00ff41]" />
+                <span className="text-accent font-semibold tracking-widest text-[9px] drop-shadow-sm">AVAILABLE FOR HIRE</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="hidden lg:flex items-center gap-2">
                 <span className="w-1 h-1 bg-accent/40 rounded-full" />
                 <span>{time}</span>
               </div>
@@ -725,10 +725,10 @@ export default function Portfolio() {
           {
             scale: 1,
             opacity: 1,
-            ease: "back.out(1.7)",
+            ease: "sine.out",
             scrollTrigger: {
               trigger: dot,
-              start: "top 70%",
+              start: "top 75%",
               toggleActions: "play none none reverse",
             },
           }

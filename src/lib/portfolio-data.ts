@@ -2,8 +2,8 @@ import { Github, Linkedin, Mail, ExternalLink, Code2 } from "lucide-react";
 
 export const profile = {
   name: "Sahil Pal",
-  role: "Software Engineer",
-  summary: "Software engineer focused on building production-grade systems and developer tools, with experience in REST APIs, async pipelines, worker queues, and scalable data services.",
+  role: "Software Engineer, AI & Backend",
+  summary: "Software engineer specializing in AI development, backend systems, and developer tools. Experienced in building production-grade RAG pipelines, context engines for AI agents, and scalable APIs using Python, TypeScript, and vector databases.",
   links: {
     github: "https://github.com/saahilpal",
     linkedin: "https://www.linkedin.com/in/sahiilpal",
