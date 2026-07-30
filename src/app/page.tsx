@@ -301,17 +301,15 @@ function Navbar({ onToggleTerminal }: { onToggleTerminal: () => void }) {
               className="font-mono text-sm font-bold tracking-tight text-[var(--color-text)] hover:text-accent transition-colors flex items-center gap-2 group relative"
             >
               <div className="w-2 h-2 bg-accent rounded-full animate-pulse group-hover:scale-125 transition-transform" />
-              <span className="relative">
+              <span>
                 sahil<span className="text-accent">.</span>pal
-                <span className="absolute inset-0 text-accent opacity-0 group-hover:opacity-100 group-hover:animate-glitch-1 pointer-events-none select-none">sahil.pal</span>
-                <span className="absolute inset-0 text-violet opacity-0 group-hover:opacity-100 group-hover:animate-glitch-2 pointer-events-none select-none">sahil.pal</span>
               </span>
             </a>
             
             <div className="hidden md:flex items-center gap-4 border-l border-[var(--color-border)] pl-6 font-mono text-[10px] text-[var(--color-text-dim)] uppercase tracking-[0.2em]">
               <div className="flex items-center gap-2 px-2.5 py-1 bg-accent/5 border border-accent/20 rounded-md">
-                <span className="w-1.5 h-1.5 bg-[#00ff41] rounded-full animate-pulse shadow-[0_0_5px_#00ff41]" />
-                <span className="text-accent font-semibold tracking-widest text-[9px] drop-shadow-sm">AVAILABLE FOR HIRE</span>
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                <span className="text-accent font-semibold tracking-widest text-[9px]">AVAILABLE FOR HIRE</span>
               </div>
               <div className="hidden lg:flex items-center gap-2">
                 <span className="w-1 h-1 bg-accent/40 rounded-full" />
@@ -512,8 +510,8 @@ function ProjectCard({ project, idx }: { project: any; idx: number }) {
 
       {/* Featured badge (Synap only) */}
       {isSynap && (
-        <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20">
-          <span className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider bg-violet/15 text-violet-soft border border-violet/30 uppercase">
+        <div className="sm:absolute sm:top-6 sm:right-8 z-20 mb-3 sm:mb-0">
+          <span className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider bg-violet/15 text-violet-soft border border-violet/30 uppercase inline-block whitespace-nowrap">
             Featured Project
           </span>
         </div>
@@ -526,10 +524,10 @@ function ProjectCard({ project, idx }: { project: any; idx: number }) {
 
       <div className="relative z-10">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
-          <div>
+          <div className={cn(isSynap && "sm:pr-28")}>
             <div
               className={cn(
-                "font-mono text-xs mb-2 tracking-wide uppercase",
+                "font-mono text-xs mb-2 tracking-wide uppercase break-words leading-normal",
                 isSynap ? "text-violet-soft" : "text-accent"
               )}
             >
@@ -546,7 +544,7 @@ function ProjectCard({ project, idx }: { project: any; idx: number }) {
               {project.name}
             </h3>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             {project.links.map((link: any, lIdx: number) => (
               <a
                 key={lIdx}
@@ -615,52 +613,8 @@ function ProjectCard({ project, idx }: { project: any; idx: number }) {
 // ═══════════════════════════════════════════════════════════════
 // Text Scramble Effect (High-tech decryption feel)
 // ═══════════════════════════════════════════════════════════════
-function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
-  const [displayText, setDisplayText] = useState(text);
-  const chars = "!<>-_\\/[]{}—=+*^?#________";
-  const [isScrambling, setIsScrambling] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setHasStarted(true);
-      scramble();
-    }, delay * 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const scramble = async () => {
-    if (isScrambling) return;
-    setIsScrambling(true);
-    
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setDisplayText((prev) =>
-        text
-          .split("")
-          .map((char, index) => {
-            if (index < iteration) return text[index];
-            return chars[Math.floor(Math.random() * chars.length)];
-          })
-          .join("")
-      );
-
-      if (iteration >= text.length) {
-        clearInterval(interval);
-        setIsScrambling(false);
-      }
-      iteration += 1 / 3;
-    }, 30);
-  };
-
-  return (
-    <span 
-      onMouseEnter={() => !isScrambling && scramble()}
-      className="cursor-default"
-    >
-      {displayText}
-    </span>
-  );
+function ScrambleText({ text }: { text: string; delay?: number }) {
+  return <span>{text}</span>;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -670,13 +624,10 @@ export default function Portfolio() {
   const [showTerminal, setShowTerminal] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
 
-  // Console Easter Egg
   useEffect(() => {
     console.log(
-      `%c 🚀 SAHIL.OS LOADED %c\n\n%c  _____       _     _ _ \n / ____|     | |   (_) |\n| (___   __ _| |__  _| |\n \\___ \\ / _\` | '_ \\| | |\n ____) | (_| | | | | | |\n|_____/ \\__,_|_| |_|_|_|\n\n%cGreetings, curious dev! 👋\nFeel free to explore the kernel.`,
+      "%c Sahil Pal — Software Engineer %c\nhttps://github.com/saahilpal",
       "background: #007aff; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold;",
-      "",
-      "color: #007aff; font-weight: bold;",
       "color: #888;"
     );
   }, []);
@@ -860,29 +811,6 @@ export default function Portfolio() {
             border-radius: 0;
             background-color: var(--t-accent);
             border-color: transparent;
-          }
-
-          @keyframes glitch-1 {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-          }
-          @keyframes glitch-2 {
-            0% { transform: translate(0); }
-            20% { transform: translate(2px, -2px); }
-            40% { transform: translate(2px, 2px); }
-            60% { transform: translate(-2px, -2px); }
-            80% { transform: translate(-2px, 2px); }
-            100% { transform: translate(0); }
-          }
-          .animate-glitch-1 {
-            animation: glitch-1 0.2s infinite linear;
-          }
-          .animate-glitch-2 {
-            animation: glitch-2 0.2s infinite linear reverse;
           }
         `,
         }}
