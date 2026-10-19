@@ -9,10 +9,14 @@ import { PaperBento } from "@/components/architecture/paper-bento";
 import { TechnicalIndex } from "@/components/skills/technical-index";
 import { EditorialJourney } from "@/components/experience/editorial-journey";
 import { ColophonFooter } from "@/components/footer/colophon-footer";
+import { DraftingCursor } from "@/components/effects/drafting-cursor";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--bg-paper)] text-[var(--text-ink)] antialiased transition-colors">
+      {/* Interactive Drafting Reticle & Ink Ripples */}
+      <DraftingCursor />
+
       {/* 00. Masthead Header */}
       <EditorialMasthead />
 

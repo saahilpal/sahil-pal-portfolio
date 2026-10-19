@@ -1,35 +1,80 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { animate } from "animejs";
-import { GitBranch, Terminal, Layers, ArrowUpRight, Play, CheckCircle2, Shield } from "lucide-react";
+import { animate, createTimeline } from "animejs";
+import { GitBranch, Terminal, Layers, ArrowUpRight, Play, CheckCircle2, Shield, Sparkles } from "lucide-react";
 
 export function SynapsePaper() {
   const [activeLane, setActiveLane] = useState<"all" | "lexical" | "ast" | "vector">("all");
   const [isQuerying, setIsQuerying] = useState<boolean>(false);
   const [fusedScore, setFusedScore] = useState<number>(0.964);
+  const [tokensBurst, setTokensBurst] = useState<string[]>([]);
+
   const outputBoxRef = useRef<HTMLDivElement>(null);
+  const prismRef = useRef<HTMLDivElement>(null);
+  const laserSvgRef = useRef<SVGSVGElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const runSimulation = () => {
+    if (isQuerying) return;
     setIsQuerying(true);
-    if (outputBoxRef.current) {
-      animate(outputBoxRef.current, {
-        opacity: [0.4, 1],
-        scale: [0.98, 1],
-        duration: 500,
-        ease: "outCubic",
+
+    // 1. Anime.js laser beam animation
+    if (laserSvgRef.current) {
+      const paths = laserSvgRef.current.querySelectorAll("line");
+      paths.forEach((p, idx) => {
+        animate(p, {
+          strokeDashoffset: [80, 0],
+          opacity: [0.2, 1],
+          duration: 400 + idx * 100,
+          ease: "outQuad",
+        });
       });
     }
+
+    // 2. Prism glow pulse
+    if (prismRef.current) {
+      animate(prismRef.current, {
+        scale: [1, 1.05, 1],
+        boxShadow: ["0 0 0px rgba(29, 78, 216, 0)", "0 0 20px rgba(29, 78, 216, 0.4)", "0 0 0px rgba(29, 78, 216, 0)"],
+        duration: 600,
+        ease: "inOutQuad",
+      });
+    }
+
+    // 3. Token burst animation
+    const sampleTokens = ["resolve_call_signature()", "WAL_PRAGMA_NORMAL", "Tree-sitter:FunctionDef", "RRF_Rank:1/61"];
+    setTokensBurst(sampleTokens);
 
     setTimeout(() => {
       setFusedScore(+(0.94 + Math.random() * 0.05).toFixed(3));
       setIsQuerying(false);
-    }, 600);
+    }, 700);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const rotX = (-y / rect.height) * 3;
+    const rotY = (x / rect.width) * 3;
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
   };
 
   return (
-    <article className="paper-sheet p-6 sm:p-10 rounded-sm space-y-8 relative">
-      {/* Corner Registration Mark */}
+    <article
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="paper-sheet p-6 sm:p-10 rounded-sm space-y-8 relative overflow-hidden transition-transform duration-200 ease-out"
+    >
+      {/* Corner Registration Marks */}
       <div className="absolute top-3 left-3 font-mono text-[9px] text-[var(--text-ink-faint)]">+</div>
       <div className="absolute top-3 right-3 font-mono text-[9px] text-[var(--text-ink-faint)]">+</div>
       <div className="absolute bottom-3 left-3 font-mono text-[9px] text-[var(--text-ink-faint)]">+</div>
@@ -58,7 +103,7 @@ export function SynapsePaper() {
             href="https://pypi.org/project/synap-git/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 border border-[var(--border-paper)] hover:border-[var(--text-ink)] rounded-xs font-mono text-xs text-[var(--text-ink)] flex items-center gap-1.5 transition-colors bg-[var(--bg-card)]"
+            className="px-3 py-1.5 border border-[var(--border-paper)] hover:border-[var(--text-ink)] rounded-xs font-mono text-xs text-[var(--text-ink)] flex items-center gap-1.5 transition-colors bg-[var(--bg-card)] shadow-xs"
           >
             <span>PyPI Live</span>
             <ArrowUpRight size={12} />
@@ -67,7 +112,7 @@ export function SynapsePaper() {
             href="https://github.com/saahilpal/synapse"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 bg-[var(--text-ink)] text-[var(--bg-paper)] rounded-xs font-mono text-xs flex items-center gap-1.5 hover:bg-[var(--text-ink-secondary)] transition-colors"
+            className="px-3 py-1.5 bg-[var(--text-ink)] text-[var(--bg-paper)] rounded-xs font-mono text-xs flex items-center gap-1.5 hover:bg-[var(--text-ink-secondary)] active:scale-95 transition-all shadow-xs"
           >
             <span>GitHub Spec</span>
             <ArrowUpRight size={12} />
@@ -85,11 +130,14 @@ export function SynapsePaper() {
                 <Terminal size={12} />
                 <span>TREE-SITTER AST SYMBOL EXTRACTION</span>
               </span>
-              <span className="text-[10px] text-[var(--stamp-green)]">STATUS: ACTIVE DAEMON</span>
+              <span className="text-[10px] text-[var(--stamp-green)] font-semibold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--stamp-green)] animate-ping" />
+                <span>DAEMON ACTIVE</span>
+              </span>
             </div>
 
             {/* Code Block */}
-            <pre className="p-3 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[11px] leading-relaxed text-[var(--text-ink-secondary)] overflow-x-auto">
+            <pre className="p-3 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[11px] leading-relaxed text-[var(--text-ink-secondary)] overflow-x-auto shadow-inner">
 {`# Synapse AST Engine Daemon (Python 3.11 + Tree-sitter)
 class ASTSymbolParser:
     def extract_symbol_hierarchy(self, tree: Tree, source_bytes: bytes) -> SymbolNode:
@@ -107,7 +155,7 @@ class ASTSymbolParser:
                 <span className="font-bold text-[var(--text-ink)]">3,840 / 4,096 TOKENS (93.7%)</span>
               </div>
               <div className="w-full bg-[var(--border-paper)] h-1.5 rounded-full overflow-hidden">
-                <div className="bg-[var(--text-ink)] h-full w-[93.7%]" />
+                <div className="bg-[var(--text-ink)] h-full w-[93.7%] transition-all duration-500" />
               </div>
               <div className="text-[10px] text-[var(--text-ink-muted)] flex justify-between">
                 <span>AST Graph Pruning: ON</span>
@@ -119,7 +167,7 @@ class ASTSymbolParser:
 
         {/* Right Side: Interactive 3-Lane Retrieval Simulator */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="border border-[var(--border-paper)] p-5 rounded-xs bg-[var(--bg-card)] space-y-4">
+          <div ref={prismRef} className="border border-[var(--border-paper)] p-5 rounded-xs bg-[var(--bg-card)] space-y-4 shadow-sm transition-all">
             <div className="flex items-center justify-between border-b border-[var(--border-paper)] pb-2 text-xs font-mono">
               <span className="font-bold text-[var(--text-ink)] flex items-center gap-1.5">
                 <Layers size={13} className="text-[var(--stamp-blue)]" />
@@ -128,12 +176,21 @@ class ASTSymbolParser:
               <button
                 onClick={runSimulation}
                 disabled={isQuerying}
-                className="px-2 py-0.5 rounded-xs bg-[var(--text-ink)] text-[var(--bg-paper)] text-[10px] flex items-center gap-1 hover:bg-[var(--text-ink-secondary)] disabled:opacity-50 transition-colors"
+                className="px-2.5 py-1 rounded-xs bg-[var(--text-ink)] text-[var(--bg-paper)] text-[10px] font-bold flex items-center gap-1 hover:bg-[var(--text-ink-secondary)] active:scale-95 disabled:opacity-50 transition-all shadow-xs"
               >
-                <Play size={9} />
-                <span>{isQuerying ? "FUSING..." : "EMULATE"}</span>
+                <Play size={10} className={isQuerying ? "animate-spin" : ""} />
+                <span>{isQuerying ? "FUSING BEAMS..." : "EMULATE PRISM"}</span>
               </button>
             </div>
+
+            {/* Animated Laser SVG Canvas */}
+            <svg ref={laserSvgRef} className="w-full h-8" viewBox="0 0 300 32">
+              <line x1="10" y1="6" x2="150" y2="16" stroke="var(--stamp-blue)" strokeWidth="1.5" strokeDasharray="80" />
+              <line x1="10" y1="16" x2="150" y2="16" stroke="var(--stamp-green)" strokeWidth="1.5" strokeDasharray="80" />
+              <line x1="10" y1="26" x2="150" y2="16" stroke="var(--stamp-red)" strokeWidth="1.5" strokeDasharray="80" />
+              <circle cx="150" cy="16" r="4" fill="var(--text-ink)" />
+              <line x1="150" y1="16" x2="290" y2="16" stroke="var(--text-ink)" strokeWidth="2" strokeDasharray="4 2" />
+            </svg>
 
             {/* Lane 1 */}
             <div className="p-2.5 rounded-xs border border-[var(--border-paper)] space-y-1 bg-[var(--bg-card-draft)]">
@@ -167,6 +224,17 @@ class ASTSymbolParser:
                 High-level intent embeddings for natural language agent inquiries.
               </p>
             </div>
+
+            {/* Token Burst Pills */}
+            {tokensBurst.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {tokensBurst.map((t, i) => (
+                  <span key={i} className="px-1.5 py-0.5 rounded-xs bg-[var(--stamp-blue-bg)] text-[var(--stamp-blue)] text-[9px] font-mono border border-[var(--stamp-blue-border)] animate-fade-in">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
 
             {/* RRF Fused Result Box */}
             <div

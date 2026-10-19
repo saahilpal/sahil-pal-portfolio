@@ -1,31 +1,78 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { animate } from "animejs";
-import { ArrowDown, Cpu, ShieldCheck, Terminal, Award, GitBranch } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { animate, createTimeline } from "animejs";
+import { ArrowDown, Award, GitBranch, ShieldCheck, Compass, Terminal, Sparkles } from "lucide-react";
 
 export function EditorialHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const specSheetRef = useRef<HTMLDivElement>(null);
+  const stampRef = useRef<HTMLSpanElement>(null);
+  const compassPathRef = useRef<SVGPathElement>(null);
+  const compassArmRef = useRef<SVGLineElement>(null);
+
+  const [symbolCount, setSymbolCount] = useState<number>(0);
+  const [latencyVal, setLatencyVal] = useState<number>(0);
 
   useEffect(() => {
-    if (!headlineRef.current || !specSheetRef.current) return;
-
-    // Anime.js smooth drafting rule reveal
-    animate(headlineRef.current, {
-      opacity: [0, 1],
-      translateY: [20, 0],
-      duration: 800,
-      ease: "outCubic",
+    // 1. Anime.js v4 Timeline for kinetic drafting entrance
+    const tl = createTimeline({
+      defaults: { ease: "outCubic" },
     });
 
-    animate(specSheetRef.current, {
-      opacity: [0, 1],
-      translateY: [30, 0],
-      delay: 200,
-      duration: 900,
-      ease: "outCubic",
+    // Stamp Thump Animation (physical rubber stamp drop)
+    if (stampRef.current) {
+      animate(stampRef.current, {
+        scale: [1.8, 1],
+        rotate: [-12, -2],
+        opacity: [0, 1],
+        duration: 500,
+        ease: "outBack",
+      });
+    }
+
+    // Headline entrance
+    if (headlineRef.current) {
+      animate(headlineRef.current, {
+        opacity: [0, 1],
+        translateY: [28, 0],
+        duration: 750,
+        delay: 100,
+        ease: "outCubic",
+      });
+    }
+
+    // Compass SVG stroke animation
+    if (compassPathRef.current) {
+      animate(compassPathRef.current, {
+        strokeDashoffset: [280, 0],
+        duration: 1400,
+        delay: 200,
+        ease: "inOutQuad",
+      });
+    }
+
+    if (compassArmRef.current) {
+      animate(compassArmRef.current, {
+        rotate: [0, 135],
+        duration: 2000,
+        delay: 300,
+        ease: "outElastic(1, .6)",
+      });
+    }
+
+    // Animated counter rollups
+    const countObj = { symbols: 0, latency: 0 };
+    animate(countObj, {
+      symbols: 50000,
+      latency: 1.84,
+      duration: 1200,
+      delay: 250,
+      ease: "outExpo",
+      onUpdate: () => {
+        setSymbolCount(Math.round(countObj.symbols));
+        setLatencyVal(+countObj.latency.toFixed(2));
+      },
     });
   }, []);
 
@@ -39,18 +86,48 @@ export function EditorialHero() {
       ref={containerRef}
       className="relative pt-12 pb-20 border-b border-[var(--border-paper-strong)] drafting-grid overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8">
+      {/* Background Architectural Drafting Compass (Animated Anime.js SVG) */}
+      <div className="absolute right-4 top-10 pointer-events-none opacity-20 hidden lg:block">
+        <svg width="340" height="340" viewBox="0 0 340 340" className="text-[var(--text-ink)]">
+          <circle cx="170" cy="170" r="160" stroke="currentColor" strokeWidth="0.75" strokeDasharray="4 4" />
+          <circle cx="170" cy="170" r="120" stroke="currentColor" strokeWidth="0.5" />
+          <path
+            ref={compassPathRef}
+            d="M 170 50 A 120 120 0 1 1 50 170"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeDasharray="280"
+          />
+          <line
+            ref={compassArmRef}
+            x1="170"
+            y1="170"
+            x2="290"
+            y2="170"
+            stroke="var(--stamp-red)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            style={{ transformOrigin: "170px 170px" }}
+          />
+          <circle cx="170" cy="170" r="4" fill="var(--stamp-red)" />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
         {/* Margin Note / Catalog Metadata */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[var(--border-paper)] font-mono text-[11px] text-[var(--text-ink-muted)]">
           <div className="flex items-center gap-3">
-            <span className="stamp-seal stamp-red">ARCHITECTURAL DRAFT</span>
+            <span ref={stampRef} className="stamp-seal stamp-red">
+              ARCHITECTURAL DRAFT
+            </span>
             <span>INDEX NO. SP-2026-ENG</span>
             <span>•</span>
             <span className="hidden sm:inline">DISCIPLINE: AI SYSTEMS / AST COMPILERS / DISTRIBUTED STATE</span>
           </div>
 
           <div className="flex items-center gap-2 text-[var(--text-ink-secondary)]">
-            <span className="w-2 h-2 rounded-full bg-[var(--stamp-green)]" />
+            <span className="w-2 h-2 rounded-full bg-[var(--stamp-green)] animate-pulse" />
             <span>PRODUCTION VERIFIED SYSTEMS</span>
           </div>
         </div>
@@ -71,15 +148,15 @@ export function EditorialHero() {
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2 font-mono text-xs">
-              <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-sm text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm">
+              <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm hover:border-[var(--text-ink)] transition-colors">
                 <Award size={13} className="text-[var(--stamp-red)]" />
                 <span>BCA Graduate • Kristu Jayanti (CGPA 7.9/10)</span>
               </span>
-              <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-sm text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm">
+              <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm hover:border-[var(--text-ink)] transition-colors">
                 <GitBranch size={13} className="text-[var(--stamp-blue)]" />
                 <span>Tree-sitter AST &amp; Model Context Protocol</span>
               </span>
-              <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-sm text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm">
+              <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm hover:border-[var(--text-ink)] transition-colors">
                 <ShieldCheck size={13} className="text-[var(--stamp-green)]" />
                 <span>ACID Local Storage &amp; SQLite WAL</span>
               </span>
@@ -88,11 +165,8 @@ export function EditorialHero() {
 
           {/* Right Column: Architectural Sidebar Spec Sheet */}
           <div className="lg:col-span-4">
-            <div
-              ref={specSheetRef}
-              className="paper-sheet p-6 space-y-5 rounded-sm relative"
-            >
-              {/* Corner Registration Crosshair */}
+            <div className="paper-sheet p-6 space-y-5 rounded-sm relative shadow-md">
+              {/* Corner Registration Crosshairs */}
               <div className="absolute top-2 left-2 text-[10px] font-mono text-[var(--text-ink-faint)]">+</div>
               <div className="absolute top-2 right-2 text-[10px] font-mono text-[var(--text-ink-faint)]">+</div>
               <div className="absolute bottom-2 left-2 text-[10px] font-mono text-[var(--text-ink-faint)]">+</div>
@@ -107,14 +181,16 @@ export function EditorialHero() {
                 </span>
               </div>
 
-              {/* Metric 1 */}
+              {/* Metric 1 (Animated Counter) */}
               <div className="space-y-1">
                 <div className="flex justify-between text-xs font-mono">
                   <span className="text-[var(--text-ink-secondary)]">AST Index Latency</span>
-                  <span className="font-bold text-[var(--text-ink)]">&lt; 1.84s</span>
+                  <span className="font-bold text-[var(--text-ink)] text-sm">
+                    &lt; {latencyVal}s
+                  </span>
                 </div>
                 <div className="text-[11px] text-[var(--text-ink-muted)] font-mono">
-                  Tree-sitter parallel parse across 50,000 codebase symbols.
+                  Tree-sitter parallel parse on {symbolCount.toLocaleString()} symbols.
                 </div>
               </div>
 
@@ -143,7 +219,7 @@ export function EditorialHero() {
               {/* Action trigger */}
               <button
                 onClick={() => scrollTo("systems")}
-                className="w-full mt-2 py-2.5 bg-[var(--text-ink)] text-[var(--bg-paper)] font-mono text-xs font-semibold flex items-center justify-center gap-2 hover:bg-[var(--text-ink-secondary)] transition-colors rounded-xs shadow-sm"
+                className="w-full mt-2 py-2.5 bg-[var(--text-ink)] text-[var(--bg-paper)] font-mono text-xs font-semibold flex items-center justify-center gap-2 hover:bg-[var(--text-ink-secondary)] active:scale-95 transition-all rounded-xs shadow-sm"
               >
                 <span>INSPECT PRODUCTION SYSTEMS</span>
                 <ArrowDown size={12} />
