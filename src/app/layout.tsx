@@ -15,9 +15,41 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sahil Pal | Software Engineer",
+  title: "Sahil Pal — Software Engineer | AI Systems & Backend Architect",
   description:
-    "Portfolio of Sahil Pal — Backend-Focused Full Stack Engineer building production-grade systems and developer tools.",
+    "Portfolio of Sahil Pal — BCA graduate and software engineer building Git-aware code intelligence (Synapse), grounded RAG systems (DocAnalyzer), and high-throughput offline-first applications (Hera Billing).",
+  keywords: [
+    "Sahil Pal",
+    "Software Engineer",
+    "AI Systems",
+    "Retrieval Augmented Generation",
+    "Synapse",
+    "DocAnalyzer",
+    "Hera Billing",
+    "Code Intelligence",
+    "Model Context Protocol",
+    "Tree-sitter",
+    "PostgreSQL pgvector",
+    "Backend Engineer",
+    "Bengaluru",
+  ],
+  authors: [{ name: "Sahil Pal", url: "https://github.com/saahilpal" }],
+  creator: "Sahil Pal",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://github.com/saahilpal",
+    title: "Sahil Pal — Software Engineer | AI Systems & Backend Architect",
+    description:
+      "Architecting code intelligence engines, deterministic RAG pipelines, and high-throughput backend services.",
+    siteName: "Sahil Pal Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sahil Pal — Software Engineer",
+    description:
+      "Architecting code intelligence engines, deterministic RAG pipelines, and high-throughput backend services.",
+  },
 };
 
 export default function RootLayout({
@@ -28,7 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        {/* Anti-FOUC: apply saved theme before first paint */}
+        {/* Anti-FOUC script: synchronously apply stored theme before paint */}
         <script
           dangerouslySetInnerHTML={{
             __html: `try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light")}catch(e){}`,
@@ -38,12 +70,10 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${mono.variable} font-sans antialiased overflow-x-hidden`}
         style={{
-          background: "var(--color-bg)",
+          backgroundColor: "var(--color-bg)",
           color: "var(--color-text)",
         }}
       >
-        {/* Subtle Noise Texture Overlay (Performance Optimized via cached Data URI) */}
-        <div className="noise-overlay" aria-hidden="true" />
         {children}
       </body>
     </html>
