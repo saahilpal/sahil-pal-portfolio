@@ -1,0 +1,193 @@
+"use client";
+
+import { useState, useRef } from "react";
+import { animate } from "animejs";
+import { GitBranch, Terminal, Layers, ArrowUpRight, Play, CheckCircle2, Shield } from "lucide-react";
+
+export function SynapsePaper() {
+  const [activeLane, setActiveLane] = useState<"all" | "lexical" | "ast" | "vector">("all");
+  const [isQuerying, setIsQuerying] = useState<boolean>(false);
+  const [fusedScore, setFusedScore] = useState<number>(0.964);
+  const outputBoxRef = useRef<HTMLDivElement>(null);
+
+  const runSimulation = () => {
+    setIsQuerying(true);
+    if (outputBoxRef.current) {
+      animate(outputBoxRef.current, {
+        opacity: [0.4, 1],
+        scale: [0.98, 1],
+        duration: 500,
+        ease: "outCubic",
+      });
+    }
+
+    setTimeout(() => {
+      setFusedScore(+(0.94 + Math.random() * 0.05).toFixed(3));
+      setIsQuerying(false);
+    }, 600);
+  };
+
+  return (
+    <article className="paper-sheet p-6 sm:p-10 rounded-sm space-y-8 relative">
+      {/* Corner Registration Mark */}
+      <div className="absolute top-3 left-3 font-mono text-[9px] text-[var(--text-ink-faint)]">+</div>
+      <div className="absolute top-3 right-3 font-mono text-[9px] text-[var(--text-ink-faint)]">+</div>
+      <div className="absolute bottom-3 left-3 font-mono text-[9px] text-[var(--text-ink-faint)]">+</div>
+      <div className="absolute bottom-3 right-3 font-mono text-[9px] text-[var(--text-ink-faint)]">+</div>
+
+      {/* Header Plate */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--border-paper-strong)] pb-6">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 font-mono text-xs">
+            <span className="stamp-seal stamp-blue">PATENT SPEC // 01</span>
+            <span className="text-[var(--text-ink-muted)]">•</span>
+            <span className="text-[var(--text-ink-muted)]">FIG. 1.0 — 3-LANE HYBRID RETRIEVAL PRISM</span>
+          </div>
+
+          <h3 className="text-2xl sm:text-4xl font-serif font-bold text-[var(--text-ink)]">
+            Synapse
+          </h3>
+
+          <p className="text-sm sm:text-base text-[var(--text-ink-secondary)] max-w-2xl font-sans">
+            Structural code intelligence engine for AI agents (Cursor, Claude). Solves hallucination on 50k+ symbol codebases through Tree-sitter AST parsing, SQLite WAL persistence, and Model Context Protocol (MCP) streaming.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <a
+            href="https://pypi.org/project/synap-git/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-1.5 border border-[var(--border-paper)] hover:border-[var(--text-ink)] rounded-xs font-mono text-xs text-[var(--text-ink)] flex items-center gap-1.5 transition-colors bg-[var(--bg-card)]"
+          >
+            <span>PyPI Live</span>
+            <ArrowUpRight size={12} />
+          </a>
+          <a
+            href="https://github.com/saahilpal/synapse"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-1.5 bg-[var(--text-ink)] text-[var(--bg-paper)] rounded-xs font-mono text-xs flex items-center gap-1.5 hover:bg-[var(--text-ink-secondary)] transition-colors"
+          >
+            <span>GitHub Spec</span>
+            <ArrowUpRight size={12} />
+          </a>
+        </div>
+      </div>
+
+      {/* Technical Schematic Stage */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Side: Technical Patent Diagram */}
+        <div className="lg:col-span-7 space-y-4">
+          <div className="border border-[var(--border-paper)] rounded-xs p-4 sm:p-6 bg-[var(--bg-card-draft)] space-y-4 font-mono text-xs">
+            <div className="flex items-center justify-between border-b border-[var(--border-paper)] pb-2 text-[11px] text-[var(--text-ink-muted)]">
+              <span className="flex items-center gap-1.5 font-bold text-[var(--text-ink)]">
+                <Terminal size={12} />
+                <span>TREE-SITTER AST SYMBOL EXTRACTION</span>
+              </span>
+              <span className="text-[10px] text-[var(--stamp-green)]">STATUS: ACTIVE DAEMON</span>
+            </div>
+
+            {/* Code Block */}
+            <pre className="p-3 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[11px] leading-relaxed text-[var(--text-ink-secondary)] overflow-x-auto">
+{`# Synapse AST Engine Daemon (Python 3.11 + Tree-sitter)
+class ASTSymbolParser:
+    def extract_symbol_hierarchy(self, tree: Tree, source_bytes: bytes) -> SymbolNode:
+        # Traverses parent-child scopes without memory bloat
+        for node in tree.root_node.children:
+            if node.type in ("function_definition", "class_definition"):
+                symbol = self.resolve_call_signature(node, source_bytes)
+                self.wal_store.insert_symbol(symbol.identifier, symbol.ast_hash)`}
+            </pre>
+
+            {/* Token Budget Gauge */}
+            <div className="p-3 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs space-y-1.5">
+              <div className="flex justify-between text-[11px]">
+                <span className="text-[var(--text-ink-muted)]">STRICT AGENT TOKEN BUDGET</span>
+                <span className="font-bold text-[var(--text-ink)]">3,840 / 4,096 TOKENS (93.7%)</span>
+              </div>
+              <div className="w-full bg-[var(--border-paper)] h-1.5 rounded-full overflow-hidden">
+                <div className="bg-[var(--text-ink)] h-full w-[93.7%]" />
+              </div>
+              <div className="text-[10px] text-[var(--text-ink-muted)] flex justify-between">
+                <span>AST Graph Pruning: ON</span>
+                <span>Context Window Overflow: 0.00%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side: Interactive 3-Lane Retrieval Simulator */}
+        <div className="lg:col-span-5 space-y-4">
+          <div className="border border-[var(--border-paper)] p-5 rounded-xs bg-[var(--bg-card)] space-y-4">
+            <div className="flex items-center justify-between border-b border-[var(--border-paper)] pb-2 text-xs font-mono">
+              <span className="font-bold text-[var(--text-ink)] flex items-center gap-1.5">
+                <Layers size={13} className="text-[var(--stamp-blue)]" />
+                <span>3-LANE RETRIEVAL PRISM</span>
+              </span>
+              <button
+                onClick={runSimulation}
+                disabled={isQuerying}
+                className="px-2 py-0.5 rounded-xs bg-[var(--text-ink)] text-[var(--bg-paper)] text-[10px] flex items-center gap-1 hover:bg-[var(--text-ink-secondary)] disabled:opacity-50 transition-colors"
+              >
+                <Play size={9} />
+                <span>{isQuerying ? "FUSING..." : "EMULATE"}</span>
+              </button>
+            </div>
+
+            {/* Lane 1 */}
+            <div className="p-2.5 rounded-xs border border-[var(--border-paper)] space-y-1 bg-[var(--bg-card-draft)]">
+              <div className="flex justify-between font-mono text-[11px]">
+                <span className="font-bold text-[var(--text-ink)]">LANE 1: LEXICAL SEARCH</span>
+                <span className="text-[var(--stamp-blue)] font-semibold">BM25 / FTS5</span>
+              </div>
+              <p className="text-[11px] text-[var(--text-ink-muted)] font-mono">
+                Exact symbol &amp; identifier keyword matches in SQLite FTS5 table.
+              </p>
+            </div>
+
+            {/* Lane 2 */}
+            <div className="p-2.5 rounded-xs border border-[var(--border-paper)] space-y-1 bg-[var(--bg-card-draft)]">
+              <div className="flex justify-between font-mono text-[11px]">
+                <span className="font-bold text-[var(--text-ink)]">LANE 2: STRUCTURAL AST</span>
+                <span className="text-[var(--stamp-green)] font-semibold">Tree-sitter</span>
+              </div>
+              <p className="text-[11px] text-[var(--text-ink-muted)] font-mono">
+                Parent scopes, caller-callee graphs, and interface implementations.
+              </p>
+            </div>
+
+            {/* Lane 3 */}
+            <div className="p-2.5 rounded-xs border border-[var(--border-paper)] space-y-1 bg-[var(--bg-card-draft)]">
+              <div className="flex justify-between font-mono text-[11px]">
+                <span className="font-bold text-[var(--text-ink)]">LANE 3: SEMANTIC VECTORS</span>
+                <span className="text-[var(--stamp-red)] font-semibold">Cosine Vector</span>
+              </div>
+              <p className="text-[11px] text-[var(--text-ink-muted)] font-mono">
+                High-level intent embeddings for natural language agent inquiries.
+              </p>
+            </div>
+
+            {/* RRF Fused Result Box */}
+            <div
+              ref={outputBoxRef}
+              className="p-3 border border-[var(--border-paper-strong)] rounded-xs bg-[var(--bg-paper-secondary)] space-y-1.5 font-mono text-xs"
+            >
+              <div className="flex justify-between text-[11px] text-[var(--text-ink-muted)]">
+                <span>RECIPROCAL RANK FUSION (RRF)</span>
+                <span className="font-bold text-[var(--text-ink)]">SCORE: {fusedScore}</span>
+              </div>
+              <div className="text-[11px] text-[var(--text-ink-secondary)]">
+                Formula: <code className="font-bold">RRF(d) = Σ 1 / (60 + rank(d))</code>
+              </div>
+              <div className="text-[10px] text-[var(--stamp-green)] flex items-center gap-1 font-semibold">
+                <CheckCircle2 size={11} />
+                <span>SYNTACTICALLY BOUNDED CONTEXT SERVED OVER MCP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}

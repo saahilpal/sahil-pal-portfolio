@@ -2,209 +2,215 @@
 
 @theme inline {
   --font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-serif), Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* ═══════════════════════════════════════════
-   PREMIUM COLOR SYSTEM & TOKENS
-   ═══════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   EDITORIAL PAPER THEME SYSTEM — ARCHIVAL PRINT & DRAFTING CRAFT
+   ══════════════════════════════════════════════════════════════ */
 :root {
-  --bg-primary: #030712;
-  --bg-secondary: #080d1a;
-  --bg-card: rgba(13, 19, 36, 0.6);
-  --bg-card-hover: rgba(19, 28, 52, 0.75);
+  /* Warm Archival Paper Grounds */
+  --bg-paper: #FAF8F5;
+  --bg-paper-secondary: #F3EEE4;
+  --bg-paper-vellum: #EFE9DC;
   
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-hover: rgba(255, 255, 255, 0.18);
-  --border-glow: rgba(56, 189, 248, 0.35);
+  /* Sheets & Drafting Surfaces */
+  --bg-card: #FFFFFF;
+  --bg-card-draft: #F8F5EE;
+  --bg-card-hover: #FFFFFF;
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-dim: #64748b;
+  /* Carbon & Drafting Inks */
+  --text-ink: #141312;
+  --text-ink-secondary: #3D3935;
+  --text-ink-muted: #736E65;
+  --text-ink-faint: #A6A095;
 
-  --accent-cyan: #00f2fe;
-  --accent-blue: #4facfe;
-  --accent-purple: #8a2be2;
-  --accent-violet: #a855f7;
-  --accent-emerald: #10b981;
-  --accent-amber: #f59e0b;
+  /* Technical Drafting Rules & Dividers */
+  --border-paper: #E6E0D4;
+  --border-paper-strong: #D1C7B7;
+  --border-paper-focus: #141312;
 
-  --glow-cyan: 0 0 35px rgba(0, 242, 254, 0.25);
-  --glow-violet: 0 0 45px rgba(168, 85, 247, 0.22);
+  /* Physical Stamp & Drafting Accents */
+  --stamp-red: #C2410C;
+  --stamp-red-bg: #FFF7ED;
+  --stamp-red-border: #FDBA74;
+
+  --stamp-blue: #1D4ED8;
+  --stamp-blue-bg: #EFF6FF;
+  --stamp-blue-border: #BFDBFE;
+
+  --stamp-green: #15803D;
+  --stamp-green-bg: #F0FDF4;
+  --stamp-green-border: #BBF7D0;
+
+  --stamp-amber: #B45309;
+  --stamp-amber-bg: #FEF3C7;
+
+  /* Tactile Shadows (Physical Paper Elevation) */
+  --shadow-paper-sm: 0 1px 3px rgba(20, 19, 18, 0.04), 0 1px 2px rgba(20, 19, 18, 0.02);
+  --shadow-paper: 0 4px 16px -4px rgba(20, 19, 18, 0.06), 0 1px 3px rgba(20, 19, 18, 0.04);
+  --shadow-paper-lg: 0 12px 32px -8px rgba(20, 19, 18, 0.08), 0 2px 6px rgba(20, 19, 18, 0.04);
 }
 
-html.light {
-  --bg-primary: #f8fafc;
-  --bg-secondary: #f1f5f9;
-  --bg-card: rgba(255, 255, 255, 0.85);
-  --bg-card-hover: rgba(255, 255, 255, 0.98);
+/* Optional Dark Inverted Blueprint Mode */
+html.dark {
+  --bg-paper: #121110;
+  --bg-paper-secondary: #1A1918;
+  --bg-paper-vellum: #242220;
 
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-hover: rgba(0, 0, 0, 0.16);
-  --border-glow: rgba(14, 165, 233, 0.4);
+  --bg-card: #181716;
+  --bg-card-draft: #1F1D1B;
+  --bg-card-hover: #22201E;
 
-  --text-primary: #090d16;
-  --text-secondary: #475569;
-  --text-dim: #64748b;
+  --text-ink: #FAF8F5;
+  --text-ink-secondary: #D4CEBA;
+  --text-ink-muted: #968F83;
+  --text-ink-faint: #5C574F;
 
-  --accent-cyan: #0284c7;
-  --accent-blue: #2563eb;
-  --accent-purple: #7c3aed;
-  --accent-violet: #9333ea;
-  --accent-emerald: #059669;
-  --accent-amber: #d97706;
+  --border-paper: #2E2B27;
+  --border-paper-strong: #423E38;
+  --border-paper-focus: #FAF8F5;
 
-  --glow-cyan: 0 0 30px rgba(2, 132, 199, 0.15);
-  --glow-violet: 0 0 35px rgba(124, 58, 237, 0.15);
+  --stamp-red: #F97316;
+  --stamp-red-bg: rgba(194, 65, 12, 0.15);
+  --stamp-red-border: rgba(249, 115, 22, 0.3);
+
+  --stamp-blue: #60A5FA;
+  --stamp-blue-bg: rgba(29, 78, 216, 0.15);
+  --stamp-blue-border: rgba(96, 165, 250, 0.3);
+
+  --stamp-green: #4ADE80;
+  --stamp-green-bg: rgba(21, 128, 61, 0.15);
+  --stamp-green-border: rgba(74, 222, 128, 0.3);
+
+  --shadow-paper-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-paper: 0 4px 16px -4px rgba(0, 0, 0, 0.5);
+  --shadow-paper-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.7);
 }
 
-/* ═══════════════════════════════════════════
-   BASE BODY & TYPOGRAPHY
-   ═══════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   BASE STYLES & DRAFTING FOUNDATIONS
+   ══════════════════════════════════════════════════════════════ */
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: var(--bg-paper);
+  color: var(--text-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+/* Classic Print Selection */
 ::selection {
-  background-color: rgba(56, 189, 248, 0.3);
-  color: #ffffff;
+  background-color: #141312;
+  color: #FAF8F5;
 }
 
-html.light ::selection {
-  background-color: rgba(14, 165, 233, 0.25);
-  color: #090d16;
+html.dark ::selection {
+  background-color: #FAF8F5;
+  color: #141312;
 }
 
-/* Subtle Aurora Ambient Background */
-.aurora-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-.aurora-glow-1 {
-  position: absolute;
-  top: -15%;
-  left: 20%;
-  width: 65vw;
-  height: 55vh;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.14) 0%, rgba(99, 102, 241, 0.08) 45%, transparent 70%);
-  filter: blur(80px);
-  will-change: transform;
-}
-.aurora-glow-2 {
-  position: absolute;
-  top: 30%;
-  right: -10%;
-  width: 55vw;
-  height: 60vh;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(16, 185, 129, 0.06) 50%, transparent 70%);
-  filter: blur(90px);
-  will-change: transform;
-}
-html.light .aurora-glow-1 {
-  background: radial-gradient(circle, rgba(147, 51, 234, 0.07) 0%, transparent 70%);
-}
-html.light .aurora-glow-2 {
-  background: radial-gradient(circle, rgba(2, 132, 199, 0.06) 0%, transparent 70%);
+/* Subtle Technical Drafting Grid */
+.drafting-grid {
+  background-image: 
+    linear-gradient(to right, rgba(209, 199, 183, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(209, 199, 183, 0.22) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
-/* Glassmorphism Card Style */
-.glass-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.glass-card:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-hover);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
-}
-html.light .glass-card {
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06), inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
-}
-html.light .glass-card:hover {
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
+html.dark .drafting-grid {
+  background-image: 
+    linear-gradient(to right, rgba(66, 62, 56, 0.3) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(66, 62, 56, 0.3) 1px, transparent 1px);
 }
 
-/* Gradient Text Shimmer */
-.shimmer-text {
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-html.light .shimmer-text {
-  background: linear-gradient(135deg, #090d16 0%, #1e293b 60%, #334155 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Tactile Paper Sheet Surfaces */
+.paper-sheet {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-paper);
+  box-shadow: var(--shadow-paper);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.2s ease;
 }
 
-.gradient-accent-text {
-  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-violet) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.paper-sheet:hover {
+  border-color: var(--border-paper-strong);
+  box-shadow: var(--shadow-paper-lg);
 }
 
-/* Magnetic / Glow Button */
-.btn-glow {
+.paper-vellum {
+  background-color: var(--bg-card-draft);
+  border: 1px dashed var(--border-paper-strong);
+}
+
+/* Rubber Ink Stamp Effect */
+.stamp-seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.625rem;
+  border-radius: 2px;
+  border: 1.5px solid currentColor;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  transform: rotate(-1deg);
+}
+
+.stamp-red {
+  color: var(--stamp-red);
+  background-color: var(--stamp-red-bg);
+  border-color: var(--stamp-red);
+}
+
+.stamp-blue {
+  color: var(--stamp-blue);
+  background-color: var(--stamp-blue-bg);
+  border-color: var(--stamp-blue);
+}
+
+.stamp-green {
+  color: var(--stamp-green);
+  background-color: var(--stamp-green-bg);
+  border-color: var(--stamp-green);
+}
+
+/* Corner Registration Crosshair */
+.corner-registration {
   position: relative;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
-  transition: all 0.25s ease;
 }
-.btn-glow:hover {
-  border-color: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0 25px rgba(56, 189, 248, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
-  transform: translateY(-1px);
+.corner-registration::before,
+.corner-registration::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
 }
 
-/* Precision Subtle Grid Lines (Modern Architectural feel, NOT heavy boxes) */
-.subtle-grid {
-  background-size: 64px 64px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-}
-html.light .subtle-grid {
-  background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+/* Perforation Tear Line */
+.perforated-edge {
+  background-image: radial-gradient(circle, var(--border-paper-strong) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+  background-repeat: repeat-x;
   height: 6px;
 }
+
+/* Clean Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--bg-paper-secondary);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 999px;
+  background: var(--border-paper-strong);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  background: var(--text-ink-muted);
 }
