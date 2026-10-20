@@ -1,11 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Mail, Copy, Check, ArrowUpRight, Github, Linkedin, FileText, Code2, MapPin, ShieldCheck } from "lucide-react";
+import { animate, stagger } from "animejs";
+import { isReducedMotion } from "@/lib/anime-motion";
 
 export function CheckmateFooter() {
   const [copied, setCopied] = useState(false);
   const email = "saahilpal17@gmail.com";
+  const footerRef = useRef<HTMLElement>(null);
+  const ctaBtnRef = useRef<HTMLButtonElement>(null);
+  const squaresRef = useRef<HTMLDivElement>(null);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(email);
@@ -13,8 +18,54 @@ export function CheckmateFooter() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  useEffect(() => {
+    const el = footerRef.current;
+    if (!el || isReducedMotion()) return;
+
+    let hasAnimated = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          observer.disconnect();
+
+          // Ripple wave across squares
+          if (squaresRef.current) {
+            const sqs = squaresRef.current.querySelectorAll(".checkmate-square");
+            animate(sqs, {
+              opacity: [0.02, 0.16, 0.04],
+              scale: [0.92, 1.06, 1],
+              delay: stagger(35, { grid: [4, 8], from: "center" }),
+              duration: 750,
+              ease: "outQuad",
+            });
+          }
+
+          // Single CTA pulse when it enters
+          if (ctaBtnRef.current) {
+            animate(ctaBtnRef.current, {
+              scale: [1, 1.05, 1],
+              boxShadow: [
+                "0 0 0 rgba(129,182,76,0)",
+                "0 0 28px rgba(129,182,76,0.65)",
+                "0 10px 20px rgba(129,182,76,0.2)",
+              ],
+              duration: 850,
+              delay: 350,
+              ease: "outBack",
+            });
+          }
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <footer id="contact" className="relative bg-[var(--bg-chess-dark)] border-t border-[var(--border-chess)] pt-16 sm:pt-24 pb-16 overflow-hidden">
+    <footer ref={footerRef} id="contact" className="relative bg-[var(--bg-chess-dark)] border-t border-[var(--border-chess)] pt-16 sm:pt-24 pb-16 overflow-hidden">
       {/* Decorative Chess Motif Watermark */}
       <div className="absolute right-0 bottom-0 text-[180px] font-serif font-black text-white/[0.012] select-none pointer-events-none leading-none pr-8">
         #
@@ -23,6 +74,19 @@ export function CheckmateFooter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12 sm:space-y-16">
         {/* Checkmate Callout Card */}
         <div className="p-6 sm:p-12 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-green)] relative overflow-hidden shadow-2xl">
+          {/* Subtle 8x4 Chess Square Matrix for Ripple Wave */}
+          <div
+            ref={squaresRef}
+            className="absolute inset-0 grid grid-cols-8 grid-rows-4 pointer-events-none opacity-60 z-0"
+            aria-hidden="true"
+          >
+            {Array.from({ length: 32 }).map((_, i) => (
+              <div
+                key={i}
+                className="checkmate-square border border-white/[0.03] bg-[var(--chess-green)] opacity-0 transition-opacity"
+              />
+            ))}
+          </div>
           <div className="max-w-3xl space-y-6 relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] font-mono text-[11px] text-[var(--chess-green)]">
               <span className="font-bold">MOVE 4. e8=Q#</span>
@@ -41,6 +105,7 @@ export function CheckmateFooter() {
             {/* Quick Contact Action Bar (Senior UX: Tactile Buttons) */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <button
+                ref={ctaBtnRef}
                 onClick={handleCopy}
                 className="btn-tactile px-5 py-3 rounded-sm bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono text-xs font-bold flex items-center gap-2 shadow-lg shadow-[var(--chess-green)]/20 cursor-pointer"
               >
