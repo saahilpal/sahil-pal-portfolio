@@ -30,9 +30,9 @@ export function DraftingCursor() {
     };
 
     const onMouseDown = (e: MouseEvent) => {
-      // Create tactile ink ripple effect
+      // Create tactile ripple effect
       const ripple = document.createElement("div");
-      ripple.className = "fixed pointer-events-none rounded-full border border-[var(--stamp-red)] z-50";
+      ripple.className = "fixed pointer-events-none rounded-full border border-[var(--chess-green)] z-50";
       ripple.style.left = `${e.clientX - 15}px`;
       ripple.style.top = `${e.clientY - 15}px`;
       ripple.style.width = "30px";
@@ -68,7 +68,7 @@ export function DraftingCursor() {
       {/* Floating Animated Compass Reticle */}
       <svg
         ref={ringRef}
-        className="fixed top-0 left-0 -ml-6 -mt-6 w-12 h-12 text-[var(--border-paper-strong)] opacity-60 transition-opacity duration-200"
+        className="fixed top-0 left-0 -ml-6 -mt-6 w-12 h-12 text-[var(--border-chess-strong)] opacity-60 transition-opacity duration-200"
         viewBox="0 0 48 48"
         fill="none"
       >
@@ -84,8 +84,8 @@ export function DraftingCursor() {
         ref={crosshairRef}
         className="fixed top-0 left-0 pointer-events-none transition-opacity duration-200"
       >
-        <div className="w-1.5 h-1.5 -ml-[3px] -mt-[3px] rounded-full bg-[var(--stamp-red)] opacity-75" />
-        <div className="ml-4 mt-2 px-1.5 py-0.5 rounded-xs bg-[var(--bg-paper)]/90 border border-[var(--border-paper)] font-mono text-[9px] text-[var(--text-ink-muted)] shadow-xs select-none whitespace-nowrap">
+        <div className="w-1.5 h-1.5 -ml-[3px] -mt-[3px] rounded-full bg-[var(--chess-green)] opacity-75" />
+        <div className="ml-4 mt-2 px-1.5 py-0.5 rounded-xs bg-[var(--bg-chess-card)]/90 border border-[var(--border-chess)] font-mono text-[9px] text-[var(--chess-nude-dark)] shadow-xs select-none whitespace-nowrap">
           X:{coords.x} Y:{coords.y}
         </div>
       </div>

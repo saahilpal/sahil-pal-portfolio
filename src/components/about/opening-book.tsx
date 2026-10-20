@@ -30,8 +30,8 @@ export function OpeningBook() {
         </div>
 
         {/* 3 Core Engineering Invariants */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
-          <div className="card-tactile p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-3 shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 font-mono text-xs">
+          <div className="card-tactile p-4 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-3 shadow-sm">
             <div className="text-[var(--chess-green)] text-[11px] uppercase font-bold flex items-center gap-1.5">
               <span>PRINCIPLE 01 //</span>
               <span>STATE INVARIANTS</span>
@@ -44,7 +44,7 @@ export function OpeningBook() {
             </p>
           </div>
 
-          <div className="card-tactile p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-3 shadow-sm">
+          <div className="card-tactile p-4 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-3 shadow-sm">
             <div className="text-[var(--chess-brilliant)] text-[11px] uppercase font-bold flex items-center gap-1.5">
               <span>PRINCIPLE 02 //</span>
               <span>SYNTACTIC GROUNDING</span>
@@ -57,7 +57,7 @@ export function OpeningBook() {
             </p>
           </div>
 
-          <div className="card-tactile p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-3 shadow-sm">
+          <div className="card-tactile p-4 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-3 shadow-sm">
             <div className="text-[var(--chess-green)] text-[11px] uppercase font-bold flex items-center gap-1.5">
               <span>PRINCIPLE 03 //</span>
               <span>ATOMIC CONCURRENCY</span>
@@ -74,8 +74,8 @@ export function OpeningBook() {
         {/* Education & Experience Chronicle */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-mono text-xs">
           {/* Work Experience */}
-          <div className="card-tactile p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 shadow-sm">
-            <div className="flex items-center justify-between border-b border-[var(--border-chess)] pb-3">
+          <div className="card-tactile p-4 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-chess)] pb-3">
               <span className="font-bold text-[var(--text-white)] text-xs flex items-center gap-2">
                 <Briefcase size={14} className="text-[var(--chess-green)]" />
                 <span>PRODUCTION EXPERIENCE</span>
@@ -105,8 +105,8 @@ export function OpeningBook() {
           </div>
 
           {/* Academic Foundation */}
-          <div className="card-tactile p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 shadow-sm">
-            <div className="flex items-center justify-between border-b border-[var(--border-chess)] pb-3">
+          <div className="card-tactile p-4 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-chess)] pb-3">
               <span className="font-bold text-[var(--text-white)] text-xs flex items-center gap-2">
                 <Award size={14} className="text-[var(--chess-green)]" />
                 <span>ACADEMIC FOUNDATION</span>

@@ -39,10 +39,10 @@ export function BlundersSection() {
           {CASE_STUDIES.map((c, idx) => (
             <div
               key={c.id}
-              className="blunder-card card-tactile p-5 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 relative overflow-hidden shadow-sm"
+              className="blunder-card card-tactile p-4 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 relative overflow-hidden shadow-sm"
             >
               {/* Top Tag */}
-              <div className="flex items-center justify-between border-b border-[var(--border-chess)] pb-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-chess)] pb-3">
                 <span className="font-bold text-[var(--text-white)] text-xs flex items-center gap-2">
                   <span className="text-[var(--chess-green)] font-serif text-sm">{c.pieceSymbol}</span>
                   <span>{c.title} // INCIDENT 0{idx + 1}</span>

@@ -134,7 +134,7 @@ export function InteractiveBoard({
         {/* Board Surface */}
         <div className="relative rounded-sm p-3 sm:p-4 bg-[var(--bg-obsidian-card)] border border-[var(--border-hairline)] shadow-2xl">
           {/* Header Coordinates Strip */}
-          <div className="flex items-center justify-between font-mono text-[11px] text-[var(--text-muted)] border-b border-[var(--border-hairline)] pb-2 mb-3">
+          <div className="flex flex-wrap items-center justify-between gap-1.5 font-mono text-[11px] text-[var(--text-muted)] border-b border-[var(--border-hairline)] pb-2 mb-3">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[var(--accent-copper)] animate-pulse" />
               <span className="font-bold text-[var(--text-ivory)] uppercase tracking-wider">
@@ -205,7 +205,7 @@ export function InteractiveBoard({
 
           {/* Engine Controls Bar */}
           <div className="flex flex-wrap items-center justify-between gap-2 pt-3 font-mono text-xs">
-            <div className="flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-1.5">
               <button
                 onClick={handleNextMove}
                 disabled={activeMoveIndex >= MATE_IN_4_MOVES.length - 1}

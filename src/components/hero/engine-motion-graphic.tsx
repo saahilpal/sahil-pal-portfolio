@@ -423,7 +423,7 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
       {/* Selected Node Telemetry Callout Card */}
       <div className="p-4 bg-[var(--bg-chess-dark)] border-t border-[var(--border-chess)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
         <div className="space-y-1">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
               className="px-1.5 py-0.5 rounded-xs text-[10px] font-bold"
               style={{ backgroundColor: `${selected.badgeColor}20`, color: selected.badgeColor }}
