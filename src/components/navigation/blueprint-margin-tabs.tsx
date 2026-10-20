@@ -14,7 +14,7 @@ interface MarginTab {
 
 const TABS: MarginTab[] = [
   { id: "hero", sectionId: "top", label: "00. DRAFTING DESK", short: "DESK", color: "var(--stamp-red)", num: "00" },
-  { id: "systems", sectionId: "systems", label: "01. SYSTEMS", short: "SYS", color: "var(--stamp-blue)", num: "01" },
+  { id: "systems", sectionId: "systems", label: "01. 4 SYSTEMS", short: "SYS", color: "var(--stamp-blue)", num: "01" },
   { id: "architecture", sectionId: "architecture", label: "02. DOCTRINE", short: "DOC", color: "var(--stamp-green)", num: "02" },
   { id: "index", sectionId: "index", label: "03. SKILLS INDEX", short: "SKL", color: "var(--text-ink)", num: "03" },
   { id: "journey", sectionId: "journey", label: "04. JOURNEY", short: "JRN", color: "var(--stamp-red)", num: "04" },

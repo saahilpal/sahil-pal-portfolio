@@ -5,6 +5,7 @@ import { EditorialHero } from "@/components/hero/editorial-hero";
 import { SynapsePaper } from "@/components/projects/synapse-paper";
 import { DocAnalyzerPaper } from "@/components/projects/docanalyzer-paper";
 import { HeraBillingPaper } from "@/components/projects/herabilling-paper";
+import { LeetSyncPaper } from "@/components/projects/leetsync-paper";
 import { PaperBento } from "@/components/architecture/paper-bento";
 import { TechnicalIndex } from "@/components/skills/technical-index";
 import { EditorialJourney } from "@/components/experience/editorial-journey";
@@ -24,12 +25,12 @@ export default function Home() {
       {/* 00. Masthead Header */}
       <EditorialMasthead />
 
-      {/* 01. Architectural Hero with Drafting Desk, Live AST Workbench & Stamp Machine */}
+      {/* 01. Architectural Hero with Drafting Desk, 60FPS Physics Canvas, AST Workbench & Stamp Machine */}
       <EditorialHero />
 
       {/* Main Content Area */}
       <main className="space-y-0">
-        {/* Section 01: Featured Production Systems */}
+        {/* Section 01: Featured Production Systems (4 Case Studies) */}
         <section id="systems" className="py-16 border-b border-[var(--border-paper-strong)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
             {/* Section Header */}
@@ -43,11 +44,11 @@ export default function Home() {
                 </h2>
               </div>
               <div className="font-mono text-xs text-[var(--text-ink-muted)]">
-                VERIFIED ARCHITECTURE &amp; ARITHMETIC BOUNDARIES
+                4 VERIFIED SYSTEMS // ARCHITECTURAL SCHEMATICS
               </div>
             </div>
 
-            {/* The 3 Systems */}
+            {/* The 4 Systems */}
             <div className="space-y-12">
               {/* System 01: Synapse */}
               <SynapsePaper />
@@ -57,6 +58,9 @@ export default function Home() {
 
               {/* System 03: Hera Billing */}
               <HeraBillingPaper />
+
+              {/* System 04: LeetSync */}
+              <LeetSyncPaper />
             </div>
           </div>
         </section>

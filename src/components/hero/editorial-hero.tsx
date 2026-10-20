@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { animate, createTimeline } from "animejs";
-import { ArrowDown, Award, GitBranch, ShieldCheck, Compass, Terminal, Sparkles, Sliders } from "lucide-react";
+import { ArrowDown, Award, GitBranch, ShieldCheck, Compass, Terminal, Sparkles, Sliders, Activity, Cpu } from "lucide-react";
 import { DraftingRuler } from "@/components/hero/drafting-ruler";
 import { StampMachine } from "@/components/hero/stamp-machine";
 import { HeroAstWorkbench } from "@/components/hero/hero-ast-workbench";
+import { ArchitecturalMotionCanvas } from "@/components/hero/architectural-motion-canvas";
 
 export function EditorialHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -14,6 +15,7 @@ export function EditorialHero() {
   const compassPathRef = useRef<SVGPathElement>(null);
   const compassArmRef = useRef<SVGLineElement>(null);
 
+  const [heroCenterTab, setHeroCenterTab] = useState<"canvas" | "ast">("canvas");
   const [symbolCount, setSymbolCount] = useState<number>(0);
   const [latencyVal, setLatencyVal] = useState<number>(0);
 
@@ -148,7 +150,7 @@ export function EditorialHero() {
           </h1>
 
           <p className="text-lg sm:text-xl text-[var(--text-ink-secondary)] font-normal leading-relaxed">
-            I am <strong className="text-[var(--text-ink)] font-semibold">Sahil Pal</strong> — a software engineer building Git-aware AST context daemons for AI coding agents, grounded multi-document RAG pipelines, and offline-first native Android ERPs deployed in wholesale manufacturing.
+            I am <strong className="text-[var(--text-ink)] font-semibold">Sahil Pal</strong> — a software engineer building Git-aware AST context daemons for AI coding agents, grounded multi-document RAG pipelines, offline-first native Android ERPs, and developer tooling.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-1 font-mono text-xs">
@@ -167,11 +169,48 @@ export function EditorialHero() {
           </div>
         </div>
 
-        {/* CENTERPIECE WORKBENCH: Live AST Compiler & Interactive Tool Desk */}
+        {/* Interactive Workbench Stage Controls */}
+        <div className="flex items-center justify-between border-b border-[var(--border-paper)] pb-2 pt-2 font-mono text-xs">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setHeroCenterTab("canvas")}
+              className={`px-3 py-1.5 rounded-xs border transition-all flex items-center gap-1.5 ${
+                heroCenterTab === "canvas"
+                  ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold shadow-xs"
+                  : "bg-[var(--bg-card)] border-[var(--border-paper)] text-[var(--text-ink-secondary)] hover:border-[var(--border-paper-strong)]"
+              }`}
+            >
+              <Activity size={12} className={heroCenterTab === "canvas" ? "text-[var(--stamp-red)]" : "text-current"} />
+              <span>01. 60FPS ARCHITECTURAL MOTION CANVAS</span>
+            </button>
+
+            <button
+              onClick={() => setHeroCenterTab("ast")}
+              className={`px-3 py-1.5 rounded-xs border transition-all flex items-center gap-1.5 ${
+                heroCenterTab === "ast"
+                  ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold shadow-xs"
+                  : "bg-[var(--bg-card)] border-[var(--border-paper)] text-[var(--text-ink-secondary)] hover:border-[var(--border-paper-strong)]"
+              }`}
+            >
+              <Cpu size={12} className={heroCenterTab === "ast" ? "text-[var(--stamp-blue)]" : "text-current"} />
+              <span>02. SYNTACTIC AST CODE SCANNER</span>
+            </button>
+          </div>
+
+          <span className="text-[10px] text-[var(--text-ink-muted)] hidden sm:inline">
+            TOGGLE INTERACTIVE HARDWARE INSTRUMENTS
+          </span>
+        </div>
+
+        {/* CENTERPIECE WORKBENCH: Motion Canvas OR AST Compiler + Stamp Machine */}
         <div className="pt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Main Left: Live AST Syntax & Systems Workbench */}
+          {/* Main Left: Interactive Stage */}
           <div className="lg:col-span-8">
-            <HeroAstWorkbench />
+            {heroCenterTab === "canvas" ? (
+              <ArchitecturalMotionCanvas />
+            ) : (
+              <HeroAstWorkbench />
+            )}
           </div>
 
           {/* Right Column: Mechanical Stamp Machine & Benchmarks */}
@@ -236,7 +275,7 @@ export function EditorialHero() {
                 onClick={() => scrollTo("systems")}
                 className="w-full mt-2 py-2.5 bg-[var(--text-ink)] text-[var(--bg-paper)] font-mono text-xs font-semibold flex items-center justify-center gap-2 hover:bg-[var(--text-ink-secondary)] active:scale-95 transition-all rounded-xs shadow-sm"
               >
-                <span>INSPECT PRODUCTION SYSTEMS</span>
+                <span>INSPECT PRODUCTION SYSTEMS (4)</span>
                 <ArrowDown size={12} />
               </button>
             </div>
