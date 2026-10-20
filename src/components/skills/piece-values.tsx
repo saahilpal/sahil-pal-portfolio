@@ -24,7 +24,7 @@ const PIECE_GROUPS: PieceGroup[] = [
       { name: "Model Context Protocol", context: "JSON-RPC streaming to Claude/Cursor AI coding agents.", verified: "saahilpal/synapse" },
       { name: "Grounded RAG Pipelines", context: "Deterministic paragraph and spatial bounding box offsets.", verified: "saahilpal/RAG-DOCAnalyzer" },
       { name: "Server-Sent Events (SSE)", context: "Real-time token streaming with citation tracking.", verified: "DocAnalyzer Live" },
-      { name: "Prompt Guardrails", context: "Injection resistance and bounded context budget envelopes.", verified: "Grandmaster Engine" },
+      { name: "Context Envelope Budgets", context: "Dynamic tiktoken packing avoiding prompt window truncation.", verified: "DocAnalyzer Live" },
     ],
   },
   {

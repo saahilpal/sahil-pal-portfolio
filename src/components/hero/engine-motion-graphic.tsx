@@ -348,7 +348,7 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
             SAHIL PAL
           </span>
           <span className="font-mono text-[8px] text-[var(--chess-green)]">
-            AI ARCHITECT
+            AI SYSTEMS
           </span>
         </div>
 
@@ -397,22 +397,22 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
         })}
       </div>
 
-      {/* Tactical Quick Switcher Tabs */}
-      <div className="grid grid-cols-4 border-t border-[var(--border-chess)] bg-[var(--bg-chess-subtle)] text-[10px] font-mono">
+      {/* Tactical Quick Switcher Tabs (Responsive on mobile) */}
+      <div className="grid grid-cols-4 border-t border-[var(--border-chess)] bg-[var(--bg-chess-subtle)] text-[9px] sm:text-[10px] font-mono">
         {ENGINE_NODES.map((node) => {
           const isSelected = node.id === activeNode;
           return (
             <button
               key={node.id}
               onClick={() => handleNodeClick(node.id)}
-              className={`py-2 px-1 text-center transition-colors border-r last:border-r-0 border-[var(--border-chess)] cursor-pointer btn-tactile ${
+              className={`py-2 px-0.5 sm:px-1 text-center transition-colors border-r last:border-r-0 border-[var(--border-chess)] cursor-pointer btn-tactile ${
                 isSelected
                   ? "bg-[var(--bg-chess-card)] text-[var(--chess-green)] font-bold border-b-2 border-b-[var(--chess-green)]"
                   : "text-[var(--text-muted)] hover:text-white"
               }`}
             >
               <div className="truncate">
-                <span className="font-serif mr-1">{node.piece}</span>
+                <span className="font-serif mr-0.5 sm:mr-1">{node.piece}</span>
                 <span>{node.name}</span>
               </div>
             </button>

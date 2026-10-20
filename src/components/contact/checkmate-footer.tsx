@@ -144,7 +144,7 @@ export function CheckmateFooter() {
               <div>1. Bxf7+ Synapse (AST Retrieval)</div>
               <div>2. Rxf6+ DocAnalyzer (SKIP LOCKED RAG)</div>
               <div>3. Ne6 Hera Billing (Offline-First Math)</div>
-              <div>4. e8=Q# LeetSync ➔ Grandmaster Promotion (Checkmate)</div>
+              <div>4. e8=Q# LeetSync ➔ Queen Promotion (Checkmate)</div>
             </div>
             <div className="space-y-1.5">
               <div className="flex items-center gap-2 text-[var(--text-nude)]">

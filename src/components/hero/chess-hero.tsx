@@ -63,16 +63,16 @@ export function ChessHero({ onSelectProject }: ChessHeroProps) {
             {/* Top Verification Tag */}
             <div className="hero-headline-reveal inline-flex items-center gap-2.5 px-3 py-1 rounded-sm bg-[var(--bg-chess-card)] border border-[var(--border-green)] font-mono text-[11px] text-[var(--chess-green)] shadow-xs">
               <span className="w-2 h-2 rounded-full bg-[var(--chess-green)] ring-2 ring-[var(--chess-green)]/20" />
-              <span className="font-bold tracking-wide">AI SYSTEMS &amp; RETRIEVAL ARCHITECT</span>
+              <span className="font-bold tracking-wide">AI SYSTEMS &amp; BACKEND ENGINEER</span>
             </div>
 
             {/* Main Punchy Headline (Kept in DOM for instant LCP) */}
-            <h1 className="hero-headline-reveal text-4xl sm:text-6xl font-serif font-bold text-[var(--text-white)] tracking-tight leading-[1.08]">
+            <h1 className="hero-headline-reveal text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-[var(--text-white)] tracking-tight leading-[1.12]">
               I build engines that <span className="text-[var(--chess-green)] underline decoration-[var(--chess-green)]/40 underline-offset-8">evaluate</span>, <span className="text-[var(--chess-nude)]">retrieve</span>, and decide.
             </h1>
 
             {/* Clear Plain-English Description */}
-            <p className="hero-headline-reveal text-base sm:text-lg text-[var(--chess-nude-muted)] leading-relaxed max-w-2xl font-normal">
+            <p className="hero-headline-reveal text-sm sm:text-base lg:text-lg text-[var(--chess-nude-muted)] leading-relaxed max-w-2xl font-normal">
               I am <strong className="text-[var(--text-white)] font-semibold">Sahil Pal</strong> — an AI engineer. I build AST-grounded code intelligence daemons, zero-contention document RAG pipelines, offline-first Android ERPs, and developer tooling. Four shipped production systems, real benchmarks, and zero fluff.
             </p>
 
@@ -92,11 +92,11 @@ export function ChessHero({ onSelectProject }: ChessHeroProps) {
               </div>
             </div>
 
-            {/* Direct Action Row (Senior UX: Tactile Buttons) */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            {/* Direct Action Row (Responsive on mobile) */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <button
                 onClick={() => scrollTo("moves")}
-                className="hero-btn-stagger btn-tactile px-5 py-3 rounded-sm bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono font-bold text-xs flex items-center gap-2 shadow-lg shadow-[var(--chess-green)]/20 cursor-pointer"
+                className="hero-btn-stagger btn-tactile px-5 py-3 rounded-sm bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-[var(--chess-green)]/20 cursor-pointer"
               >
                 <span>EXPLORE 4 SHIPPED ENGINES</span>
                 <ArrowDown size={14} />
@@ -104,7 +104,7 @@ export function ChessHero({ onSelectProject }: ChessHeroProps) {
 
               <button
                 onClick={() => scrollTo("evals")}
-                className="hero-btn-stagger btn-tactile px-4 py-3 rounded-sm bg-[var(--bg-chess-card)] hover:bg-[var(--bg-chess-surface)] text-[var(--chess-nude)] hover:text-white font-mono font-semibold text-xs border border-[var(--border-chess)] hover:border-[var(--chess-green)] flex items-center gap-2 cursor-pointer"
+                className="hero-btn-stagger btn-tactile px-4 py-3 rounded-sm bg-[var(--bg-chess-card)] hover:bg-[var(--bg-chess-surface)] text-[var(--chess-nude)] hover:text-white font-mono font-semibold text-xs border border-[var(--border-chess)] hover:border-[var(--chess-green)] flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>ENGINE EVALS (94.2%)</span>
               </button>

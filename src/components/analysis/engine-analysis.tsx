@@ -109,17 +109,22 @@ export function EngineAnalysis() {
 
         {/* Retrieval Strategy Benchmark Table */}
         <div className="card-tactile p-5 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 font-mono text-xs shadow-md">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-chess)] pb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border-chess)] pb-3">
             <span className="font-bold text-[var(--text-white)] uppercase tracking-wider text-xs font-serif">
-              Retrieval Paradigm Head-to-Head Comparison (500 Test Runs)
+              Retrieval Strategy Benchmark Comparison (500 Test Runs)
             </span>
-            <span className="text-[10px] text-[var(--chess-green)] font-bold">
-              ★ REPRODUCIBLE EVAL SCORECARD
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] text-[var(--chess-green)] font-bold">
+                ★ REPRODUCIBLE EVAL SCORECARD
+              </span>
+              <span className="sm:hidden text-[9px] text-[var(--chess-nude-dark)]">
+                (Scroll table →)
+              </span>
+            </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto -mx-1 sm:mx-0">
+            <table className="w-full text-left text-xs min-w-[560px]">
               <thead>
                 <tr className="border-b border-[var(--border-chess)] text-[var(--text-muted)] text-[10px] uppercase">
                   <th className="py-2.5 pr-4">Retrieval Architecture</th>

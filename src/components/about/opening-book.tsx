@@ -66,7 +66,7 @@ export function OpeningBook() {
               Row-Level Queue Locks Over Fragile External Brokers
             </h3>
             <p className="text-[var(--chess-nude-muted)] font-sans text-xs sm:text-sm leading-relaxed">
-              Distributed task queues often suffer from desynchronization during worker crashes. In DocAnalyzer, I leverage PostgreSQL <code className="text-[var(--text-white)]">FOR UPDATE SKIP LOCKED</code> directly inside the database, guaranteeing zero double-processing.
+              Distributed task queues often suffer from desynchronization during worker crashes. In DocAnalyzer, I use PostgreSQL <code className="text-[var(--text-white)]">FOR UPDATE SKIP LOCKED</code> directly in the database, eliminating worker contention and guaranteeing zero duplicate jobs.
             </p>
           </div>
         </div>

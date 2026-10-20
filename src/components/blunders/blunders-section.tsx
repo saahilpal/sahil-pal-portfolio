@@ -30,7 +30,7 @@ export function BlundersSection() {
           </div>
           <div className="font-mono text-xs text-[var(--chess-nude-dark)] sm:text-right">
             <span>4 REAL INCIDENTS</span>
-            <div>PROVING ARCHITECTURAL SENIORITY</div>
+            <div>ROOT CAUSE • PERMANENT FIXES</div>
           </div>
         </div>
 
