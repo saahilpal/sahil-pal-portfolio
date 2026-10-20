@@ -75,31 +75,31 @@ export function ChessMasthead() {
         <nav className="flex items-center gap-1 sm:gap-4 font-mono text-xs text-[var(--chess-nude-muted)]">
           <button
             onClick={() => scrollTo("moves")}
-            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors"
+            className="btn-tactile animated-link-underline px-2 py-1 hover:text-[var(--text-white)] transition-colors"
           >
             01. ENGINES
           </button>
           <button
             onClick={() => scrollTo("evals")}
-            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors"
+            className="btn-tactile animated-link-underline px-2 py-1 hover:text-[var(--text-white)] transition-colors"
           >
             02. EVALS
           </button>
           <button
             onClick={() => scrollTo("blunders")}
-            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
+            className="btn-tactile animated-link-underline px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
           >
             03. BLUNDERS
           </button>
           <button
             onClick={() => scrollTo("opening-book")}
-            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden md:inline"
+            className="btn-tactile animated-link-underline px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden md:inline"
           >
             04. ABOUT
           </button>
           <button
             onClick={() => scrollTo("contact")}
-            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
+            className="btn-tactile animated-link-underline px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
           >
             05. CONTACT
           </button>

@@ -13,6 +13,9 @@ import { BlundersSection } from "@/components/blunders/blunders-section";
 import { PieceValues } from "@/components/skills/piece-values";
 import { OpeningBook } from "@/components/about/opening-book";
 import { CheckmateFooter } from "@/components/contact/checkmate-footer";
+import { SmoothScroll } from "@/components/effects/smooth-scroll";
+import { DraftingCursor } from "@/components/effects/drafting-cursor";
+import { DecodeText } from "@/components/effects/decode-text";
 
 export default function Home() {
   const [activeMoveIndex, setActiveMoveIndex] = useState<number>(0);
@@ -58,6 +61,12 @@ export default function Home() {
 
   return (
     <div id="top" className="min-h-screen bg-[var(--bg-chess-dark)] text-[var(--text-nude)] antialiased transition-colors relative selection:bg-[var(--chess-green)] selection:text-black">
+      {/* 60FPS Inertial Smooth Scrolling via Lenis */}
+      <SmoothScroll />
+
+      {/* Tactile Drafting Crosshair Cursor (Desktop only, hidden on touch) */}
+      <DraftingCursor />
+
       {/* Chess.com Style Advantage Bar (Left edge on wide screens) */}
       <EvalBar activeMoveIndex={activeMoveIndex} />
 
@@ -77,7 +86,7 @@ export default function Home() {
               <div className="space-y-1.5">
                 <div className="font-mono text-xs text-[var(--chess-green)] uppercase tracking-wider flex items-center gap-2 font-bold">
                   <span className="w-2 h-2 rounded-full bg-[var(--chess-green)]" />
-                  <span>SECTION 01 // 4 PRODUCTION ENGINES</span>
+                  <DecodeText text="SECTION 01 // 4 PRODUCTION ENGINES" />
                 </div>
                 <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
                   Shipped Systems &amp; Case Studies

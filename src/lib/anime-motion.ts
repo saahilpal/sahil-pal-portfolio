@@ -198,3 +198,67 @@ export function useDecimalCounter(
 
   return ref;
 }
+
+/**
+ * Hook to render a short mono "decode" text effect when an element enters the viewport.
+ */
+export function useTextDecode<T extends HTMLElement = HTMLElement>(
+  targetText: string,
+  options: { durationMs?: number; delayMs?: number } = {}
+) {
+  const ref = useRef<T>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (isReducedMotion()) {
+      el.textContent = targetText;
+      return;
+    }
+
+    const chars = "01_>#%*[]–+~/";
+    let frame = 0;
+    const totalFrames = 14;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+
+          const timeout = setTimeout(() => {
+            const interval = setInterval(() => {
+              frame++;
+              const progress = frame / totalFrames;
+              const revealedCount = Math.floor(progress * targetText.length);
+              let result = targetText.slice(0, revealedCount);
+
+              for (let i = revealedCount; i < targetText.length; i++) {
+                if (targetText[i] === " " || targetText[i] === "\n") {
+                  result += targetText[i];
+                } else {
+                  result += chars[Math.floor(Math.random() * chars.length)];
+                }
+              }
+
+              if (el) el.textContent = result;
+
+              if (frame >= totalFrames) {
+                clearInterval(interval);
+                if (el) el.textContent = targetText;
+              }
+            }, 25);
+          }, options.delayMs ?? 50);
+
+          return () => clearTimeout(timeout);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [targetText, options.durationMs, options.delayMs]);
+
+  return ref;
+}

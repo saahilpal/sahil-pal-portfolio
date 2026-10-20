@@ -38,8 +38,9 @@ public:
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-[var(--border-chess)] pb-6">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
-            <span className="px-2.5 py-0.5 rounded-sm bg-[var(--chess-green-subtle)] border border-[var(--border-green)] text-[var(--chess-green)] font-bold">
-              ♙ PAWN ➔ QUEEN // DEVELOPER TOOLING
+            <span className="px-2.5 py-0.5 rounded-sm bg-[var(--chess-green-subtle)] border border-[var(--border-green)] text-[var(--chess-green)] font-bold flex items-center">
+              <span className="piece-icon-rotate mr-1.5 text-sm">♙</span>
+              <span>PAWN ➔ QUEEN // DEVELOPER TOOLING</span>
             </span>
             <span className="text-[var(--text-muted)]">•</span>
             <span className="text-[var(--chess-brilliant)] font-semibold">

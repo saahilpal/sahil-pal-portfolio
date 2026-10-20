@@ -2,6 +2,7 @@
 
 import { Activity, Cpu, Database, CheckCircle2, TrendingUp, AlertTriangle } from "lucide-react";
 import { useDecimalCounter, useAnimeReveal } from "@/lib/anime-motion";
+import { DecodeText } from "@/components/effects/decode-text";
 
 function AnimatedMetric({
   value,
@@ -35,7 +36,7 @@ export function EngineAnalysis() {
           <div className="space-y-1.5">
             <div className="font-mono text-xs text-[var(--chess-green)] uppercase tracking-wider flex items-center gap-2 font-bold">
               <span className="w-2 h-2 rounded-full bg-[var(--chess-green)] ring-2 ring-[var(--chess-green)]/20" />
-              <span>SECTION 02 // ENGINE ACCURACY &amp; TRANSPARENT EVALS</span>
+              <DecodeText text="SECTION 02 // ENGINE ACCURACY & TRANSPARENT EVALS" />
             </div>
             <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
               Benchmarked Evaluation Metrics
