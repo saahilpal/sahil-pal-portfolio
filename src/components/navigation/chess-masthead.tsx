@@ -2,11 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-interface ChessMastheadProps {
-  onOpenGrandmaster: () => void;
-}
-
-export function ChessMasthead({ onOpenGrandmaster }: ChessMastheadProps) {
+export function ChessMasthead() {
   const [timeStr, setTimeStr] = useState<string>("");
 
   useEffect(() => {
@@ -106,15 +102,6 @@ export function ChessMasthead({ onOpenGrandmaster }: ChessMastheadProps) {
             className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
           >
             05. CONTACT
-          </button>
-
-          {/* System Retrieval Drawer Button */}
-          <button
-            onClick={onOpenGrandmaster}
-            className="btn-tactile ml-2 px-3 py-1.5 rounded-sm bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-bold flex items-center gap-1.5 transition-all text-xs cursor-pointer shadow-xs"
-          >
-            <span className="text-sm">♛</span>
-            <span className="hidden sm:inline">SYSTEM RETRIEVAL</span>
           </button>
         </nav>
       </div>

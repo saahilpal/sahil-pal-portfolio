@@ -6,11 +6,10 @@ import { EngineMotionGraphic } from "./engine-motion-graphic";
 import { animate, stagger } from "animejs";
 
 interface ChessHeroProps {
-  onOpenGrandmaster: () => void;
   onSelectProject?: (slug: string) => void;
 }
 
-export function ChessHero({ onOpenGrandmaster, onSelectProject }: ChessHeroProps) {
+export function ChessHero({ onSelectProject }: ChessHeroProps) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -110,15 +109,6 @@ export function ChessHero({ onOpenGrandmaster, onSelectProject }: ChessHeroProps
                 className="hero-btn-stagger btn-tactile px-4 py-3 rounded-sm bg-[var(--bg-chess-card)] hover:bg-[var(--bg-chess-surface)] text-[var(--chess-nude)] hover:text-white font-mono font-semibold text-xs border border-[var(--border-chess)] hover:border-[var(--chess-green)] flex items-center gap-2 cursor-pointer"
               >
                 <span>ENGINE EVALS (94.2%)</span>
-              </button>
-
-              <button
-                onClick={onOpenGrandmaster}
-                className="hero-btn-stagger btn-tactile px-4 py-3 rounded-sm bg-[var(--bg-chess-card)] hover:bg-[var(--bg-chess-surface)] text-[var(--chess-green)] font-mono font-bold text-xs border border-[var(--border-green)] flex items-center gap-2 cursor-pointer shadow-xs"
-                title="System Retrieval Assistant grounded in portfolio documentation"
-              >
-                <span className="text-sm">♛</span>
-                <span>SYSTEM RETRIEVAL ASSISTANT</span>
               </button>
             </div>
           </div>

@@ -13,11 +13,9 @@ import { BlundersSection } from "@/components/blunders/blunders-section";
 import { PieceValues } from "@/components/skills/piece-values";
 import { OpeningBook } from "@/components/about/opening-book";
 import { CheckmateFooter } from "@/components/contact/checkmate-footer";
-import { GrandmasterChat } from "@/components/assistant/grandmaster-chat";
 
 export default function Home() {
   const [activeMoveIndex, setActiveMoveIndex] = useState<number>(0);
-  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
 
   const handleSelectProject = (slug: string) => {
     const el = document.getElementById(slug);
@@ -32,15 +30,10 @@ export default function Home() {
       <EvalBar activeMoveIndex={activeMoveIndex} />
 
       {/* 00. Top Masthead with Telemetry & Section Links */}
-      <ChessMasthead
-        onOpenGrandmaster={() => setIsChatOpen(true)}
-      />
+      <ChessMasthead />
 
       {/* 01. Hero Landing Page: Thesis, Badges & 60FPS Engine Motion Graphic */}
-      <ChessHero
-        onOpenGrandmaster={() => setIsChatOpen(true)}
-        onSelectProject={handleSelectProject}
-      />
+      <ChessHero onSelectProject={handleSelectProject} />
 
       {/* Main Technical Portfolio Content */}
       <main className="space-y-0">
@@ -115,25 +108,6 @@ export default function Home() {
 
       {/* Section 05: Checkmate (Contact / Hire Me) */}
       <CheckmateFooter />
-
-      {/* Floating Tactical Queen Trigger (Always 1 click away on every screen) */}
-      <aside aria-label="Quick Actions" className="fixed bottom-6 right-6 z-40">
-        <button
-          onClick={() => setIsChatOpen(true)}
-          className="btn-tactile group px-4 py-2.5 rounded-full bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono text-xs font-bold transition-all shadow-xl hover:shadow-[0_0_25px_rgba(129,182,76,0.4)] flex items-center gap-2 cursor-pointer"
-          title="System Retrieval Assistant (Synapse RRF)"
-        >
-          <span className="text-sm leading-none">♛</span>
-          <span className="tracking-wide">SYSTEM RETRIEVAL</span>
-        </button>
-      </aside>
-
-      {/* Slide-out Grounded Assistant Drawer */}
-      <GrandmasterChat
-        isOpen={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
-        onJumpToSection={handleSelectProject}
-      />
     </div>
   );
 }
