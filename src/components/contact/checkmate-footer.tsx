@@ -73,7 +73,7 @@ export function CheckmateFooter() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12 sm:space-y-16">
         {/* Checkmate Callout Card */}
-        <div className="p-6 sm:p-12 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-green)] relative overflow-hidden shadow-2xl">
+        <div className="p-4 sm:p-8 lg:p-12 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-green)] relative overflow-hidden shadow-2xl max-w-full">
           {/* Subtle 8x4 Chess Square Matrix for Ripple Wave */}
           <div
             ref={squaresRef}
@@ -87,27 +87,27 @@ export function CheckmateFooter() {
               />
             ))}
           </div>
-          <div className="max-w-3xl space-y-6 relative z-10">
+          <div className="max-w-3xl space-y-5 sm:space-y-6 relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] font-mono text-[11px] text-[var(--chess-green)]">
               <span className="font-bold">MOVE 4. e8=Q#</span>
               <span>•</span>
               <span>FINAL MOVE: CHECKMATE</span>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-[var(--text-white)] tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-5xl lg:text-6xl font-serif font-bold text-[var(--text-white)] tracking-tight leading-tight">
               Checkmate. Let&apos;s build engines together.
             </h2>
 
-            <p className="text-base sm:text-lg text-[var(--chess-nude-muted)] leading-relaxed font-normal">
+            <p className="text-sm sm:text-base lg:text-lg text-[var(--chess-nude-muted)] leading-relaxed font-normal">
               In 10 seconds you saw what I build. In 2 minutes you reviewed the Tree-sitter AST parser, the PostgreSQL worker locks, the offline parity math, and the evals. The next step is a direct conversation.
             </p>
 
-            {/* Quick Contact Action Bar (Senior UX: Tactile Buttons) */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            {/* Quick Contact Action Bar (Responsive: stacks neatly on mobile) */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <button
                 ref={ctaBtnRef}
                 onClick={handleCopy}
-                className="btn-tactile px-5 py-3 rounded-sm bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono text-xs font-bold flex items-center gap-2 shadow-lg shadow-[var(--chess-green)]/20 cursor-pointer"
+                className="btn-tactile px-5 py-3 rounded-sm bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-lg shadow-[var(--chess-green)]/20 cursor-pointer"
               >
                 {copied ? <Check size={14} className="text-black" /> : <Copy size={14} />}
                 <span>{copied ? "COPIED saahilpal17@gmail.com" : "COPY EMAIL"}</span>
@@ -115,7 +115,7 @@ export function CheckmateFooter() {
 
               <a
                 href={`mailto:${email}`}
-                className="btn-tactile px-5 py-3 rounded-sm bg-[var(--bg-chess-surface)] hover:bg-[var(--bg-chess-hover)] border border-[var(--border-chess)] hover:border-[var(--border-green)] text-[var(--text-white)] font-mono text-xs font-semibold flex items-center gap-2"
+                className="btn-tactile px-5 py-3 rounded-sm bg-[var(--bg-chess-surface)] hover:bg-[var(--bg-chess-hover)] border border-[var(--border-chess)] hover:border-[var(--border-green)] text-[var(--text-white)] font-mono text-xs font-semibold flex items-center justify-center gap-2"
               >
                 <Mail size={14} className="text-[var(--chess-green)]" />
                 <span>OPEN EMAIL CLIENT</span>
@@ -126,7 +126,7 @@ export function CheckmateFooter() {
                 href="/resume.pdf"
                 target="_blank"
                 rel="noreferrer"
-                className="btn-tactile px-5 py-3 rounded-sm bg-[var(--bg-chess-surface)] hover:bg-[var(--bg-chess-hover)] border border-[var(--border-chess)] hover:border-[var(--border-green)] text-[var(--text-white)] font-mono text-xs font-semibold flex items-center gap-2"
+                className="btn-tactile px-5 py-3 rounded-sm bg-[var(--bg-chess-surface)] hover:bg-[var(--bg-chess-hover)] border border-[var(--border-chess)] hover:border-[var(--border-green)] text-[var(--text-white)] font-mono text-xs font-semibold flex items-center justify-center gap-2"
               >
                 <FileText size={14} className="text-[var(--chess-brilliant)]" />
                 <span>DOWNLOAD RESUME (PDF)</span>

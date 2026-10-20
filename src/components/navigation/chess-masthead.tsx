@@ -43,18 +43,18 @@ export function ChessMasthead() {
   return (
     <header className="sticky top-0 z-50 bg-[var(--bg-chess-dark)]/95 backdrop-blur-md border-b border-[var(--border-chess)] transition-colors">
       {/* Top Telemetry Strip (Responsive: clean 1-line on both mobile & desktop) */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-8 py-1.5 sm:py-2 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-[var(--chess-nude-dark)] border-b border-[var(--border-chess)]/60">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <span className="font-bold text-[var(--text-white)] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--chess-green)] ring-2 ring-[var(--chess-green)]/20" />
-            <span className="hidden sm:inline">SAHIL PAL //</span>
-            <span>AI SYSTEMS &amp; BACKEND</span>
+      <div className="max-w-7xl mx-auto px-3 sm:px-8 py-1.5 sm:py-2 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-[var(--chess-nude-dark)] border-b border-[var(--border-chess)]/60 min-w-0">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0 truncate">
+          <span className="font-bold text-[var(--text-white)] flex items-center gap-1.5 truncate">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--chess-green)] ring-2 ring-[var(--chess-green)]/20 shrink-0" />
+            <span className="hidden sm:inline shrink-0">SAHIL PAL //</span>
+            <span className="truncate">AI SYSTEMS &amp; BACKEND</span>
           </span>
           <span className="hidden md:inline">•</span>
           <span className="hidden md:inline">{timeStr || "18:00:00 IST"}</span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           <span className="text-[10px] font-bold text-[var(--chess-green)] flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--chess-green)]" />
             <span>OPEN TO WORK</span>
@@ -69,13 +69,13 @@ export function ChessMasthead() {
       </div>
 
       {/* Main Navigation Banner */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-8 py-2 sm:py-3 flex items-center justify-between gap-2 sm:gap-4 min-w-0">
         {/* Brand Logo */}
         <a
           href="#"
           className="group flex items-baseline gap-2 text-[var(--text-white)] btn-tactile shrink-0"
         >
-          <span className="text-lg sm:text-2xl font-serif font-bold tracking-tight group-hover:text-[var(--chess-green)] transition-colors">
+          <span className="text-base sm:text-2xl font-serif font-bold tracking-tight group-hover:text-[var(--chess-green)] transition-colors">
             SAHIL PAL
           </span>
           <span className="text-xs font-mono text-[var(--chess-green)] font-normal tracking-wider hidden lg:inline">
@@ -97,14 +97,14 @@ export function ChessMasthead() {
         </nav>
 
         {/* Action Buttons: Creative Resume CTA + Mobile Menu Button */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           {/* Creative Top Resume Download CTA */}
           <a
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Download Sahil Pal Technical Resume (PDF, 75KB, ATS Verified)"
-            className="group relative inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3 py-1.5 rounded-sm bg-gradient-to-r from-[var(--bg-chess-card)] via-[#262420] to-[var(--bg-chess-surface)] hover:from-[#2e2b26] hover:to-[#35322b] border border-[var(--chess-green)]/45 hover:border-[var(--chess-green)] shadow-[0_0_12px_rgba(129,182,76,0.18)] hover:shadow-[0_0_24px_rgba(129,182,76,0.45)] transition-all duration-200 cursor-pointer overflow-hidden btn-tactile focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--chess-green)]"
+            className="group relative inline-flex items-center gap-1 sm:gap-2.5 px-2 sm:px-3 py-1.5 rounded-sm bg-gradient-to-r from-[var(--bg-chess-card)] via-[#262420] to-[var(--bg-chess-surface)] hover:from-[#2e2b26] hover:to-[#35322b] border border-[var(--chess-green)]/45 hover:border-[var(--chess-green)] shadow-[0_0_12px_rgba(129,182,76,0.18)] hover:shadow-[0_0_24px_rgba(129,182,76,0.45)] transition-all duration-200 cursor-pointer overflow-hidden btn-tactile focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--chess-green)] shrink-0"
           >
             {/* Shimmer light sweep */}
             <span

@@ -36,9 +36,9 @@ export function HeraBillingCase() {
   };
 
   return (
-    <article id="herabilling" className="card-tactile p-6 sm:p-10 rounded-md space-y-8 scroll-mt-24 border border-[var(--border-chess)]">
+    <article id="herabilling" className="card-tactile p-4 sm:p-8 lg:p-10 rounded-md space-y-6 sm:space-y-8 scroll-mt-24 border border-[var(--border-chess)] max-w-full overflow-hidden">
       {/* Product Hero Header Plate */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-[var(--border-chess)] pb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 border-b border-[var(--border-chess)] pb-6">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
             <span className="px-2.5 py-0.5 rounded-sm bg-[var(--chess-green-subtle)] border border-[var(--border-green)] text-[var(--chess-green)] font-bold flex items-center">
@@ -51,7 +51,7 @@ export function HeraBillingCase() {
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
             Hera Billing: Offline-First Wholesale Android ERP
           </h2>
 

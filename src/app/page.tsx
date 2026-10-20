@@ -60,7 +60,7 @@ export default function Home() {
   };
 
   return (
-    <div id="top" className="min-h-screen bg-[var(--bg-chess-dark)] text-[var(--text-nude)] antialiased transition-colors relative selection:bg-[var(--chess-green)] selection:text-black">
+    <div id="top" className="min-h-screen bg-[var(--bg-chess-dark)] text-[var(--text-nude)] antialiased transition-colors relative selection:bg-[var(--chess-green)] selection:text-black overflow-x-hidden w-full max-w-full">
       {/* 60FPS Inertial Smooth Scrolling via Lenis */}
       <SmoothScroll />
 
@@ -77,7 +77,7 @@ export default function Home() {
       <ChessHero onSelectProject={handleSelectProject} />
 
       {/* Main Technical Portfolio Content */}
-      <main className="space-y-0">
+      <main className="space-y-0 overflow-x-hidden w-full max-w-full">
         {/* Section 01: Moves (The 4 Shipped Production Systems) */}
         <section id="moves" className="py-16 sm:py-24 border-b border-[var(--border-chess)] scroll-mt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-16">

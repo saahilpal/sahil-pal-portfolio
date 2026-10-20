@@ -33,9 +33,9 @@ public:
 *Committed automatically by LeetSync via GitHub Contents API.*`;
 
   return (
-    <article id="leetsync" className="card-tactile p-6 sm:p-10 rounded-md space-y-8 scroll-mt-24 border border-[var(--border-chess)]">
+    <article id="leetsync" className="card-tactile p-4 sm:p-8 lg:p-10 rounded-md space-y-6 sm:space-y-8 scroll-mt-24 border border-[var(--border-chess)] max-w-full overflow-hidden">
       {/* Product Hero Header Plate */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-[var(--border-chess)] pb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 border-b border-[var(--border-chess)] pb-6">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
             <span className="px-2.5 py-0.5 rounded-sm bg-[var(--chess-green-subtle)] border border-[var(--border-green)] text-[var(--chess-green)] font-bold flex items-center">
@@ -48,7 +48,7 @@ public:
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
             LeetSync: Automated DSA Portfolio Vault &amp; GitHub Sync Engine
           </h2>
 
@@ -124,7 +124,7 @@ public:
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setActiveTab("payload")}
               className={`btn-tactile px-3 py-1.5 rounded-sm text-[11px] font-bold ${
@@ -151,14 +151,14 @@ public:
         {/* Tab 1: Structured Commit Payload */}
         {activeTab === "payload" ? (
           <div className="space-y-2">
-            <div className="flex justify-between items-center text-[11px] text-[var(--chess-nude-dark)]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[11px] text-[var(--chess-nude-dark)]">
               <span>FORMATTED MARKDOWN GENERATED FOR REPOSITORY:</span>
-              <span className="text-[var(--chess-green)] font-semibold flex items-center gap-1">
+              <span className="text-[var(--chess-green)] font-semibold flex items-center gap-1 self-start sm:self-auto">
                 <GitCommit size={13} />
                 <span>Pushed via Octokit Contents API</span>
               </span>
             </div>
-            <pre className="p-4 rounded-sm bg-[var(--bg-chess-card)] border border-[var(--border-chess)] text-[var(--text-nude)] font-mono text-[11px] overflow-x-auto whitespace-pre-wrap leading-relaxed">
+            <pre className="p-4 rounded-sm bg-[var(--bg-chess-card)] border border-[var(--border-chess)] text-[var(--text-nude)] font-mono text-[11px] overflow-x-auto whitespace-pre-wrap break-words max-w-full leading-relaxed">
               {sampleMarkdown}
             </pre>
           </div>

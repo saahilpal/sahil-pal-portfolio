@@ -135,16 +135,16 @@ export function PieceValues() {
           {PIECE_GROUPS.map((group) => (
             <div
               key={group.piece}
-              className="skill-tier-group card-tactile p-5 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 shadow-sm"
+              className="skill-tier-group card-tactile p-4 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 shadow-sm max-w-full overflow-hidden"
             >
               {/* Header */}
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-chess)] pb-3 font-mono text-xs">
-                <div className="flex items-center gap-2.5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border-chess)] pb-3 font-mono text-xs">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
                   <span className="text-xl text-[var(--chess-green)] font-serif">{group.symbol}</span>
                   <span className="font-bold text-[var(--text-white)] text-sm">{group.piece}:</span>
-                  <span className="text-[var(--chess-nude-muted)]">{group.category}</span>
+                  <span className="text-[var(--chess-nude-muted)] text-[11px] sm:text-xs">{group.category}</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 self-start sm:self-auto">
                   <span className="text-[10px] text-[var(--chess-nude-dark)] font-mono">{group.percentage}% MASTERY</span>
                   <span className="px-2.5 py-0.5 rounded-sm bg-[var(--chess-green-subtle)] border border-[var(--border-green)] text-[var(--chess-green)] font-bold text-[11px]">
                     {group.value}

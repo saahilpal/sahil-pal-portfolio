@@ -259,8 +259,8 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
         </div>
       </div>
 
-      {/* Main Interactive Motion Stage */}
-      <div className="relative aspect-4/3 sm:aspect-16/10 w-full p-4 flex items-center justify-center bg-radial from-[var(--bg-chess-surface)]/60 to-[var(--bg-chess-card)]">
+      {/* Main Interactive Motion Stage (Square aspect ratio guarantees 1:1 SVG coordinate alignment) */}
+      <div className="relative aspect-square w-full max-w-[420px] mx-auto p-4 flex items-center justify-center bg-radial from-[var(--bg-chess-surface)]/60 to-[var(--bg-chess-card)]">
         {/* Animated Background SVG: Diagonal Wave Squares & Lines */}
         <svg
           ref={boardSvgRef}

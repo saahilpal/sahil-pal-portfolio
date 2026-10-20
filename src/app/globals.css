@@ -61,6 +61,7 @@
   --border-green: rgba(129, 182, 76, 0.35);
 }
 
+html,
 body {
   background-color: var(--bg-chess-dark);
   color: var(--text-nude);
@@ -68,6 +69,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 
 /* Custom Selection */

@@ -36,9 +36,9 @@ export function DocAnalyzerCase() {
   };
 
   return (
-    <article id="docanalyzer" className="card-tactile p-6 sm:p-10 rounded-md space-y-8 scroll-mt-24 border border-[var(--border-chess)]">
+    <article id="docanalyzer" className="card-tactile p-4 sm:p-8 lg:p-10 rounded-md space-y-6 sm:space-y-8 scroll-mt-24 border border-[var(--border-chess)] max-w-full overflow-hidden">
       {/* Product Hero Header Plate */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-[var(--border-chess)] pb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 border-b border-[var(--border-chess)] pb-6">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
             <span className="px-2.5 py-0.5 rounded-sm bg-[var(--chess-green-subtle)] border border-[var(--border-green)] text-[var(--chess-green)] font-bold flex items-center">
@@ -51,7 +51,7 @@ export function DocAnalyzerCase() {
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
             DocAnalyzer: Zero-Contention Enterprise Document RAG
           </h2>
 
@@ -127,7 +127,7 @@ export function DocAnalyzerCase() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={simulateQueue}
               className="btn-tactile px-3 py-1.5 bg-[var(--bg-chess-card)] border border-[var(--border-chess)] hover:border-[var(--border-green)] rounded-sm text-[11px] font-bold text-[var(--chess-green)] flex items-center gap-1.5"
@@ -193,9 +193,9 @@ export function DocAnalyzerCase() {
 
         {/* Real-Time Streamed Answer Box with Bounding Box Citation */}
         <div className="p-4 rounded-sm bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-2">
-          <div className="text-[11px] text-[var(--text-muted)] flex items-center justify-between">
+          <div className="text-[11px] text-[var(--text-muted)] flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
             <span className="font-bold text-[var(--text-white)]">STREAMED GROUNDED ANSWER (SERVER-SENT EVENTS):</span>
-            <span className="px-2 py-0.5 rounded-xs bg-[var(--chess-green-subtle)] text-[var(--chess-green)] font-bold text-[10px] border border-[var(--border-green)]">
+            <span className="px-2 py-0.5 rounded-xs bg-[var(--chess-green-subtle)] text-[var(--chess-green)] font-bold text-[10px] border border-[var(--border-green)] self-start sm:self-auto">
               CITATION: [SPECIFICATION.PDF, PAGE 4, ¶2]
             </span>
           </div>
