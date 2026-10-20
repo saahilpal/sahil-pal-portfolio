@@ -41,17 +41,26 @@ export function EvalBar({ activeMoveIndex }: EvalBarProps) {
 
   return (
     <aside
-      className="fixed left-3 top-1/2 -translate-y-1/2 z-40 hidden 2xl:flex flex-col items-center select-none"
+      className="fixed left-2.5 sm:left-4 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center select-none"
       aria-label="Chess.com Engine Evaluation Bar"
     >
+      {/* Active Move Indicator Tooltip */}
+      <div className="mb-2 px-1.5 py-0.5 rounded-xs bg-[var(--bg-chess-card)] border border-[var(--border-chess)] text-[9px] font-mono text-[var(--chess-green)] font-bold">
+        {activeMoveIndex === 0 && "1. e4"}
+        {activeMoveIndex === 1 && "2. Nf3"}
+        {activeMoveIndex === 2 && "3. d4"}
+        {activeMoveIndex === 3 && "4. e8=Q#"}
+        {(activeMoveIndex < 0 || activeMoveIndex > 3) && "0. START"}
+      </div>
+
       {/* Eval Bar Pillar */}
-      <div className="w-4 h-64 rounded-xs bg-[var(--bg-chess-dark)] border border-[var(--border-chess-strong)] overflow-hidden flex flex-col justify-end relative shadow-xl">
+      <div className="w-3.5 h-64 rounded-xs bg-[var(--bg-chess-dark)] border border-[var(--border-chess-strong)] overflow-hidden flex flex-col justify-end relative shadow-2xl">
         {/* White / Winning Evaluation Fill */}
         <div
           className="w-full bg-[var(--chess-nude)] transition-all duration-700 ease-out relative"
           style={{ height: `${fillPct}%` }}
         >
-          {/* Subtle horizontal tick marking advantage */}
+          {/* Advantage tick */}
           <div className="absolute top-0 inset-x-0 h-[2px] bg-[var(--chess-green)] shadow-xs" />
         </div>
 

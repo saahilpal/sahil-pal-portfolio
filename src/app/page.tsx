@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChessMasthead } from "@/components/navigation/chess-masthead";
 import { EvalBar } from "@/components/chess/eval-bar";
 import { ChessHero } from "@/components/hero/chess-hero";
@@ -16,6 +16,38 @@ import { CheckmateFooter } from "@/components/contact/checkmate-footer";
 
 export default function Home() {
   const [activeMoveIndex, setActiveMoveIndex] = useState<number>(0);
+
+  useEffect(() => {
+    const moveIds = [
+      { id: "top", index: -1 },
+      { id: "synapse", index: 0 },
+      { id: "docanalyzer", index: 1 },
+      { id: "herabilling", index: 2 },
+      { id: "leetsync", index: 3 },
+      { id: "contact", index: 3 },
+    ];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const match = moveIds.find((m) => m.id === entry.target.id);
+            if (match) {
+              setActiveMoveIndex(match.index);
+            }
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: "-15% 0px -35% 0px" }
+    );
+
+    moveIds.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleSelectProject = (slug: string) => {
     const el = document.getElementById(slug);
