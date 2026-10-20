@@ -1,6 +1,7 @@
 "use client";
 
-import { Award, ShieldCheck, Check } from "lucide-react";
+import { Check } from "lucide-react";
+import { useStaggerReveal } from "@/lib/anime-motion";
 
 interface PieceGroup {
   piece: string;
@@ -74,39 +75,50 @@ const PIECE_GROUPS: PieceGroup[] = [
 ];
 
 export function PieceValues() {
+  const containerRef = useStaggerReveal<HTMLDivElement>(".skill-tier-group", {
+    staggerMs: 90,
+    duration: 650,
+    translateY: 18,
+  });
+
   return (
-    <section id="skills" className="py-16 border-b border-[var(--border-hairline)] scroll-mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-10">
+    <section id="skills" className="py-16 sm:py-24 border-b border-[var(--border-chess)] scroll-mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[var(--border-hairline)] pb-4 gap-2">
-          <div>
-            <div className="font-mono text-xs text-[var(--accent-copper)] uppercase tracking-wider">
-              PIECE VALUES // CAPABILITY RADAR
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[var(--border-chess)] pb-5 gap-3">
+          <div className="space-y-1.5">
+            <div className="font-mono text-xs text-[var(--chess-green)] uppercase tracking-wider font-bold flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[var(--chess-green)]" />
+              <span>PIECE VALUES // CAPABILITY HIERARCHY</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-pure)] tracking-tight">
+            <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
               Technical Stack &amp; Piece Values
             </h2>
+            <p className="text-sm text-[var(--chess-nude-muted)] max-w-2xl">
+              Skills mapped to chess piece values and backed by verifiable codebases.
+            </p>
           </div>
-          <div className="font-mono text-xs text-[var(--text-muted)]">
-            EVALUATED BY PRODUCTION PROOFS
+          <div className="font-mono text-xs text-[var(--chess-nude-dark)] sm:text-right">
+            <span>CHESS PIECE VALUES</span>
+            <div>TIERED SYSTEM EXPERTISE</div>
           </div>
         </div>
 
-        {/* Piece Groups Grid */}
-        <div className="space-y-6">
+        {/* Piece Groups Grid (Animated Stagger via Anime.js) */}
+        <div ref={containerRef} className="space-y-6">
           {PIECE_GROUPS.map((group) => (
             <div
               key={group.piece}
-              className="p-5 sm:p-6 rounded-sm bg-[var(--bg-obsidian-card)] border border-[var(--border-hairline)] space-y-4"
+              className="skill-tier-group card-tactile p-5 sm:p-6 rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] space-y-4 shadow-sm"
             >
               {/* Header */}
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-hairline)] pb-3 font-mono text-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-chess)] pb-3 font-mono text-xs">
                 <div className="flex items-center gap-2.5">
-                  <span className="text-xl text-[var(--accent-copper)]">{group.symbol}</span>
-                  <span className="font-bold text-[var(--text-pure)] text-[12px]">{group.piece}:</span>
-                  <span className="text-[var(--text-muted)]">{group.category}</span>
+                  <span className="text-xl text-[var(--chess-green)] font-serif">{group.symbol}</span>
+                  <span className="font-bold text-[var(--text-white)] text-sm">{group.piece}:</span>
+                  <span className="text-[var(--chess-nude-muted)]">{group.category}</span>
                 </div>
-                <span className="px-2 py-0.5 rounded-xs bg-[var(--accent-copper)]/15 border border-[var(--border-copper)] text-[var(--accent-copper)] font-bold text-[10px]">
+                <span className="px-2.5 py-0.5 rounded-sm bg-[var(--chess-green-subtle)] border border-[var(--border-green)] text-[var(--chess-green)] font-bold text-[11px]">
                   {group.value}
                 </span>
               </div>
@@ -116,16 +128,16 @@ export function PieceValues() {
                 {group.skills.map((skill) => (
                   <div
                     key={skill.name}
-                    className="p-3 rounded-xs bg-[var(--bg-obsidian)] border border-[var(--border-hairline)] space-y-1.5 flex flex-col justify-between"
+                    className="p-3.5 rounded-sm bg-[var(--bg-chess-dark)] border border-[var(--border-chess)] space-y-2 flex flex-col justify-between hover:border-[var(--border-green)] transition-colors"
                   >
                     <div>
-                      <div className="font-bold text-[var(--text-ivory)] text-[11px]">{skill.name}</div>
-                      <div className="text-[10px] text-[var(--text-muted)] leading-relaxed font-sans mt-0.5">
+                      <div className="font-bold text-[var(--text-white)] text-xs">{skill.name}</div>
+                      <div className="text-[11px] text-[var(--chess-nude-muted)] leading-relaxed font-sans mt-1">
                         {skill.context}
                       </div>
                     </div>
-                    <div className="pt-1.5 border-t border-[var(--border-hairline)] text-[9px] text-[var(--accent-emerald)] flex items-center gap-1 font-semibold">
-                      <Check size={10} className="stroke-[3]" />
+                    <div className="pt-2 border-t border-[var(--border-chess)] text-[10px] text-[var(--chess-green)] flex items-center gap-1 font-semibold">
+                      <Check size={11} className="stroke-[3]" />
                       <span>{skill.verified}</span>
                     </div>
                   </div>

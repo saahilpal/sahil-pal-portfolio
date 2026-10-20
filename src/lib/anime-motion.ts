@@ -71,7 +71,7 @@ export function useAnimeReveal<T extends HTMLElement = HTMLDivElement>(
           }
         });
       },
-      { threshold: options.threshold ?? 0.15 }
+      { threshold: options.threshold ?? 0.12 }
     );
 
     observer.observe(el);
@@ -161,31 +161,32 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
 }
 
 /**
- * Hook for animated numerical telemetry readouts (e.g., latency, symbols count).
+ * Animated numerical telemetry counter with decimal support (e.g., 94.2%, 1.84ms).
  */
-export function useTelemetryCounter(
+export function useDecimalCounter(
   targetValue: number,
-  options: { duration?: number; prefix?: string; suffix?: string } = {}
+  options: { duration?: number; decimals?: number; prefix?: string; suffix?: string } = {}
 ) {
   const ref = useRef<HTMLSpanElement>(null);
+  const decimals = options.decimals ?? 1;
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
     if (isReducedMotion()) {
-      el.textContent = `${options.prefix ?? ""}${targetValue}${options.suffix ?? ""}`;
+      el.textContent = `${options.prefix ?? ""}${targetValue.toFixed(decimals)}${options.suffix ?? ""}`;
       return;
     }
 
     const state = { val: 0 };
     const anim = animate(state, {
       val: targetValue,
-      duration: options.duration ?? 1200,
-      ease: "outCubic",
+      duration: options.duration ?? 1300,
+      ease: "outExpo",
       onUpdate: () => {
         if (el) {
-          el.textContent = `${options.prefix ?? ""}${Math.round(state.val)}${options.suffix ?? ""}`;
+          el.textContent = `${options.prefix ?? ""}${state.val.toFixed(decimals)}${options.suffix ?? ""}`;
         }
       },
     }) as unknown as AnimationControls;
@@ -193,7 +194,7 @@ export function useTelemetryCounter(
     return () => {
       if (anim && typeof anim.pause === "function") anim.pause();
     };
-  }, [targetValue, options.duration, options.prefix, options.suffix]);
+  }, [targetValue, options.duration, decimals, options.prefix, options.suffix]);
 
   return ref;
 }
