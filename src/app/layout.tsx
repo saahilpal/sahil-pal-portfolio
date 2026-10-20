@@ -55,6 +55,13 @@ export const metadata: Metadata = {
     description:
       "I build engines that evaluate, retrieve, and decide. Four shipped systems: Synapse, DocAnalyzer, Hera Billing, LeetSync.",
   },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
