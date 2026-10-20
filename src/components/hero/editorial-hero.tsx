@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { animate, createTimeline } from "animejs";
-import { ArrowDown, Award, GitBranch, ShieldCheck, Compass, Terminal, Sparkles } from "lucide-react";
+import { ArrowDown, Award, GitBranch, ShieldCheck, Compass, Terminal, Sparkles, Sliders } from "lucide-react";
+import { DraftingRuler } from "@/components/hero/drafting-ruler";
+import { StampMachine } from "@/components/hero/stamp-machine";
+import { HeroAstWorkbench } from "@/components/hero/hero-ast-workbench";
 
 export function EditorialHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -15,7 +18,7 @@ export function EditorialHero() {
   const [latencyVal, setLatencyVal] = useState<number>(0);
 
   useEffect(() => {
-    // 1. Anime.js v4 Timeline for kinetic drafting entrance
+    // 1. Anime.js v4 timeline for kinetic drafting entrance
     const tl = createTimeline({
       defaults: { ease: "outCubic" },
     });
@@ -35,7 +38,7 @@ export function EditorialHero() {
     if (headlineRef.current) {
       animate(headlineRef.current, {
         opacity: [0, 1],
-        translateY: [28, 0],
+        translateY: [24, 0],
         duration: 750,
         delay: 100,
         ease: "outCubic",
@@ -84,10 +87,13 @@ export function EditorialHero() {
   return (
     <section
       ref={containerRef}
-      className="relative pt-12 pb-20 border-b border-[var(--border-paper-strong)] drafting-grid overflow-hidden"
+      className="relative pt-6 pb-20 border-b border-[var(--border-paper-strong)] drafting-grid overflow-hidden"
     >
+      {/* Precision Millimeter Architectural Ruler */}
+      <DraftingRuler />
+
       {/* Background Architectural Drafting Compass (Animated Anime.js SVG) */}
-      <div className="absolute right-4 top-10 pointer-events-none opacity-20 hidden lg:block">
+      <div className="absolute right-4 top-16 pointer-events-none opacity-20 hidden lg:block">
         <svg width="340" height="340" viewBox="0 0 340 340" className="text-[var(--text-ink)]">
           <circle cx="170" cy="170" r="160" stroke="currentColor" strokeWidth="0.75" strokeDasharray="4 4" />
           <circle cx="170" cy="170" r="120" stroke="currentColor" strokeWidth="0.5" />
@@ -114,7 +120,7 @@ export function EditorialHero() {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10 pt-8">
         {/* Margin Note / Catalog Metadata */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[var(--border-paper)] font-mono text-[11px] text-[var(--text-ink-muted)]">
           <div className="flex items-center gap-3">
@@ -132,39 +138,48 @@ export function EditorialHero() {
           </div>
         </div>
 
-        {/* Main Editorial Hero Layout */}
-        <div className="pt-10 pb-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Main Title Column */}
-          <div className="lg:col-span-8 space-y-6">
-            <h1
-              ref={headlineRef}
-              className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-[var(--text-ink)] tracking-tight leading-[1.08]"
-            >
-              Architecting systems at the boundary of code &amp; intelligence.
-            </h1>
+        {/* Hero Title & Subheadline */}
+        <div className="pt-8 pb-8 space-y-6 max-w-4xl">
+          <h1
+            ref={headlineRef}
+            className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-[var(--text-ink)] tracking-tight leading-[1.08]"
+          >
+            Architecting systems at the boundary of code &amp; intelligence.
+          </h1>
 
-            <p className="text-lg sm:text-xl text-[var(--text-ink-secondary)] font-normal leading-relaxed max-w-3xl">
-              I am <strong className="text-[var(--text-ink)] font-semibold">Sahil Pal</strong> — a software engineer building Git-aware AST context daemons for AI coding agents, grounded multi-document RAG pipelines, and offline-first native Android ERPs deployed in wholesale manufacturing.
-            </p>
+          <p className="text-lg sm:text-xl text-[var(--text-ink-secondary)] font-normal leading-relaxed">
+            I am <strong className="text-[var(--text-ink)] font-semibold">Sahil Pal</strong> — a software engineer building Git-aware AST context daemons for AI coding agents, grounded multi-document RAG pipelines, and offline-first native Android ERPs deployed in wholesale manufacturing.
+          </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-2 font-mono text-xs">
-              <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm hover:border-[var(--text-ink)] transition-colors">
-                <Award size={13} className="text-[var(--stamp-red)]" />
-                <span>BCA Graduate • Kristu Jayanti (CGPA 7.9/10)</span>
-              </span>
-              <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm hover:border-[var(--text-ink)] transition-colors">
-                <GitBranch size={13} className="text-[var(--stamp-blue)]" />
-                <span>Tree-sitter AST &amp; Model Context Protocol</span>
-              </span>
-              <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm hover:border-[var(--text-ink)] transition-colors">
-                <ShieldCheck size={13} className="text-[var(--stamp-green)]" />
-                <span>ACID Local Storage &amp; SQLite WAL</span>
-              </span>
-            </div>
+          <div className="flex flex-wrap items-center gap-3 pt-1 font-mono text-xs">
+            <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm hover:border-[var(--text-ink)] transition-colors">
+              <Award size={13} className="text-[var(--stamp-red)]" />
+              <span>BCA Graduate • Kristu Jayanti (CGPA 7.9/10)</span>
+            </span>
+            <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm hover:border-[var(--text-ink)] transition-colors">
+              <GitBranch size={13} className="text-[var(--stamp-blue)]" />
+              <span>Tree-sitter AST &amp; Model Context Protocol</span>
+            </span>
+            <span className="px-3 py-1.5 bg-[var(--bg-card)] border border-[var(--border-paper)] rounded-xs text-[var(--text-ink-secondary)] flex items-center gap-1.5 shadow-sm hover:border-[var(--text-ink)] transition-colors">
+              <ShieldCheck size={13} className="text-[var(--stamp-green)]" />
+              <span>ACID Local Storage &amp; SQLite WAL</span>
+            </span>
+          </div>
+        </div>
+
+        {/* CENTERPIECE WORKBENCH: Live AST Compiler & Interactive Tool Desk */}
+        <div className="pt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Main Left: Live AST Syntax & Systems Workbench */}
+          <div className="lg:col-span-8">
+            <HeroAstWorkbench />
           </div>
 
-          {/* Right Column: Architectural Sidebar Spec Sheet */}
-          <div className="lg:col-span-4">
+          {/* Right Column: Mechanical Stamp Machine & Benchmarks */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* 1. Tactile Verification Stamp Press */}
+            <StampMachine />
+
+            {/* 2. Engineering Benchmarks Card */}
             <div className="paper-sheet p-6 space-y-5 rounded-sm relative shadow-md">
               {/* Corner Registration Crosshairs */}
               <div className="absolute top-2 left-2 text-[10px] font-mono text-[var(--text-ink-faint)]">+</div>

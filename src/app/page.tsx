@@ -10,17 +10,21 @@ import { TechnicalIndex } from "@/components/skills/technical-index";
 import { EditorialJourney } from "@/components/experience/editorial-journey";
 import { ColophonFooter } from "@/components/footer/colophon-footer";
 import { DraftingCursor } from "@/components/effects/drafting-cursor";
+import { BlueprintMarginTabs } from "@/components/navigation/blueprint-margin-tabs";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[var(--bg-paper)] text-[var(--text-ink)] antialiased transition-colors">
+    <div id="top" className="min-h-screen bg-[var(--bg-paper)] text-[var(--text-ink)] antialiased transition-colors">
       {/* Interactive Drafting Reticle & Ink Ripples */}
       <DraftingCursor />
+
+      {/* Tactile Blueprint Margin Quick Flags (xl screens) */}
+      <BlueprintMarginTabs />
 
       {/* 00. Masthead Header */}
       <EditorialMasthead />
 
-      {/* 01. Architectural Hero */}
+      {/* 01. Architectural Hero with Drafting Desk, Live AST Workbench & Stamp Machine */}
       <EditorialHero />
 
       {/* Main Content Area */}

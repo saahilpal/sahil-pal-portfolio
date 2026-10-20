@@ -17,6 +17,8 @@ import {
   ArrowUpRight,
   HardDriveDownload,
   Sliders,
+  Check,
+  AlertTriangle,
 } from "lucide-react";
 
 interface BillItem {
@@ -41,17 +43,21 @@ export function HeraBillingPaper() {
     { id: "2", name: "Kids Printed Frock (Pure Cotton)", hsn: "6209", size: "20-28", price: 180, qty: 15 },
   ]);
   const [transportCharges, setTransportCharges] = useState<number>(150);
+  const [taxMode, setTaxMode] = useState<"even-parity" | "ieee-standard">("even-parity");
   const [activeTab, setActiveTab] = useState<"backup" | "uiux" | "storage" | "math">("backup");
 
   // Animation states
   const [isPrinting, setIsPrinting] = useState<boolean>(false);
+  const [hasPrinted, setHasPrinted] = useState<boolean>(false);
   const [isBackingUp, setIsBackingUp] = useState<boolean>(false);
   const [backupStep, setBackupStep] = useState<string>("SYSTEM IDLE // LAST SYNC: 24H AGO");
   const [backupProgress, setBackupProgress] = useState<number>(0);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
   const paperReceiptRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const invoiceCardRef = useRef<HTMLDivElement>(null);
+  const receiptStampRef = useRef<HTMLDivElement>(null);
 
   const addItem = (item: typeof WHOLESALE_LOTS[0]) => {
     setCart((prev) => {
@@ -63,22 +69,40 @@ export function HeraBillingPaper() {
     });
   };
 
+  const multiplyQuantities = (factor: number) => {
+    setCart((prev) => prev.map((i) => ({ ...i, qty: Math.max(1, Math.round(i.qty * factor)) })));
+  };
+
   const removeItem = (id: string) => {
     setCart((prev) => prev.filter((i) => i.id !== id));
   };
 
-  // Peak Animation 1: Mechanical Paper Receipt Print Rollout
+  // Peak Animation 1: Mechanical Paper Receipt Print Rollout with Physical Stamp
   const triggerPrintDispense = () => {
     if (isPrinting || !paperReceiptRef.current) return;
     setIsPrinting(true);
+    setHasPrinted(false);
 
     animate(paperReceiptRef.current, {
-      translateY: [-60, 0],
-      scaleY: [0.6, 1],
-      opacity: [0.2, 1],
-      duration: 800,
+      translateY: [-70, 0],
+      scaleY: [0.65, 1],
+      opacity: [0.3, 1],
+      duration: 750,
       ease: "outElastic(1, .75)",
-      onComplete: () => setIsPrinting(false),
+      onComplete: () => {
+        setIsPrinting(false);
+        setHasPrinted(true);
+
+        if (receiptStampRef.current) {
+          animate(receiptStampRef.current, {
+            scale: [1.8, 1],
+            opacity: [0, 0.95],
+            rotate: [-14, -4],
+            duration: 350,
+            ease: "outBack",
+          });
+        }
+      },
     });
   };
 
@@ -87,13 +111,13 @@ export function HeraBillingPaper() {
     if (isBackingUp) return;
     setIsBackingUp(true);
     setBackupProgress(0);
+    setCompletedSteps([]);
 
     const steps = [
-      { text: "SERIALIZING ROOM v13 ENTITIES...", pct: 20 },
-      { text: "ENCODING LOGO & UPI QR (BASE-64)...", pct: 45 },
-      { text: "ENCRYPTING SQLCIPHER SNAPSHOT...", pct: 70 },
-      { text: "UPLOADING TO GOOGLE DRIVE VIA DAILY WORKER...", pct: 90 },
-      { text: "DRIVE SYNC COMPLETE // SHA-256 VERIFIED", pct: 100 },
+      { text: "SERIALIZING ROOM v13 ENTITIES...", pct: 25, idx: 0 },
+      { text: "ENCODING LOGO & UPI QR (BASE-64)...", pct: 50, idx: 1 },
+      { text: "ENCRYPTING SQLCIPHER SNAPSHOT...", pct: 75, idx: 2 },
+      { text: "UPLOADING TO GOOGLE DRIVE VIA DAILY WORKER...", pct: 100, idx: 3 },
     ];
 
     let currentStepIdx = 0;
@@ -102,6 +126,7 @@ export function HeraBillingPaper() {
         const step = steps[currentStepIdx];
         setBackupStep(step.text);
         setBackupProgress(step.pct);
+        setCompletedSteps((prev) => [...prev, step.idx]);
         currentStepIdx++;
       } else {
         clearInterval(interval);
@@ -128,11 +153,32 @@ export function HeraBillingPaper() {
 
   // Exact Hera Billing Wholesale Math (5% Garments GST):
   const subtotal = cart.reduce((acc, curr) => acc + curr.price * curr.qty, 0);
-  const taxableAmount = subtotal + transportCharges;
-  const splitTax = Math.round(taxableAmount * 0.025);
-  const cgst = splitTax;
-  const sgst = splitTax;
-  const grandTotal = taxableAmount + cgst + sgst;
+  const rawTaxable = subtotal + transportCharges;
+
+  // Compare Standard IEEE-754 Math vs Hera Even-Parity Math
+  let taxableAmount = rawTaxable;
+  let cgst = 0;
+  let sgst = 0;
+  let discrepancy = 0;
+
+  if (taxMode === "even-parity") {
+    // Hera's guaranteed even integer parity rule:
+    // If taxable amount is odd, step by ₹0.50 so subtotal % 2 == 0
+    const adjustedTaxable = rawTaxable % 2 !== 0 ? rawTaxable + 1 : rawTaxable;
+    taxableAmount = adjustedTaxable;
+    const splitTax = Math.round(adjustedTaxable * 0.025);
+    cgst = splitTax;
+    sgst = splitTax;
+    discrepancy = 0;
+  } else {
+    // Standard unconstrained IEEE math:
+    cgst = +(rawTaxable * 0.025).toFixed(2);
+    sgst = +(rawTaxable * 0.025).toFixed(2);
+    const combinedTax = cgst + sgst;
+    discrepancy = +(combinedTax - rawTaxable * 0.05).toFixed(2);
+  }
+
+  const grandTotal = Math.round(taxableAmount + cgst + sgst);
 
   return (
     <article className="paper-sheet p-6 sm:p-10 rounded-sm space-y-8 relative overflow-hidden">
@@ -164,24 +210,25 @@ export function HeraBillingPaper() {
           <button
             onClick={triggerCloudBackup}
             disabled={isBackingUp}
-            className="px-3 py-1.5 border border-[var(--stamp-blue)] bg-[var(--stamp-blue-bg)] text-[var(--stamp-blue)] rounded-xs font-mono text-xs flex items-center gap-1.5 hover:opacity-90 active:scale-95 transition-all shadow-xs"
+            className="px-3.5 py-2 border border-[var(--stamp-blue)] bg-[var(--stamp-blue-bg)] text-[var(--stamp-blue)] rounded-xs font-mono text-xs font-semibold flex items-center gap-1.5 hover:opacity-90 active:scale-95 transition-all shadow-xs"
           >
             <Cloud size={13} className={isBackingUp ? "animate-spin" : ""} />
-            <span>{isBackingUp ? "SYNCING..." : "TEST DRIVE BACKUP"}</span>
+            <span>{isBackingUp ? "SYNCING CLOUD..." : "TRIGGER DRIVE BACKUP"}</span>
           </button>
         </div>
       </div>
 
       {/* Cloud Backup Live Telemetry Bar */}
-      <div className="p-3.5 border border-[var(--border-paper)] rounded-xs bg-[var(--bg-card-draft)] space-y-2 font-mono text-xs">
+      <div className="p-4 border border-[var(--border-paper)] rounded-xs bg-[var(--bg-card-draft)] space-y-3 font-mono text-xs">
         <div className="flex justify-between items-center text-[11px]">
           <span className="font-bold text-[var(--text-ink)] flex items-center gap-1.5">
             <HardDriveDownload size={13} className="text-[var(--stamp-blue)]" />
-            <span>DATA BACKUP &amp; CLOUD SYNC ENGINE</span>
+            <span>DATA BACKUP &amp; GOOGLE DRIVE SYNC ENGINE</span>
           </span>
           <span className="text-[10px] text-[var(--stamp-green)] font-semibold">{backupProgress}% COMPLETED</span>
         </div>
 
+        {/* Progress Bar */}
         <div className="w-full bg-[var(--border-paper)] h-2 rounded-full overflow-hidden">
           <div
             ref={progressBarRef}
@@ -190,9 +237,29 @@ export function HeraBillingPaper() {
           />
         </div>
 
-        <div className="text-[10px] text-[var(--text-ink-muted)] flex justify-between">
-          <span className="truncate">{backupStep}</span>
-          <span className="hidden sm:inline">DailyDriveBackupWorker • Room v13 WAL</span>
+        {/* 4 Interactive Backup Steps Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[10px]">
+          {[
+            "1. ROOM v13 WAL SNAPSHOT",
+            "2. BASE-64 LOGO & UPI QR",
+            "3. AES-GCM ENCRYPTED JSON",
+            "4. GOOGLE DRIVE APPFOLDER",
+          ].map((title, sIdx) => {
+            const isDone = completedSteps.includes(sIdx);
+            return (
+              <div
+                key={sIdx}
+                className={`p-1.5 rounded-xs border transition-colors flex items-center gap-1.5 ${
+                  isDone
+                    ? "bg-[var(--stamp-green-bg)] text-[var(--stamp-green)] border-[var(--stamp-green-border)] font-bold"
+                    : "bg-[var(--bg-card)] border-[var(--border-paper)] text-[var(--text-ink-muted)]"
+                }`}
+              >
+                {isDone ? <Check size={11} className="stroke-[3]" /> : <span className="w-2 h-2 rounded-full bg-[var(--border-paper-strong)]" />}
+                <span className="truncate">{title}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -209,8 +276,26 @@ export function HeraBillingPaper() {
               <span className="text-[10px] text-[var(--stamp-blue)]">30-SEC CHECKOUT UX</span>
             </div>
 
-            <div className="text-[11px] text-[var(--text-ink-secondary)]">
-              Wholesale Lots Catalog (Tap to add 5 pcs):
+            {/* Quick Catalog Header with Bulk Multipliers */}
+            <div className="flex items-center justify-between text-[11px] text-[var(--text-ink-secondary)]">
+              <span>Wholesale Lots (Tap to add 5 pcs):</span>
+              <div className="flex items-center gap-1">
+                <span className="text-[9px] text-[var(--text-ink-muted)]">BULK:</span>
+                <button
+                  onClick={() => multiplyQuantities(2)}
+                  className="px-1.5 py-0.5 rounded-xs border border-[var(--border-paper)] bg-[var(--bg-card)] hover:border-[var(--text-ink)] text-[9px] font-bold"
+                  title="Double all lot quantities"
+                >
+                  2x
+                </button>
+                <button
+                  onClick={() => multiplyQuantities(0.5)}
+                  className="px-1.5 py-0.5 rounded-xs border border-[var(--border-paper)] bg-[var(--bg-card)] hover:border-[var(--text-ink)] text-[9px] font-bold"
+                  title="Half all lot quantities"
+                >
+                  0.5x
+                </button>
+              </div>
             </div>
 
             {/* Quick Catalog Grid */}
@@ -228,14 +313,52 @@ export function HeraBillingPaper() {
               ))}
             </div>
 
-            {/* Active Items Tray */}
+            {/* Rounding Mode Switch (Proof of Zero-Roundoff Algorithm) */}
+            <div className="pt-2 border-t border-[var(--border-paper)] space-y-1.5">
+              <div className="flex items-center justify-between text-[10px] text-[var(--text-ink-muted)]">
+                <span className="font-bold uppercase tracking-wider text-[var(--text-ink)]">
+                  CGST/SGST TAX ROUNDING METHOD
+                </span>
+                <span className={taxMode === "even-parity" ? "text-[var(--stamp-green)] font-bold" : "text-[var(--stamp-red)] font-bold"}>
+                  {taxMode === "even-parity" ? "0-PAISE ERROR" : "FLOAT MISMATCH"}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-1.5 text-[10.5px]">
+                <button
+                  onClick={() => setTaxMode("even-parity")}
+                  className={`p-2 rounded-xs border text-left transition-all ${
+                    taxMode === "even-parity"
+                      ? "bg-[var(--stamp-green-bg)] border-[var(--stamp-green)] text-[var(--stamp-green)] font-bold shadow-xs"
+                      : "bg-[var(--bg-card)] border-[var(--border-paper)] text-[var(--text-ink-secondary)] hover:border-[var(--text-ink-strong)]"
+                  }`}
+                >
+                  <div>✓ Even Parity Mode</div>
+                  <div className="text-[8.5px] font-normal opacity-80">(r * q) % 2 == 0 Guaranteed</div>
+                </button>
+
+                <button
+                  onClick={() => setTaxMode("ieee-standard")}
+                  className={`p-2 rounded-xs border text-left transition-all ${
+                    taxMode === "ieee-standard"
+                      ? "bg-[var(--stamp-red-bg)] border-[var(--stamp-red)] text-[var(--stamp-red)] font-bold shadow-xs"
+                      : "bg-[var(--bg-card)] border-[var(--border-paper)] text-[var(--text-ink-secondary)] hover:border-[var(--text-ink-strong)]"
+                  }`}
+                >
+                  <div>Standard IEEE-754</div>
+                  <div className="text-[8.5px] font-normal opacity-80">1-Paise Split Mismatch</div>
+                </button>
+              </div>
+            </div>
+
+            {/* Active Items Manifest */}
             <div className="pt-2 border-t border-[var(--border-paper)] space-y-2">
               <div className="flex justify-between text-[11px] text-[var(--text-ink-muted)]">
                 <span>INVOICE MANIFEST ({cart.length} ITEMS)</span>
                 <span>TOTAL</span>
               </div>
 
-              <div className="space-y-1.5 max-h-[160px] overflow-y-auto pr-1">
+              <div className="space-y-1.5 max-h-[140px] overflow-y-auto pr-1">
                 {cart.map((item) => (
                   <div
                     key={item.id}
@@ -248,7 +371,7 @@ export function HeraBillingPaper() {
                       </span>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
-                      <span className="font-bold text-[var(--text-ink)]">₹{item.qty * item.price}</span>
+                      <span className="font-bold text-[var(--text-ink)]">₹{(item.qty * item.price).toLocaleString("en-IN")}</span>
                       <button
                         onClick={() => removeItem(item.id)}
                         className="text-[var(--text-ink-muted)] hover:text-[var(--stamp-red)]"
@@ -264,11 +387,11 @@ export function HeraBillingPaper() {
               {/* Dispense Trigger Button */}
               <button
                 onClick={triggerPrintDispense}
-                disabled={cart.length === 0}
-                className="w-full mt-2 py-2 bg-[var(--text-ink)] text-[var(--bg-paper)] font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-[var(--text-ink-secondary)] active:scale-95 transition-all rounded-xs shadow-sm"
+                disabled={cart.length === 0 || isPrinting}
+                className="w-full mt-2 py-2.5 bg-[var(--text-ink)] text-[var(--bg-paper)] font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-[var(--text-ink-secondary)] active:scale-95 transition-all rounded-xs shadow-sm"
               >
-                <Printer size={13} />
-                <span>DISPENSE A4 PRINT VOUCHER</span>
+                <Printer size={13} className={isPrinting ? "animate-bounce" : ""} />
+                <span>{isPrinting ? "DISPENSING VOUCHER..." : "DISPENSE A4 PRINT VOUCHER"}</span>
               </button>
             </div>
           </div>
@@ -291,6 +414,18 @@ export function HeraBillingPaper() {
               ref={paperReceiptRef}
               className="p-6 border border-[var(--border-paper-strong)] rounded-b-xs bg-[var(--bg-card)] shadow-md font-mono text-xs space-y-4 relative"
             >
+              {/* Corner Watermark Stamp (Triggered after print) */}
+              <div
+                ref={receiptStampRef}
+                className={`absolute right-6 bottom-16 pointer-events-none transition-opacity ${
+                  hasPrinted ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <div className="stamp-seal stamp-red text-[11px] py-1 px-3 border-2">
+                  <span>ROOM v13 VERIFIED</span>
+                </div>
+              </div>
+
               {/* Top Perforation / Tear-off Marks */}
               <div className="perforated-edge -mx-6 -mt-2 mb-2" />
 
@@ -346,14 +481,32 @@ export function HeraBillingPaper() {
                   <span>TAXABLE AMOUNT</span>
                   <span>₹{taxableAmount.toLocaleString("en-IN")}</span>
                 </div>
+
                 <div className="flex justify-between text-[var(--text-ink-muted)]">
                   <span>CGST (2.5%) + SGST (2.5%) — 5% TEXTILE GST</span>
                   <span>₹{cgst} + ₹{sgst} (₹{cgst + sgst})</span>
                 </div>
-                <div className="flex justify-between text-[10px] text-[var(--text-ink-muted)]">
-                  <span>ROUND OFF (HARE-NIEMEYER LARGEST REMAINDER)</span>
-                  <span>₹0.00 (Zero Paise Discrepancy)</span>
-                </div>
+
+                {taxMode === "ieee-standard" && (
+                  <div className="flex justify-between text-[10px] text-[var(--stamp-red)] font-semibold bg-[var(--stamp-red-bg)] p-1.5 rounded-xs border border-[var(--stamp-red-border)]">
+                    <span className="flex items-center gap-1">
+                      <AlertTriangle size={11} />
+                      <span>STANDARD IEEE ROUNDING ERROR:</span>
+                    </span>
+                    <span>₹{discrepancy} DISCREPANCY DETECTED</span>
+                  </div>
+                )}
+
+                {taxMode === "even-parity" && (
+                  <div className="flex justify-between text-[10px] text-[var(--stamp-green)] font-semibold bg-[var(--stamp-green-bg)] p-1.5 rounded-xs border border-[var(--stamp-green-border)]">
+                    <span className="flex items-center gap-1">
+                      <Check size={11} className="stroke-[3]" />
+                      <span>HERA LARGEST REMAINDER METHOD:</span>
+                    </span>
+                    <span>0-PAISE EQUALITY (CGST == SGST)</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between font-bold text-sm text-[var(--text-ink)] pt-2 border-t border-[var(--border-paper-strong)]">
                   <span>GRAND TOTAL</span>
                   <span className="text-[var(--stamp-green)] font-mono">
@@ -381,7 +534,7 @@ export function HeraBillingPaper() {
             onClick={() => setActiveTab("backup")}
             className={`px-3 py-1.5 rounded-xs border transition-colors ${
               activeTab === "backup"
-                ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold"
+                ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold shadow-xs"
                 : "bg-[var(--bg-card)] border-[var(--border-paper)] text-[var(--text-ink-secondary)] hover:border-[var(--text-ink)]"
             }`}
           >
@@ -391,7 +544,7 @@ export function HeraBillingPaper() {
             onClick={() => setActiveTab("uiux")}
             className={`px-3 py-1.5 rounded-xs border transition-colors ${
               activeTab === "uiux"
-                ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold"
+                ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold shadow-xs"
                 : "bg-[var(--bg-card)] border-[var(--border-paper)] text-[var(--text-ink-secondary)] hover:border-[var(--text-ink)]"
             }`}
           >
@@ -401,7 +554,7 @@ export function HeraBillingPaper() {
             onClick={() => setActiveTab("storage")}
             className={`px-3 py-1.5 rounded-xs border transition-colors ${
               activeTab === "storage"
-                ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold"
+                ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold shadow-xs"
                 : "bg-[var(--bg-card)] border-[var(--border-paper)] text-[var(--text-ink-secondary)] hover:border-[var(--text-ink)]"
             }`}
           >
@@ -411,7 +564,7 @@ export function HeraBillingPaper() {
             onClick={() => setActiveTab("math")}
             className={`px-3 py-1.5 rounded-xs border transition-colors ${
               activeTab === "math"
-                ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold"
+                ? "bg-[var(--text-ink)] text-[var(--bg-paper)] border-[var(--text-ink)] font-bold shadow-xs"
                 : "bg-[var(--bg-card)] border-[var(--border-paper)] text-[var(--text-ink-secondary)] hover:border-[var(--text-ink)]"
             }`}
           >
