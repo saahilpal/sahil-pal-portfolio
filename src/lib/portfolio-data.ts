@@ -56,7 +56,7 @@ export const profile = {
   summary:
     "BCA graduate and software engineer specializing in AI systems engineering, retrieval-augmented generation, and developer tools. Experienced in building production-grade RAG pipelines, AST-aware structural indexing engines, and robust asynchronous backend services.",
   status: "Available for engineering roles & ambitious technical collaborations",
-  location: "Bengaluru, India",
+  location: "Available Globally",
   timezone: "UTC+05:30 (IST)",
   links: {
     github: "https://github.com/saahilpal",
@@ -202,7 +202,7 @@ export const projects: Project[] = [
       "StateFlow",
     ],
     problem:
-      "A real-world wholesale garment manufacturing business (Hera Hosiery / Kids Wear, Bengaluru) handled complex wholesale orders with variable lot sizes, transport charges, and strict 5% textile GST rules. Standard billing apps suffered from connectivity crashes, while Android 14 Scoped Storage threw uncaught security exceptions when saving invoices. Custom target invoices also suffered from price distortion caused by naive rounding.",
+      "A real-world wholesale garment manufacturing business (Hera Hosiery / Kids Wear) handled complex wholesale orders with variable lot sizes, transport charges, and strict 5% textile GST rules. Standard billing apps suffered from connectivity crashes, while Android 14 Scoped Storage threw uncaught security exceptions when saving invoices. Custom target invoices also suffered from price distortion caused by naive rounding.",
     solution:
       "Engineered an offline-first Android ERP and HTML-to-PDF invoice engine using Clean Architecture / MVI. Solved Android 14 Scoped Storage crashes by routing through internal cache file descriptors, developed a Largest Remainder optimization engine to eliminate fractional rounding distortion, and built a dynamic single-to-dual column A4 pagination system for 30+ item wholesale orders.",
     architecture: {

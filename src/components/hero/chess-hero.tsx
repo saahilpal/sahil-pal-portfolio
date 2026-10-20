@@ -64,8 +64,6 @@ export function ChessHero({ onSelectProject }: ChessHeroProps) {
             <div className="hero-headline-reveal inline-flex items-center gap-2.5 px-3 py-1 rounded-sm bg-[var(--bg-chess-card)] border border-[var(--border-green)] font-mono text-[11px] text-[var(--chess-green)] shadow-xs">
               <span className="w-2 h-2 rounded-full bg-[var(--chess-green)] ring-2 ring-[var(--chess-green)]/20" />
               <span className="font-bold tracking-wide">AI SYSTEMS &amp; RETRIEVAL ARCHITECT</span>
-              <span className="text-[var(--text-muted)]">•</span>
-              <span className="text-[var(--chess-nude)]">BENGALURU</span>
             </div>
 
             {/* Main Punchy Headline (Kept in DOM for instant LCP) */}
@@ -75,7 +73,7 @@ export function ChessHero({ onSelectProject }: ChessHeroProps) {
 
             {/* Clear Plain-English Description */}
             <p className="hero-headline-reveal text-base sm:text-lg text-[var(--chess-nude-muted)] leading-relaxed max-w-2xl font-normal">
-              I am <strong className="text-[var(--text-white)] font-semibold">Sahil Pal</strong> — an AI engineer in Bengaluru. I build AST-grounded code intelligence daemons, zero-contention document RAG pipelines, offline-first Android ERPs, and developer tooling. Four shipped production systems, real benchmarks, and zero fluff.
+              I am <strong className="text-[var(--text-white)] font-semibold">Sahil Pal</strong> — an AI engineer. I build AST-grounded code intelligence daemons, zero-contention document RAG pipelines, offline-first Android ERPs, and developer tooling. Four shipped production systems, real benchmarks, and zero fluff.
             </p>
 
             {/* 3 Proof Badges */}

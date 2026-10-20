@@ -25,7 +25,7 @@ export function OpeningBook() {
           </div>
           <div className="font-mono text-xs text-[var(--chess-nude-dark)] sm:text-right">
             <span>ENGINEERING INVARIANTS</span>
-            <div>BENGALURU, INDIA</div>
+            <div>FULL-STACK AI SYSTEMS</div>
           </div>
         </div>
 

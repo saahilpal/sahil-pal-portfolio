@@ -47,7 +47,7 @@ export function HeraBillingCase() {
             </span>
             <span className="text-[var(--text-muted)]">•</span>
             <span className="text-[var(--chess-brilliant)] font-semibold">
-              IN PRODUCTION (Hera Hosiery Wholesale, Bengaluru)
+              IN PRODUCTION (Hera Hosiery Wholesale)
             </span>
           </div>
 

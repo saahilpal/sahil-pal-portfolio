@@ -23,7 +23,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Sahil Pal — AI Engineer | Mate in 4",
   description:
-    "Mate in 4 — Interactive chess-themed portfolio of Sahil Pal, an AI Engineer in Bengaluru building AST context daemons (Synapse), durable PostgreSQL worker queues (DocAnalyzer), offline-first Android ERPs (Hera Billing), and developer tools (LeetSync).",
+    "Mate in 4 — Interactive chess-themed portfolio of Sahil Pal, an AI Engineer building AST context daemons (Synapse), durable PostgreSQL worker queues (DocAnalyzer), offline-first Android ERPs (Hera Billing), and developer tools (LeetSync).",
   keywords: [
     "Sahil Pal",
     "AI Engineer",
@@ -36,7 +36,6 @@ export const metadata: Metadata = {
     "SKIP LOCKED",
     "pgvector",
     "Offline-first Android",
-    "Bengaluru",
   ],
   authors: [{ name: "Sahil Pal", url: "https://github.com/saahilpal" }],
   creator: "Sahil Pal",

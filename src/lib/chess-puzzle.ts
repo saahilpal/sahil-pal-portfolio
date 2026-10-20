@@ -219,7 +219,7 @@ export const CASE_STUDIES: ProjectCaseStudy[] = [
     title: "Hera Billing",
     subtitle: "Production Wholesale Android ERP, Google Drive Cloud Sync & Parity Math",
     problem:
-      "Wholesale garment manufacturers in Bengaluru operate in chaotic, dust-heavy shop floors with intermittent cellular connectivity, losing sales records and facing 1-paise tax discrepancies on negotiated targets.",
+      "Wholesale garment manufacturers operate in chaotic, dust-heavy shop floors with intermittent cellular connectivity, losing sales records and facing 1-paise tax discrepancies on negotiated targets.",
     constraints: [
       "100% offline-first execution with crash-resilient Room v13 local database.",
       "Android 14 (API 34) Scoped Storage compliance with zero permission crash popups.",
@@ -244,7 +244,7 @@ export const CASE_STUDIES: ProjectCaseStudy[] = [
       metricLabel: "Checkout Transaction Speed",
       metricValue: "< 30s",
       baseline: "3.5 minutes (manual paper book ledger)",
-      howTested: "Measured across 300+ wholesale customer transactions at Hera Hosiery Wholesale, Bengaluru.",
+      howTested: "Measured across 300+ wholesale customer transactions at Hera Hosiery Wholesale.",
     },
     results: [
       { label: "Tax Discrepancy", value: "₹0.00", desc: "Hare-Niemeyer even parity algorithm" },

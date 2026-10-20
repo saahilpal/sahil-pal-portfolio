@@ -148,8 +148,8 @@ export function CheckmateFooter() {
             </div>
             <div className="space-y-1.5">
               <div className="flex items-center gap-2 text-[var(--text-nude)]">
-                <MapPin size={12} className="text-[var(--chess-green)]" />
-                <span>Bengaluru, Karnataka, India (UTC+05:30 IST)</span>
+                <ShieldCheck size={12} className="text-[var(--chess-green)]" />
+                <span>Timezone: UTC+05:30 (IST)</span>
               </div>
               <div className="flex items-center gap-2 text-[var(--text-nude)]">
                 <ShieldCheck size={12} className="text-[var(--chess-green)]" />
@@ -217,7 +217,7 @@ export function CheckmateFooter() {
         {/* Colophon Strip */}
         <div className="pt-8 border-t border-[var(--border-chess)] flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[var(--chess-nude-dark)] gap-4">
           <div>
-            © {new Date().getFullYear()} Sahil Pal • AI Engineer • Bengaluru, India.
+            © {new Date().getFullYear()} Sahil Pal • AI Engineer.
           </div>
           <div className="flex items-center gap-3 text-[11px]">
             <span>MATE IN 4 (NNUE CHESS MOTIF)</span>
