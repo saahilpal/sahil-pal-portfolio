@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sparkles, Activity, ShieldCheck, Zap, ArrowRight, Cpu, GitBranch, Database, Smartphone, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 interface EngineNode {
   id: string;
@@ -74,18 +74,23 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
   useEffect(() => {
     const interval = setInterval(() => {
       setPulsePhase((p) => (p + 1) % 100);
-    }, 40);
+    }, 45);
     return () => clearInterval(interval);
   }, []);
 
   const selected = ENGINE_NODES.find((n) => n.id === activeNode) || ENGINE_NODES[0];
 
+  const handleNodeClick = (nodeId: string) => {
+    setActiveNode(nodeId);
+    onSelectNode?.(nodeId);
+  };
+
   return (
-    <div className="w-full rounded-lg bg-[var(--bg-chess-card)] border border-[var(--border-chess)] overflow-hidden shadow-2xl relative">
+    <div className="w-full rounded-md bg-[var(--bg-chess-card)] border border-[var(--border-chess)] overflow-hidden shadow-2xl relative">
       {/* Header Evaluation Bar (Chess.com Style) */}
-      <div className="px-4 py-2.5 bg-[var(--bg-chess-subtle)] border-b border-[var(--border-chess)] flex items-center justify-between text-xs font-mono">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-[var(--chess-green)] animate-pulse" />
+      <div className="px-4 py-3 bg-[var(--bg-chess-subtle)] border-b border-[var(--border-chess)] flex items-center justify-between text-xs font-mono">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2 h-2 rounded-full bg-[var(--chess-green)] ring-2 ring-[var(--chess-green)]/20" />
           <span className="font-bold text-[var(--text-white)] tracking-wide">
             NNUE ENGINE EVALUATION
           </span>
@@ -108,12 +113,8 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
         {/* Animated Background Vector Lines */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
           <defs>
-            <linearGradient id="greenGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#81B64C" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#EEEED2" stopOpacity="0.2" />
-            </linearGradient>
             <radialGradient id="centerCore" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#81B64C" stopOpacity="0.35" />
+              <stop offset="0%" stopColor="#81B64C" stopOpacity="0.3" />
               <stop offset="100%" stopColor="#81B64C" stopOpacity="0" />
             </radialGradient>
           </defs>
@@ -134,14 +135,14 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
             const isSelected = node.id === activeNode;
             return (
               <g key={node.id}>
-                {/* Static hairline connector */}
+                {/* Static connector */}
                 <line
                   x1="50"
                   y1="50"
                   x2={node.x}
                   y2={node.y}
                   stroke={isSelected ? "#81B64C" : "rgba(238, 238, 210, 0.15)"}
-                  strokeWidth={isSelected ? "0.8" : "0.4"}
+                  strokeWidth={isSelected ? "0.9" : "0.4"}
                   strokeDasharray={isSelected ? undefined : "1, 1"}
                 />
 
@@ -149,7 +150,7 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
                 <circle
                   cx={50 + ((node.x - 50) * ((pulsePhase + (node.x > 50 ? 50 : 0)) % 100)) / 100}
                   cy={50 + ((node.y - 50) * ((pulsePhase + (node.x > 50 ? 50 : 0)) % 100)) / 100}
-                  r={isSelected ? "1" : "0.7"}
+                  r={isSelected ? "1.1" : "0.7"}
                   fill={isSelected ? "#81B64C" : "#EEEED2"}
                   opacity="0.9"
                 />
@@ -183,15 +184,12 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
           return (
             <button
               key={node.id}
-              onClick={() => {
-                setActiveNode(node.id);
-                onSelectNode?.(node.id);
-              }}
+              onClick={() => handleNodeClick(node.id)}
               style={{
                 left: `${node.x}%`,
                 top: `${node.y}%`,
               }}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-200 cursor-pointer group flex flex-col items-center ${
+              className={`absolute -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-200 cursor-pointer group flex flex-col items-center btn-tactile ${
                 isSelected ? "scale-110" : "hover:scale-105 opacity-85 hover:opacity-100"
               }`}
             >
@@ -215,6 +213,29 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
                 }`}
               >
                 {node.name}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Tactical Quick Switcher Tabs (Senior UX: 1-touch navigation for mobile & desktop) */}
+      <div className="grid grid-cols-4 border-t border-[var(--border-chess)] bg-[var(--bg-chess-subtle)] text-[10px] font-mono">
+        {ENGINE_NODES.map((node) => {
+          const isSelected = node.id === activeNode;
+          return (
+            <button
+              key={node.id}
+              onClick={() => handleNodeClick(node.id)}
+              className={`py-2 px-1 text-center transition-colors border-r last:border-r-0 border-[var(--border-chess)] cursor-pointer btn-tactile ${
+                isSelected
+                  ? "bg-[var(--bg-chess-card)] text-[var(--chess-green)] font-bold border-b-2 border-b-[var(--chess-green)]"
+                  : "text-[var(--text-muted)] hover:text-white"
+              }`}
+            >
+              <div className="truncate">
+                <span className="font-serif mr-1">{node.piece}</span>
+                <span>{node.name}</span>
               </div>
             </button>
           );
@@ -253,7 +274,7 @@ export function EngineMotionGraphic({ onSelectNode }: { onSelectNode?: (id: stri
             const el = document.getElementById(selected.id);
             el?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="px-3.5 py-2 rounded-xs bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-bold font-mono text-xs flex items-center justify-center gap-1.5 transition-colors shrink-0 shadow-sm"
+          className="btn-tactile px-3.5 py-2 rounded-xs bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-bold font-mono text-xs flex items-center justify-center gap-1.5 transition-colors shrink-0 shadow-sm"
         >
           <span>VIEW SPEC</span>
           <ArrowRight size={13} />

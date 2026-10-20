@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MessageSquare, ArrowUpRight, Zap, Eye, BookOpen, ShieldCheck, Mail } from "lucide-react";
 
 interface ChessMastheadProps {
   onOpenGrandmaster: () => void;
@@ -39,7 +38,7 @@ export function ChessMasthead({ onOpenGrandmaster }: ChessMastheadProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-2 flex flex-wrap items-center justify-between text-[11px] font-mono text-[var(--chess-nude-dark)] border-b border-[var(--border-chess)]/60 gap-2">
         <div className="flex items-center gap-3">
           <span className="font-bold text-[var(--text-white)] flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[var(--chess-green)]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--chess-green)] ring-2 ring-[var(--chess-green)]/20" />
             <span>SAHIL PAL // AI SYSTEMS &amp; RETRIEVAL</span>
           </span>
           <span>•</span>
@@ -49,9 +48,9 @@ export function ChessMasthead({ onOpenGrandmaster }: ChessMastheadProps) {
         </div>
 
         <div className="flex items-center gap-4">
-          <span className="text-[10px] font-bold text-[var(--chess-green)] flex items-center gap-1">
+          <span className="text-[10px] font-bold text-[var(--chess-green)] flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--chess-green)]" />
-            <span>AVAILABLE FOR HIRE (AI ENGINEER)</span>
+            <span>AVAILABLE FOR HIRE</span>
           </span>
           <a
             href="mailto:saahilpal17@gmail.com"
@@ -66,7 +65,7 @@ export function ChessMasthead({ onOpenGrandmaster }: ChessMastheadProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between">
         <a
           href="#"
-          className="group flex items-baseline gap-2.5 text-[var(--text-white)]"
+          className="group flex items-baseline gap-2.5 text-[var(--text-white)] btn-tactile"
         >
           <span className="text-xl sm:text-2xl font-serif font-bold tracking-tight group-hover:text-[var(--chess-green)] transition-colors">
             SAHIL PAL
@@ -80,42 +79,42 @@ export function ChessMasthead({ onOpenGrandmaster }: ChessMastheadProps) {
         <nav className="flex items-center gap-1 sm:gap-4 font-mono text-xs text-[var(--chess-nude-muted)]">
           <button
             onClick={() => scrollTo("moves")}
-            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors"
+            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors"
           >
             01. ENGINES
           </button>
           <button
             onClick={() => scrollTo("evals")}
-            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors"
+            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors"
           >
             02. EVALS
           </button>
           <button
             onClick={() => scrollTo("blunders")}
-            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
+            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
           >
             03. BLUNDERS
           </button>
           <button
             onClick={() => scrollTo("opening-book")}
-            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden md:inline"
+            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden md:inline"
           >
             04. ABOUT
           </button>
           <button
             onClick={() => scrollTo("contact")}
-            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
+            className="btn-tactile px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
           >
             05. CONTACT
           </button>
 
-          {/* Ask the Grandmaster Button */}
+          {/* System Retrieval Drawer Button */}
           <button
             onClick={onOpenGrandmaster}
-            className="ml-2 px-3 py-1.5 rounded-xs bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-bold flex items-center gap-1.5 transition-all text-xs cursor-pointer shadow-xs"
+            className="btn-tactile ml-2 px-3 py-1.5 rounded-sm bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-bold flex items-center gap-1.5 transition-all text-xs cursor-pointer shadow-xs"
           >
             <span className="text-sm">♛</span>
-            <span className="hidden sm:inline">ASK AI</span>
+            <span className="hidden sm:inline">SYSTEM RETRIEVAL</span>
           </button>
         </nav>
       </div>

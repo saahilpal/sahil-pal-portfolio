@@ -120,12 +120,11 @@ export default function Home() {
       <aside aria-label="Quick Actions" className="fixed bottom-6 right-6 z-40">
         <button
           onClick={() => setIsChatOpen(true)}
-          className="group px-4 py-3 rounded-full bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono text-xs font-bold transition-all shadow-xl hover:shadow-[0_0_25px_rgba(129,182,76,0.5)] flex items-center gap-2.5 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
-          title="Ask the Grandmaster (Queen) AI Assistant"
+          className="btn-tactile group px-4 py-2.5 rounded-full bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono text-xs font-bold transition-all shadow-xl hover:shadow-[0_0_25px_rgba(129,182,76,0.4)] flex items-center gap-2 cursor-pointer"
+          title="System Retrieval Assistant (Synapse RRF)"
         >
-          <span className="text-base leading-none">♛</span>
-          <span className="tracking-wide">ASK AI GRANDMASTER</span>
-          <span className="w-2 h-2 rounded-full bg-black/60 group-hover:bg-black transition-colors" />
+          <span className="text-sm leading-none">♛</span>
+          <span className="tracking-wide">SYSTEM RETRIEVAL</span>
         </button>
       </aside>
 
