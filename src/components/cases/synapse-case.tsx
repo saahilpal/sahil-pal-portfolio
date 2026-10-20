@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { CASE_STUDIES } from "@/lib/chess-puzzle";
 import { GitBranch, Terminal, ArrowUpRight, CheckCircle2, Search, Layers, Cpu, Star, ExternalLink, Zap } from "lucide-react";
+import { useStaggerReveal } from "@/lib/anime-motion";
 
 export function SynapseCase() {
   const caseData = CASE_STUDIES.find((c) => c.id === "synapse")!;
   const [testQuery, setTestQuery] = useState<string>("resolve_call_signature");
   const [bm25Rank, setBm25Rank] = useState<number>(2);
   const [vectorRank, setVectorRank] = useState<number>(4);
+  const pillarsRef = useStaggerReveal<HTMLDivElement>(".case-pillar-block", { staggerMs: 110, translateY: 16 });
 
   // Reciprocal Rank Fusion calculation: 1/(60 + rank_bm25) + 1/(60 + rank_vec)
   const rrfScore = (1 / (60 + bm25Rank) + 1 / (60 + vectorRank)).toFixed(4);
@@ -69,9 +71,9 @@ export function SynapseCase() {
       </div>
 
       {/* The 3-Pillar Product Pitch Story (Scannable in 15 seconds) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+      <div ref={pillarsRef} className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
         {/* Pillar 1: The Bottleneck */}
-        <div className="p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
+        <div className="case-pillar-block p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
           <div className="text-[10px] text-[var(--accent-rose)] font-bold uppercase tracking-wider flex items-center gap-1.5">
             <span>● THE BOTTLE-NECK</span>
           </div>
@@ -84,7 +86,7 @@ export function SynapseCase() {
         </div>
 
         {/* Pillar 2: The Solution */}
-        <div className="p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
+        <div className="case-pillar-block p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
           <div className="text-[10px] text-[var(--chess-green)] font-bold uppercase tracking-wider flex items-center gap-1.5">
             <span>✦ THE ARCHITECTURAL FIX</span>
           </div>
@@ -97,7 +99,7 @@ export function SynapseCase() {
         </div>
 
         {/* Pillar 3: Real Proof Metrics */}
-        <div className="p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
+        <div className="case-pillar-block p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
           <div className="text-[10px] text-[var(--chess-brilliant)] font-bold uppercase tracking-wider flex items-center gap-1.5">
             <span>★ PROVEN BENCHMARK RESULTS</span>
           </div>

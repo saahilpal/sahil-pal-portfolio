@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { CASE_STUDIES } from "@/lib/chess-puzzle";
 import { Shield, GitCommit, ArrowUpRight, CheckCircle2, Star, Eye, Code } from "lucide-react";
+import { useStaggerReveal } from "@/lib/anime-motion";
 
 export function LeetSyncCase() {
   const caseData = CASE_STUDIES.find((c) => c.id === "leetsync")!;
+  const pillarsRef = useStaggerReveal<HTMLDivElement>(".case-pillar-block", { staggerMs: 110, translateY: 16 });
   const [activeTab, setActiveTab] = useState<"payload" | "shadow">("payload");
   const [isCopied, setIsCopied] = useState(false);
 
@@ -70,9 +72,9 @@ public:
       </div>
 
       {/* The 3-Pillar Product Pitch Story (Scannable in 15 seconds) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+      <div ref={pillarsRef} className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
         {/* Pillar 1: The Bottleneck */}
-        <div className="p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
+        <div className="case-pillar-block p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
           <div className="text-[10px] text-[var(--accent-rose)] font-bold uppercase tracking-wider flex items-center gap-1.5">
             <span>● THE BOTTLE-NECK</span>
           </div>
@@ -85,7 +87,7 @@ public:
         </div>
 
         {/* Pillar 2: The Solution */}
-        <div className="p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
+        <div className="case-pillar-block p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
           <div className="text-[10px] text-[var(--chess-green)] font-bold uppercase tracking-wider flex items-center gap-1.5">
             <span>✦ THE ARCHITECTURAL FIX</span>
           </div>
@@ -98,7 +100,7 @@ public:
         </div>
 
         {/* Pillar 3: Real Proof Metrics */}
-        <div className="p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
+        <div className="case-pillar-block p-4 rounded-sm bg-[var(--bg-chess-surface)] border border-[var(--border-chess)] space-y-2">
           <div className="text-[10px] text-[var(--chess-brilliant)] font-bold uppercase tracking-wider flex items-center gap-1.5">
             <span>★ PROVEN BENCHMARK RESULTS</span>
           </div>
