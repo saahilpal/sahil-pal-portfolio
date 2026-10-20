@@ -1,82 +1,142 @@
 "use client";
 
-import { EditorialMasthead } from "@/components/navigation/editorial-masthead";
-import { EditorialHero } from "@/components/hero/editorial-hero";
-import { SynapsePaper } from "@/components/projects/synapse-paper";
-import { DocAnalyzerPaper } from "@/components/projects/docanalyzer-paper";
-import { HeraBillingPaper } from "@/components/projects/herabilling-paper";
-import { LeetSyncPaper } from "@/components/projects/leetsync-paper";
-import { PaperBento } from "@/components/architecture/paper-bento";
-import { TechnicalIndex } from "@/components/skills/technical-index";
-import { EditorialJourney } from "@/components/experience/editorial-journey";
-import { ColophonFooter } from "@/components/footer/colophon-footer";
-import { DraftingCursor } from "@/components/effects/drafting-cursor";
-import { BlueprintMarginTabs } from "@/components/navigation/blueprint-margin-tabs";
+import { useState } from "react";
+import { ChessMasthead } from "@/components/navigation/chess-masthead";
+import { EvalBar } from "@/components/chess/eval-bar";
+import { ChessHero } from "@/components/hero/chess-hero";
+import { SynapseCase } from "@/components/cases/synapse-case";
+import { DocAnalyzerCase } from "@/components/cases/docanalyzer-case";
+import { HeraBillingCase } from "@/components/cases/herabilling-case";
+import { LeetSyncCase } from "@/components/cases/leetsync-case";
+import { EngineAnalysis } from "@/components/analysis/engine-analysis";
+import { BlundersSection } from "@/components/blunders/blunders-section";
+import { PieceValues } from "@/components/skills/piece-values";
+import { OpeningBook } from "@/components/about/opening-book";
+import { CheckmateFooter } from "@/components/contact/checkmate-footer";
+import { GrandmasterChat } from "@/components/assistant/grandmaster-chat";
+import { MessageSquare, ArrowUpRight } from "lucide-react";
 
 export default function Home() {
+  const [isRecruiterMode, setIsRecruiterMode] = useState<boolean>(false);
+  const [activeMoveIndex, setActiveMoveIndex] = useState<number>(0);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+
+  const handleSelectProject = (slug: string) => {
+    const el = document.getElementById(slug);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div id="top" className="min-h-screen bg-[var(--bg-paper)] text-[var(--text-ink)] antialiased transition-colors">
-      {/* Interactive Drafting Reticle & Ink Ripples */}
-      <DraftingCursor />
+    <div id="top" className="min-h-screen bg-[var(--bg-obsidian)] text-[var(--text-ivory)] antialiased transition-colors relative selection:bg-[var(--accent-copper)] selection:text-black">
+      {/* Lichess Vertical Eval Bar (Left edge) */}
+      <EvalBar activeMoveIndex={activeMoveIndex} />
 
-      {/* Tactile Blueprint Margin Quick Flags (xl screens) */}
-      <BlueprintMarginTabs />
+      {/* 00. Top Masthead with Recruiter Mode & Telemetry */}
+      <ChessMasthead
+        isRecruiterMode={isRecruiterMode}
+        setIsRecruiterMode={setIsRecruiterMode}
+        onOpenGrandmaster={() => setIsChatOpen(true)}
+      />
 
-      {/* 00. Masthead Header */}
-      <EditorialMasthead />
+      {/* 01. Chess Hero Stage: Thesis + Interactive Mate in 4 Board */}
+      <ChessHero
+        isRecruiterMode={isRecruiterMode}
+        activeMoveIndex={activeMoveIndex}
+        setActiveMoveIndex={setActiveMoveIndex}
+        onSelectProject={handleSelectProject}
+      />
 
-      {/* 01. Architectural Hero with Drafting Desk, 60FPS Physics Canvas, AST Workbench & Stamp Machine */}
-      <EditorialHero />
-
-      {/* Main Content Area */}
+      {/* Main Technical Portfolio Content */}
       <main className="space-y-0">
-        {/* Section 01: Featured Production Systems (4 Case Studies) */}
-        <section id="systems" className="py-16 border-b border-[var(--border-paper-strong)]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
+        {/* Section 01: Moves (The 4 Shipped Production Systems) */}
+        <section id="moves" className="py-20 border-b border-[var(--border-hairline)] scroll-mt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
             {/* Section Header */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[var(--border-paper)] pb-4 gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[var(--border-hairline)] pb-5 gap-3">
               <div>
-                <div className="font-mono text-xs text-[var(--text-ink-muted)] uppercase tracking-wider">
-                  SECTION 01 // PRODUCTION SYSTEMS
+                <div className="font-mono text-xs text-[var(--accent-copper)] uppercase tracking-wider flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-copper)]" />
+                  <span>SECTION 01 // 4 TACTICAL MOVES</span>
                 </div>
-                <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-ink)] tracking-tight">
-                  Selected Engineering Case Studies
+                <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-pure)] tracking-tight">
+                  Shipped Systems &amp; Case Studies
                 </h2>
               </div>
-              <div className="font-mono text-xs text-[var(--text-ink-muted)]">
-                4 VERIFIED SYSTEMS // ARCHITECTURAL SCHEMATICS
+              <div className="font-mono text-xs text-[var(--text-muted)] text-right">
+                4 VERIFIED ENGINES // ARCHITECTURE &amp; EVALS
               </div>
             </div>
 
-            {/* The 4 Systems */}
-            <div className="space-y-12">
-              {/* System 01: Synapse */}
-              <SynapsePaper />
+            {/* The 4 Tactical Engines */}
+            <div className="space-y-16">
+              {/* Move 1: Bishop -> Synapse */}
+              <div id="case-synapse">
+                <SynapseCase />
+              </div>
 
-              {/* System 02: DocAnalyzer */}
-              <DocAnalyzerPaper />
+              {/* Move 2: Rook -> DocAnalyzer */}
+              <div id="case-docanalyzer">
+                <DocAnalyzerCase />
+              </div>
 
-              {/* System 03: Hera Billing */}
-              <HeraBillingPaper />
+              {/* Move 3: Knight -> Hera Billing */}
+              <div id="case-herabilling">
+                <HeraBillingCase />
+              </div>
 
-              {/* System 04: LeetSync */}
-              <LeetSyncPaper />
+              {/* Move 4: Pawn -> LeetSync (Promoting to Queen) */}
+              <div id="case-leetsync">
+                <LeetSyncCase />
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Section 02: Systems Mindset Bento */}
-        <PaperBento />
+        {/* Section 02: Engine Analysis & Transparent Evals */}
+        <div id="evals">
+          <EngineAnalysis />
+        </div>
 
-        {/* Section 03: Catalog Raisonné / Technical Index */}
-        <TechnicalIndex />
+        {/* Section 03: Blunders I Fixed (Production War Stories) */}
+        <div id="blunders">
+          <BlundersSection />
+        </div>
 
-        {/* Section 04: Work & Academic Journey */}
-        <EditorialJourney />
+        {/* Skills: Piece Values Hierarchy */}
+        <div id="skills">
+          <PieceValues />
+        </div>
+
+        {/* Section 04: Opening Book (About & Philosophy) */}
+        <div id="opening-book">
+          <OpeningBook />
+        </div>
       </main>
 
-      {/* 05. Print Colophon Footer */}
-      <ColophonFooter />
+      {/* Section 05: Checkmate (Contact / Hire Me) */}
+      <CheckmateFooter />
+
+      {/* Floating Tactical Queen Trigger (Always 1 click away on every screen) */}
+      <aside aria-label="Quick Actions" className="fixed bottom-6 right-6 z-40">
+        <button
+          onClick={() => setIsChatOpen(true)}
+          className="group px-4 py-3 rounded-xs bg-[var(--accent-copper)] hover:bg-[#B45309] text-black font-mono text-xs font-bold transition-all shadow-xl hover:shadow-[0_0_25px_rgba(217,119,6,0.5)] flex items-center gap-2.5 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
+          title="Ask the Grandmaster (Queen) AI Assistant"
+        >
+          <span className="text-base leading-none">♛</span>
+          <span className="tracking-wide">ASK THE GRANDMASTER</span>
+          <span className="w-2 h-2 rounded-full bg-black/60 group-hover:bg-black transition-colors" />
+        </button>
+      </aside>
+
+      {/* Slide-out Grounded Assistant Drawer */}
+      <GrandmasterChat
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        onJumpToSection={handleSelectProject}
+      />
     </div>
   );
 }

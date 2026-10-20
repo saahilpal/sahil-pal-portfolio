@@ -21,22 +21,21 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sahil Pal — Software Engineer | AI Systems & Backend Architect",
+  title: "Sahil Pal — AI Engineer | Mate in 4",
   description:
-    "Portfolio of Sahil Pal — BCA graduate and software engineer building Git-aware code intelligence (Synapse), grounded RAG systems (DocAnalyzer), and high-throughput offline-first applications (Hera Billing).",
+    "Mate in 4 — Interactive chess-themed portfolio of Sahil Pal, an AI Engineer in Bengaluru building AST context daemons (Synapse), durable PostgreSQL worker queues (DocAnalyzer), offline-first Android ERPs (Hera Billing), and developer tools (LeetSync).",
   keywords: [
     "Sahil Pal",
-    "Software Engineer",
-    "AI Systems",
-    "Retrieval Augmented Generation",
-    "Synapse",
-    "DocAnalyzer",
-    "Hera Billing",
-    "Code Intelligence",
-    "Model Context Protocol",
+    "AI Engineer",
     "Tree-sitter",
-    "PostgreSQL pgvector",
-    "Backend Engineer",
+    "Model Context Protocol",
+    "MCP",
+    "Reciprocal Rank Fusion",
+    "RRF",
+    "PostgreSQL",
+    "SKIP LOCKED",
+    "pgvector",
+    "Offline-first Android",
     "Bengaluru",
   ],
   authors: [{ name: "Sahil Pal", url: "https://github.com/saahilpal" }],
@@ -45,16 +44,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://github.com/saahilpal",
-    title: "Sahil Pal — Software Engineer | AI Systems & Backend Architect",
+    title: "Sahil Pal — AI Engineer | Mate in 4",
     description:
-      "Architecting code intelligence engines, deterministic RAG pipelines, and high-throughput backend services.",
+      "I build engines that evaluate, retrieve, and decide. Four shipped systems: Synapse, DocAnalyzer, Hera Billing, LeetSync.",
     siteName: "Sahil Pal Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sahil Pal — Software Engineer",
+    title: "Sahil Pal — AI Engineer | Mate in 4",
     description:
-      "Architecting code intelligence engines, deterministic RAG pipelines, and high-throughput backend services.",
+      "I build engines that evaluate, retrieve, and decide. Four shipped systems: Synapse, DocAnalyzer, Hera Billing, LeetSync.",
   },
 };
 
@@ -64,21 +63,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <head>
-        {/* Anti-FOUC script: synchronously apply stored theme before paint */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light")}catch(e){}`,
-          }}
-        />
-      </head>
+    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${playfair.variable} ${mono.variable} font-sans antialiased overflow-x-hidden`}
-        style={{
-          backgroundColor: "var(--bg-paper)",
-          color: "var(--text-ink)",
-        }}
+        className={`${inter.variable} ${playfair.variable} ${mono.variable} font-sans antialiased overflow-x-hidden bg-[#08090A] text-[#F3EFE6]`}
       >
         {children}
       </body>
