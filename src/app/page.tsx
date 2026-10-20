@@ -14,10 +14,8 @@ import { PieceValues } from "@/components/skills/piece-values";
 import { OpeningBook } from "@/components/about/opening-book";
 import { CheckmateFooter } from "@/components/contact/checkmate-footer";
 import { GrandmasterChat } from "@/components/assistant/grandmaster-chat";
-import { MessageSquare, ArrowUpRight } from "lucide-react";
 
 export default function Home() {
-  const [isRecruiterMode, setIsRecruiterMode] = useState<boolean>(false);
   const [activeMoveIndex, setActiveMoveIndex] = useState<number>(0);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
 
@@ -29,43 +27,43 @@ export default function Home() {
   };
 
   return (
-    <div id="top" className="min-h-screen bg-[var(--bg-obsidian)] text-[var(--text-ivory)] antialiased transition-colors relative selection:bg-[var(--accent-copper)] selection:text-black">
-      {/* Lichess Vertical Eval Bar (Left edge) */}
+    <div id="top" className="min-h-screen bg-[var(--bg-chess-dark)] text-[var(--text-nude)] antialiased transition-colors relative selection:bg-[var(--chess-green)] selection:text-black">
+      {/* Chess.com Style Advantage Bar (Left edge on wide screens) */}
       <EvalBar activeMoveIndex={activeMoveIndex} />
 
-      {/* 00. Top Masthead with Recruiter Mode & Telemetry */}
+      {/* 00. Top Masthead with Telemetry & Section Links */}
       <ChessMasthead
-        isRecruiterMode={isRecruiterMode}
-        setIsRecruiterMode={setIsRecruiterMode}
         onOpenGrandmaster={() => setIsChatOpen(true)}
       />
 
-      {/* 01. Chess Hero Stage: Thesis + Interactive Mate in 4 Board */}
+      {/* 01. Hero Landing Page: Thesis, Badges & 60FPS Engine Motion Graphic */}
       <ChessHero
-        isRecruiterMode={isRecruiterMode}
-        activeMoveIndex={activeMoveIndex}
-        setActiveMoveIndex={setActiveMoveIndex}
+        onOpenGrandmaster={() => setIsChatOpen(true)}
         onSelectProject={handleSelectProject}
       />
 
       {/* Main Technical Portfolio Content */}
       <main className="space-y-0">
         {/* Section 01: Moves (The 4 Shipped Production Systems) */}
-        <section id="moves" className="py-20 border-b border-[var(--border-hairline)] scroll-mt-16">
+        <section id="moves" className="py-16 sm:py-24 border-b border-[var(--border-chess)] scroll-mt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
             {/* Section Header */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[var(--border-hairline)] pb-5 gap-3">
-              <div>
-                <div className="font-mono text-xs text-[var(--accent-copper)] uppercase tracking-wider flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-copper)]" />
-                  <span>SECTION 01 // 4 TACTICAL MOVES</span>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[var(--border-chess)] pb-6 gap-3">
+              <div className="space-y-1.5">
+                <div className="font-mono text-xs text-[var(--chess-green)] uppercase tracking-wider flex items-center gap-2 font-bold">
+                  <span className="w-2 h-2 rounded-full bg-[var(--chess-green)]" />
+                  <span>SECTION 01 // 4 PRODUCTION ENGINES</span>
                 </div>
-                <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-pure)] tracking-tight">
+                <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[var(--text-white)] tracking-tight">
                   Shipped Systems &amp; Case Studies
                 </h2>
+                <p className="text-sm text-[var(--chess-nude-muted)] max-w-2xl">
+                  Each system is framed around a core architectural invariant: Tree-sitter AST scopes, worker queue skip locks, offline integer parity, and closed Shadow DOM isolation.
+                </p>
               </div>
-              <div className="font-mono text-xs text-[var(--text-muted)] text-right">
-                4 VERIFIED ENGINES // ARCHITECTURE &amp; EVALS
+              <div className="font-mono text-xs text-[var(--chess-nude-muted)] sm:text-right">
+                <span className="text-[var(--chess-green)] font-bold">4 VERIFIED SYSTEMS</span>
+                <div>ARCHITECTURE • TRADEOFFS • NUMBERS</div>
               </div>
             </div>
 
@@ -122,11 +120,11 @@ export default function Home() {
       <aside aria-label="Quick Actions" className="fixed bottom-6 right-6 z-40">
         <button
           onClick={() => setIsChatOpen(true)}
-          className="group px-4 py-3 rounded-xs bg-[var(--accent-copper)] hover:bg-[#B45309] text-black font-mono text-xs font-bold transition-all shadow-xl hover:shadow-[0_0_25px_rgba(217,119,6,0.5)] flex items-center gap-2.5 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
+          className="group px-4 py-3 rounded-full bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono text-xs font-bold transition-all shadow-xl hover:shadow-[0_0_25px_rgba(129,182,76,0.5)] flex items-center gap-2.5 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
           title="Ask the Grandmaster (Queen) AI Assistant"
         >
           <span className="text-base leading-none">♛</span>
-          <span className="tracking-wide">ASK THE GRANDMASTER</span>
+          <span className="tracking-wide">ASK AI GRANDMASTER</span>
           <span className="w-2 h-2 rounded-full bg-black/60 group-hover:bg-black transition-colors" />
         </button>
       </aside>

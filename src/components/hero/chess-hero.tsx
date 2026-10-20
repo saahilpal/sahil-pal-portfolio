@@ -1,102 +1,95 @@
 "use client";
 
-import { Award, GitBranch, ShieldCheck, Database, ArrowDown, ChevronRight, Zap } from "lucide-react";
-import { InteractiveBoard } from "@/components/chess/interactive-board";
+import { Award, GitBranch, Database, ArrowDown, ChevronRight, Zap, Sparkles, MessageSquare } from "lucide-react";
+import { EngineMotionGraphic } from "./engine-motion-graphic";
 
 interface ChessHeroProps {
-  isRecruiterMode: boolean;
-  activeMoveIndex: number;
-  setActiveMoveIndex: (idx: number) => void;
+  onOpenGrandmaster: () => void;
   onSelectProject?: (slug: string) => void;
 }
 
-export function ChessHero({
-  isRecruiterMode,
-  activeMoveIndex,
-  setActiveMoveIndex,
-  onSelectProject,
-}: ChessHeroProps) {
+export function ChessHero({ onOpenGrandmaster, onSelectProject }: ChessHeroProps) {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative pt-10 pb-16 border-b border-[var(--border-hairline)] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-10">
-        {/* Thesis & Headline Block */}
-        <div className="space-y-6 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-xs bg-[var(--bg-obsidian-subtle)] border border-[var(--border-copper)] font-mono text-[11px] text-[var(--accent-copper)]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-copper)] animate-ping" />
-            <span>AI ENGINEER PORTFOLIO // 4 SHIPPED ENGINES</span>
-          </div>
+    <section className="relative pt-8 sm:pt-14 pb-16 border-b border-[var(--border-chess)] overflow-hidden">
+      {/* Subtle Ambient Background Light */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-[var(--chess-green)]/5 blur-3xl pointer-events-none" />
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-[var(--text-pure)] tracking-tight leading-[1.06]">
-            I build engines that evaluate, retrieve, and decide.
-          </h1>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column: Clear, High-Impact Bio & Thesis */}
+          <div className="lg:col-span-7 space-y-6">
+            {/* Top Verification Tag */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-chess-card)] border border-[var(--border-green)] font-mono text-xs text-[var(--chess-green)] shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-[var(--chess-green)] animate-ping" />
+              <span className="font-bold tracking-wide">AI SYSTEMS &amp; RETRIEVAL ARCHITECT</span>
+              <span className="text-[var(--text-muted)]">•</span>
+              <span className="text-[var(--chess-nude)]">BENGALURU</span>
+            </div>
 
-          <p className="text-lg sm:text-xl text-[var(--text-muted)] leading-relaxed font-normal">
-            I am <strong className="text-[var(--text-pure)] font-semibold">Sahil Pal</strong> — an AI engineer in Bengaluru building AST context daemons for AI coding agents, grounded multi-document RAG pipelines, offline-first native Android ERPs, and developer tooling.
-          </p>
+            {/* Main Punchy Headline */}
+            <h1 className="text-4xl sm:text-6xl font-serif font-bold text-[var(--text-white)] tracking-tight leading-[1.08]">
+              I build engines that <span className="text-[var(--chess-green)] underline decoration-[var(--chess-green)]/40 underline-offset-8">evaluate</span>, <span className="text-[var(--chess-nude)]">retrieve</span>, and decide.
+            </h1>
 
-          {/* Proof Badges */}
-          <div className="flex flex-wrap items-center gap-2.5 pt-1 font-mono text-xs">
-            <span className="px-3 py-1.5 rounded-xs bg-[var(--bg-obsidian-card)] border border-[var(--border-hairline)] text-[var(--text-ivory)] flex items-center gap-1.5 shadow-xs">
-              <Award size={13} className="text-[var(--accent-copper)]" />
-              <span>BCA Graduate • Kristu Jayanti (CGPA 7.9/10)</span>
-            </span>
-            <span className="px-3 py-1.5 rounded-xs bg-[var(--bg-obsidian-card)] border border-[var(--border-hairline)] text-[var(--text-ivory)] flex items-center gap-1.5 shadow-xs">
-              <GitBranch size={13} className="text-[var(--accent-cyan)]" />
-              <span>Tree-sitter AST &amp; Model Context Protocol</span>
-            </span>
-            <span className="px-3 py-1.5 rounded-xs bg-[var(--bg-obsidian-card)] border border-[var(--border-hairline)] text-[var(--text-ivory)] flex items-center gap-1.5 shadow-xs">
-              <Database size={13} className="text-[var(--accent-emerald)]" />
-              <span>PostgreSQL FOR UPDATE SKIP LOCKED &amp; pgvector</span>
-            </span>
-          </div>
-        </div>
+            {/* Clear Plain-English Description */}
+            <p className="text-base sm:text-lg text-[var(--chess-nude-muted)] leading-relaxed max-w-2xl font-normal">
+              I am <strong className="text-[var(--text-white)] font-semibold">Sahil Pal</strong> — an AI engineer in Bengaluru. I design AST-grounded retrieval daemons for coding agents, zero-contention document RAG pipelines, offline-first Android ERPs, and developer tools. Four shipped production systems, real benchmarks, and zero fluff.
+            </p>
 
-        {/* The Tactical Mate in 4 Board Stage */}
-        {!isRecruiterMode ? (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-[var(--border-hairline)] pb-2 font-mono text-xs text-[var(--text-muted)]">
-              <div className="flex items-center gap-2">
-                <span>TACTICAL NAVIGATION STAGE</span>
-                <span>•</span>
-                <span className="text-[var(--accent-copper)]">EACH MOVE UNLOCKS ONE CASE STUDY</span>
+            {/* 3 Proof Badges */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 font-mono text-xs">
+              <div className="p-2.5 rounded-sm bg-[var(--bg-chess-card)] border border-[var(--border-chess)] text-[var(--text-nude)] flex items-center gap-2 shadow-xs">
+                <Award size={15} className="text-[var(--chess-green)] shrink-0" />
+                <span className="leading-tight">BCA Graduate • Kristu Jayanti (7.9/10)</span>
               </div>
+              <div className="p-2.5 rounded-sm bg-[var(--bg-chess-card)] border border-[var(--border-chess)] text-[var(--text-nude)] flex items-center gap-2 shadow-xs">
+                <GitBranch size={15} className="text-[var(--chess-brilliant)] shrink-0" />
+                <span className="leading-tight">Tree-sitter AST &amp; MCP Protocol</span>
+              </div>
+              <div className="p-2.5 rounded-sm bg-[var(--bg-chess-card)] border border-[var(--border-chess)] text-[var(--text-nude)] flex items-center gap-2 shadow-xs">
+                <Database size={15} className="text-[var(--chess-green)] shrink-0" />
+                <span className="leading-tight">PostgreSQL SKIP LOCKED &amp; pgvector</span>
+              </div>
+            </div>
+
+            {/* Direct Action Row */}
+            <div className="flex flex-wrap items-center gap-3 pt-3">
               <button
                 onClick={() => scrollTo("moves")}
-                className="hover:text-[var(--text-pure)] flex items-center gap-1 transition-colors"
+                className="px-5 py-3 rounded-sm bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-mono font-bold text-xs transition-all flex items-center gap-2 shadow-lg shadow-[var(--chess-green)]/20 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
               >
-                <span>SKIP TO CASE STUDIES</span>
-                <ArrowDown size={11} />
+                <span>EXPLORE 4 SHIPPED ENGINES</span>
+                <ArrowDown size={14} />
+              </button>
+
+              <button
+                onClick={() => scrollTo("evals")}
+                className="px-4 py-3 rounded-sm bg-[var(--bg-chess-card)] hover:bg-[var(--bg-chess-surface)] text-[var(--chess-nude)] hover:text-white font-mono font-semibold text-xs border border-[var(--border-chess)] hover:border-[var(--chess-green)] transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <span>ENGINE EVALS (94.2%)</span>
+              </button>
+
+              <button
+                onClick={onOpenGrandmaster}
+                className="px-4 py-3 rounded-sm bg-[var(--bg-chess-card)] hover:bg-[var(--bg-chess-surface)] text-[var(--chess-green)] font-mono font-bold text-xs border border-[var(--border-green)] transition-all flex items-center gap-2 cursor-pointer"
+                title="Chat with AI Grandmaster dogfooding Synapse retrieval"
+              >
+                <span className="text-sm">♛</span>
+                <span>ASK AI ASSISTANT</span>
               </button>
             </div>
+          </div>
 
-            <InteractiveBoard
-              activeMoveIndex={activeMoveIndex}
-              setActiveMoveIndex={setActiveMoveIndex}
-              onSelectProject={onSelectProject}
-            />
+          {/* Right Column: High-End Engine Motion Graphic */}
+          <div className="lg:col-span-5">
+            <EngineMotionGraphic onSelectNode={onSelectProject} />
           </div>
-        ) : (
-          /* Recruiter Mode Banner */
-          <div className="p-4 rounded-xs bg-[var(--bg-obsidian-card)] border border-[var(--accent-copper)] flex items-center justify-between font-mono text-xs">
-            <div className="flex items-center gap-2 text-[var(--text-ivory)]">
-              <Zap size={14} className="text-[var(--accent-copper)]" />
-              <span className="font-bold">RECRUITER MODE ACTIVE:</span>
-              <span className="text-[var(--text-muted)]">Chess board bypassed. Displaying full linear technical specifications below.</span>
-            </div>
-            <button
-              onClick={() => scrollTo("moves")}
-              className="px-3 py-1 bg-[var(--accent-copper)] text-black font-bold rounded-xs flex items-center gap-1 hover:opacity-90"
-            >
-              <span>INSPECT ARCHITECTURE</span>
-              <ArrowDown size={12} />
-            </button>
-          </div>
-        )}
+        </div>
       </div>
     </section>
   );

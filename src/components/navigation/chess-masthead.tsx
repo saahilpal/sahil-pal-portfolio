@@ -1,19 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MessageSquare, ArrowUpRight, Zap, Eye, SlidersHorizontal, BookOpen, ShieldCheck } from "lucide-react";
+import { MessageSquare, ArrowUpRight, Zap, Eye, BookOpen, ShieldCheck, Mail } from "lucide-react";
 
 interface ChessMastheadProps {
-  isRecruiterMode: boolean;
-  setIsRecruiterMode: (val: boolean) => void;
   onOpenGrandmaster: () => void;
 }
 
-export function ChessMasthead({
-  isRecruiterMode,
-  setIsRecruiterMode,
-  onOpenGrandmaster,
-}: ChessMastheadProps) {
+export function ChessMasthead({ onOpenGrandmaster }: ChessMastheadProps) {
   const [timeStr, setTimeStr] = useState<string>("");
 
   useEffect(() => {
@@ -40,13 +34,13 @@ export function ChessMasthead({
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[var(--bg-obsidian)]/90 backdrop-blur-md border-b border-[var(--border-hairline)] transition-colors">
+    <header className="sticky top-0 z-50 bg-[var(--bg-chess-dark)]/95 backdrop-blur-md border-b border-[var(--border-chess)] transition-colors">
       {/* Top Telemetry Strip */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-2 flex flex-wrap items-center justify-between text-[11px] font-mono text-[var(--text-muted)] border-b border-[var(--border-hairline)] gap-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-2 flex flex-wrap items-center justify-between text-[11px] font-mono text-[var(--chess-nude-dark)] border-b border-[var(--border-chess)]/60 gap-2">
         <div className="flex items-center gap-3">
-          <span className="font-bold text-[var(--text-pure)] flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-copper)]" />
-            <span>MATE IN 4 // AI ENGINE ARCHITECTURE</span>
+          <span className="font-bold text-[var(--text-white)] flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[var(--chess-green)]" />
+            <span>SAHIL PAL // AI SYSTEMS &amp; RETRIEVAL</span>
           </span>
           <span>•</span>
           <span className="hidden sm:inline">BENGALURU, INDIA</span>
@@ -54,24 +48,17 @@ export function ChessMasthead({
           <span>{timeStr || "18:00:00 IST"}</span>
         </div>
 
-        <div className="flex items-center gap-3">
-          {/* Recruiter Mode Toggle */}
-          <button
-            onClick={() => setIsRecruiterMode(!isRecruiterMode)}
-            className={`px-2.5 py-1 rounded-xs font-mono text-[10px] font-bold flex items-center gap-1.5 transition-all border ${
-              isRecruiterMode
-                ? "bg-[var(--accent-copper)] text-black border-[var(--accent-copper)] shadow-xs"
-                : "bg-[var(--bg-obsidian-subtle)] text-[var(--text-ivory)] border-[var(--border-hairline)] hover:border-[var(--text-muted)]"
-            }`}
-            title="Toggle plain linear recruiter view without chess board"
-          >
-            <SlidersHorizontal size={11} />
-            <span>{isRecruiterMode ? "RECRUITER MODE: ON" : "RECRUITER MODE"}</span>
-          </button>
-
-          <span className="text-[10px] font-semibold text-[var(--accent-emerald)] hidden md:inline">
-            ● AVAILABLE FOR HIRE
+        <div className="flex items-center gap-4">
+          <span className="text-[10px] font-bold text-[var(--chess-green)] flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--chess-green)]" />
+            <span>AVAILABLE FOR HIRE (AI ENGINEER)</span>
           </span>
+          <a
+            href="mailto:saahilpal17@gmail.com"
+            className="hover:text-[var(--text-white)] transition-colors hidden md:inline"
+          >
+            saahilpal17@gmail.com
+          </a>
         </div>
       </div>
 
@@ -79,58 +66,56 @@ export function ChessMasthead({
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between">
         <a
           href="#"
-          className="group flex items-baseline gap-2.5 text-[var(--text-pure)] font-serif"
+          className="group flex items-baseline gap-2.5 text-[var(--text-white)]"
         >
-          <span className="text-xl sm:text-2xl font-bold tracking-tight">
+          <span className="text-xl sm:text-2xl font-serif font-bold tracking-tight group-hover:text-[var(--chess-green)] transition-colors">
             SAHIL PAL
           </span>
-          <span className="text-xs font-mono text-[var(--accent-copper)] font-normal tracking-wider hidden md:inline">
-            / AI ENGINEER (RETRIEVAL &amp; LLM PIPELINES)
+          <span className="text-xs font-mono text-[var(--chess-green)] font-normal tracking-wider hidden md:inline">
+            / AI ENGINEER
           </span>
         </a>
 
         {/* Section Links */}
-        <nav className="flex items-center gap-1 sm:gap-5 font-mono text-xs text-[var(--text-muted)]">
+        <nav className="flex items-center gap-1 sm:gap-4 font-mono text-xs text-[var(--chess-nude-muted)]">
           <button
             onClick={() => scrollTo("moves")}
-            className="px-2 py-1 hover:text-[var(--text-pure)] transition-colors"
+            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors"
           >
-            01. MOVES
+            01. ENGINES
           </button>
           <button
             onClick={() => scrollTo("evals")}
-            className="px-2 py-1 hover:text-[var(--text-pure)] transition-colors"
+            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors"
           >
             02. EVALS
           </button>
           <button
             onClick={() => scrollTo("blunders")}
-            className="px-2 py-1 hover:text-[var(--text-pure)] transition-colors hidden sm:inline"
+            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
           >
             03. BLUNDERS
           </button>
           <button
             onClick={() => scrollTo("opening-book")}
-            className="px-2 py-1 hover:text-[var(--text-pure)] transition-colors hidden md:inline"
+            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden md:inline"
           >
-            04. OPENING BOOK
+            04. ABOUT
+          </button>
+          <button
+            onClick={() => scrollTo("contact")}
+            className="px-2 py-1 hover:text-[var(--text-white)] transition-colors hidden sm:inline"
+          >
+            05. CONTACT
           </button>
 
           {/* Ask the Grandmaster Button */}
           <button
             onClick={onOpenGrandmaster}
-            className="px-2.5 py-1.5 rounded-xs bg-[var(--bg-obsidian-subtle)] border border-[var(--border-copper)] text-[var(--accent-copper)] hover:bg-[var(--accent-copper)] hover:text-black font-bold flex items-center gap-1.5 transition-all active:scale-95 text-[11px]"
+            className="ml-2 px-3 py-1.5 rounded-xs bg-[var(--chess-green)] hover:bg-[var(--chess-green-hover)] text-black font-bold flex items-center gap-1.5 transition-all text-xs cursor-pointer shadow-xs"
           >
-            <MessageSquare size={12} />
-            <span className="hidden sm:inline">ASK GRANDMASTER</span>
-          </button>
-
-          <button
-            onClick={() => scrollTo("checkmate")}
-            className="px-3 py-1.5 rounded-xs bg-[var(--text-pure)] text-black font-bold flex items-center gap-1 hover:opacity-90 active:scale-95 transition-all text-[11px]"
-          >
-            <span>CHECKMATE</span>
-            <ArrowUpRight size={12} />
+            <span className="text-sm">♛</span>
+            <span className="hidden sm:inline">ASK AI</span>
           </button>
         </nav>
       </div>

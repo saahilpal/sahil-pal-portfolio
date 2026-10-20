@@ -7,93 +7,115 @@
 }
 
 /* ══════════════════════════════════════════════════════════════
-   "MATE IN 4" CHESS ENGINE THEME — OBSIDIAN, COPPER & IVORY
+   CHESS.COM PALETTE: ICONIC GREEN, WARM NUDE & CRISP WHITE
    ══════════════════════════════════════════════════════════════ */
 :root {
-  /* Pitch Obsidian Ground */
-  --bg-obsidian: #08090A;
-  --bg-obsidian-card: #101214;
-  --bg-obsidian-elevated: #16181C;
-  --bg-obsidian-subtle: #1C1F24;
+  /* Chess.com Dark Charcoal Ground */
+  --bg-chess-dark: #262421;
+  --bg-chess-card: #302E2B;
+  --bg-chess-surface: #363431;
+  --bg-chess-subtle: #21201D;
+  --bg-chess-hover: #3C3A36;
 
-  /* Chessboard Squares */
-  --board-light: #E4DCCF;
-  --board-light-hover: #F2ECE1;
-  --board-dark: #6C4329;
-  --board-dark-hover: #7E4F31;
-  --board-highlight: rgba(245, 158, 11, 0.45);
-  --board-move-dot: rgba(245, 158, 11, 0.8);
+  /* Aliases for seamless component compatibility */
+  --bg-obsidian: #262421;
+  --bg-obsidian-card: #302E2B;
+  --bg-obsidian-elevated: #363431;
+  --bg-obsidian-subtle: #21201D;
 
-  /* Hairline Borders */
-  --border-hairline: rgba(255, 255, 255, 0.08);
-  --border-hairline-strong: rgba(255, 255, 255, 0.16);
-  --border-copper: rgba(217, 119, 6, 0.35);
+  /* Chess.com Signature Green */
+  --chess-green: #81B64C;
+  --chess-green-hover: #95C85E;
+  --chess-green-active: #6DA238;
+  --chess-green-glow: rgba(129, 182, 76, 0.3);
+  --chess-green-subtle: rgba(129, 182, 76, 0.14);
 
-  /* Typography Colors */
+  /* Primary Accent = Chess.com Green */
+  --accent-copper: #81B64C;
+  --accent-copper-glow: rgba(129, 182, 76, 0.25);
+  --accent-cyan: #3AA1DA;      /* Brilliant Move !! */
+  --accent-emerald: #81B64C;   /* Best Move ★ */
+  --accent-rose: #FA412D;      /* Blunder ?? */
+  --accent-amber: #E5B643;     /* Book Move 📖 */
+
+  /* Chess.com Nude / Ivory / Khaki (#EEEED2 is the standard light square) */
+  --chess-nude: #EEEED2;
+  --chess-nude-light: #F7F5EC;
+  --chess-nude-muted: #C3BEB5;
+  --chess-nude-dark: #9E988D;
+
+  /* Typography */
   --text-pure: #FFFFFF;
-  --text-ivory: #F3EFE6;
-  --text-muted: #8E8B82;
-  --text-faint: #52504A;
+  --text-white: #FFFFFF;
+  --text-ivory: #EEEED2;
+  --text-nude: #EEEED2;
+  --text-muted: #A39E93;
+  --text-faint: #6E6960;
 
-  /* Chess & Engine Accents */
-  --accent-copper: #D97706;
-  --accent-copper-glow: rgba(217, 119, 6, 0.25);
-  --accent-cyan: #06B6D4;
-  --accent-emerald: #10B981;
-  --accent-rose: #F43F5E;
+  /* Hairlines & Dividers */
+  --border-hairline: rgba(238, 238, 210, 0.12);
+  --border-hairline-strong: rgba(238, 238, 210, 0.22);
+  --border-copper: rgba(129, 182, 76, 0.4);
+  --border-chess: rgba(238, 238, 210, 0.12);
+  --border-chess-strong: rgba(238, 238, 210, 0.22);
+  --border-green: rgba(129, 182, 76, 0.4);
 
-  /* Lichess Eval Bar */
-  --eval-white: #F3EFE6;
-  --eval-black: #1A1A1A;
+  /* Chessboard Colors */
+  --board-light: #EEEED2;
+  --board-dark: #779952;
 }
 
 body {
-  background-color: var(--bg-obsidian);
-  color: var(--text-ivory);
+  background-color: var(--bg-chess-dark);
+  color: var(--text-nude);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Selection */
+/* Custom Selection */
 ::selection {
-  background-color: var(--accent-copper);
-  color: #08090A;
+  background-color: var(--chess-green);
+  color: #000000;
 }
 
-/* 1px Hairline Glass Cards */
-.obsidian-card {
-  background-color: var(--bg-obsidian-card);
-  border: 1px solid var(--border-hairline);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.7);
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.obsidian-card:hover {
-  border-color: var(--border-hairline-strong);
-}
-
-/* Chess Board Surface */
-.chess-board-grid {
-  display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-  border: 2px solid #382415;
-  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06);
-}
-
-/* Custom Scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-obsidian);
+  background: var(--bg-chess-dark);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-obsidian-subtle);
-  border-radius: 3px;
+  background: var(--bg-chess-surface);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-faint);
+  background: var(--chess-green);
+}
+
+/* Chess Card Utility */
+.obsidian-card, .chess-card {
+  background-color: var(--bg-chess-card);
+  border: 1px solid var(--border-chess);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.obsidian-card:hover, .chess-card:hover {
+  border-color: var(--border-green);
+  box-shadow: 0 6px 24px -4px rgba(0, 0, 0, 0.45);
+}
+
+/* Badge Utilities */
+.chess-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--border-chess);
 }
