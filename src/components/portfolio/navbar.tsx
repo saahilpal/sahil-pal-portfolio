@@ -54,7 +54,7 @@ export function PortfolioNav() {
               {profile.name}
             </span>
             <span className="text-[10px] text-[var(--accent-emerald)] font-mono tracking-wider hidden sm:inline">
-              AI SYSTEMS &amp; EVALS
+              SOFTWARE ENGINEER // SYSTEMS
             </span>
           </div>
         </a>

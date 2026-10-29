@@ -22,6 +22,8 @@ export interface Project {
   status: string;
   featured: boolean;
   version?: string;
+  isOngoing?: boolean;
+  image?: string;
   links: ProjectLink[];
   stack: string[];
   problem: string;
@@ -69,11 +71,11 @@ export interface LangGraphStage {
 export const profile = {
   name: "Sahil Pal",
   callsign: "sahil.pal",
-  role: "AI Systems, Grounded Retrieval (RAG) & Evaluation Engineer",
-  headline: "Architecting Deterministic Code Intelligence, Agent Verification & High-Throughput Backends",
+  role: "Software Engineer — Code Intelligence & High-Throughput Backends",
+  headline: "Deterministic Spines for Probabilistic Models",
   summary:
-    "Software engineer specializing in deterministic agent verification, AST-driven context engines, grounded RAG pipelines, and high-throughput distributed backends. Creator of Synapse (PyPI synap-git, AST context engine) and architect of PatchBound v1.1 (bounded AI repair engine with formal V1–V3 verification). Proven expertise building production RAG pipelines, lock-free PostgreSQL queues, and reactive event-loop microservices.",
-  status: "Available for AI Systems, Retrieval & Evaluation Engineering Roles",
+    "Software engineer specializing in deterministic code verification, AST-driven context engines, and scalable distributed backends. Creator of Synapse (PyPI synap-git, AST context engine) and architect of PatchBound v1.1 (bounded code repair with formal V1–V3 verification). Proven experience building production retrieval pipelines, lock-free PostgreSQL queues, and reactive event-loop microservices.",
+  status: "Available for Software Engineering & Systems Roles",
   location: "Bengaluru, India (Available Globally • Remote / Relocation Ready)",
   timezone: "UTC+05:30 (IST)",
   phone: "+91 9322783036",
@@ -88,8 +90,8 @@ export const profile = {
   keyMetrics: [
     { label: "Strict Test Oracles", value: "80/80", subtext: "PatchBound deterministic verification suite" },
     { label: "Context Token Pruning", value: "72.4%", subtext: "Synapse Tree-sitter AST subgraph extraction" },
-    { label: "Worker Concurrency", value: "Lock-Free", subtext: "PostgreSQL FOR UPDATE SKIP LOCKED queues" },
     { label: "AST Parse Throughput", value: "42k LOC/s", subtext: "Concrete syntax tree parsing via C-bindings" },
+    { label: "Worker Concurrency", value: "Lock-Free", subtext: "PostgreSQL FOR UPDATE SKIP LOCKED queues" },
   ],
 };
 
@@ -174,9 +176,11 @@ export const projects: Project[] = [
     name: "PatchBound v1.1",
     tagline: "Deterministic Trust Boundary & Bounded AI Repair Engine for Mission-Critical Codebases",
     category: "AI Systems & Agents",
-    status: "ACTIVE • ONGOING",
+    status: "ACTIVE • ONGOING PROJECT",
     featured: true,
     version: "v1.1.0",
+    isOngoing: true,
+    image: "/media/patchbound-preview.jpg",
     links: [
       { label: "Architecture Spec", url: "https://github.com/saahilpal", primary: true },
       { label: "GitHub Repo", url: "https://github.com/saahilpal" },
@@ -219,56 +223,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: "docanalyzer",
-    name: "DocAnalyzer (RAG-DOCAnalyzer)",
-    tagline: "High-Fidelity Document Intelligence & Grounded Multi-Doc RAG Platform",
-    category: "AI Systems & Grounded RAG",
-    status: "PRODUCTION LIVE",
-    featured: true,
-    links: [
-      { label: "Live App", url: "https://www.docanalyzer.app/", primary: true },
-      { label: "GitHub Repo", url: "https://github.com/saahilpal/RAG-DOCAnalyzer" },
-    ],
-    stack: [
-      "Next.js 16",
-      "Express 5",
-      "PostgreSQL",
-      "pgvector",
-      "Gemini Embeddings (768-dim)",
-      "Firebase Auth",
-      "Supabase Storage",
-      "Server-Sent Events (SSE)",
-    ],
-    problem:
-      "Enterprise document QA systems suffer from ungrounded hallucinations, slow asynchronous ingestion pipelines that block user sessions, and poor ingestion deduplication causing redundant vector embedding costs.",
-    solution:
-      "Constructed a grounded RAG architecture pairing Gemini embedding vectors with PostgreSQL pgvector and full-text fallbacks. Features an asynchronous multi-worker ingestion queue and real-time SSE streaming answer synthesis.",
-    architecture: {
-      title: "Asynchronous Grounded Document Processing Pipeline",
-      description:
-        "Guarantees deterministic grounding and zero server thread starvation through an asynchronous queue:",
-      pipeline: [
-        { stage: "01. INGEST", action: "Upload with Multer & SHA-256 deduplication to Supabase Storage", tech: "Express / Multer" },
-        { stage: "02. PARSE", action: "Multi-page PDF extraction and adaptive semantic sliding-window chunking", tech: "Node / PDF Engine" },
-        { stage: "03. EMBED", action: "Batch embedding generation with dimensional normalisation", tech: "Gemini Embeddings" },
-        { stage: "04. RETRIEVE", action: "Cosine similarity search over pgvector with PostgreSQL FTS fallback", tech: "pgvector / SQL" },
-        { stage: "05. SYNTHESIZE", action: "Token-budgeted grounded prompt synthesis streamed via SSE", tech: "Server-Sent Events" },
-      ],
-      highlights: [
-        "Asynchronous worker queue backed by PostgreSQL FOR UPDATE SKIP LOCKED preventing race conditions in distributed deployments without Redis.",
-        "Strict citation grounding: each LLM response highlights source paragraph coordinates directly in the UI.",
-        "Persistent multi-tenant workspaces with Firebase JWT verification, quota controls, and ownership validation.",
-        "Graceful fallback to SQL full-text search (tsvector) if vector similarity confidence dips below defined threshold.",
-      ],
-    },
-    metrics: [
-      { label: "Ingestion Queue", value: "FOR UPDATE SKIP LOCKED" },
-      { label: "Streaming", value: "Low-latency SSE Streams" },
-      { label: "Deduplication", value: "SHA-256 Bit-level" },
-      { label: "Vector Space", value: "768-dim pgvector" },
-    ],
-  },
-  {
     id: "synapse",
     name: "Synapse (synap-git)",
     tagline: "Git-Aware Structural Code Intelligence & Context Engine for AI Coding Agents",
@@ -276,6 +230,7 @@ export const projects: Project[] = [
     status: "OPEN SOURCE • PyPI",
     featured: true,
     version: "v0.3.4",
+    image: "/media/synapse-preview.jpg",
     links: [
       { label: "PyPI Package", url: "https://pypi.org/project/synap-git/", primary: true },
       { label: "Live Docs", url: "https://synapse-six-eta.vercel.app/" },
@@ -330,12 +285,97 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "docanalyzer",
+    name: "DocAnalyzer (RAG-DOCAnalyzer)",
+    tagline: "High-Fidelity Document Intelligence & Grounded Multi-Doc RAG Platform",
+    category: "AI Systems & Grounded RAG",
+    status: "PRODUCTION LIVE",
+    featured: true,
+    image: "/media/docanalyzer-preview.jpg",
+    links: [
+      { label: "Live App", url: "https://www.docanalyzer.app/", primary: true },
+      { label: "GitHub Repo", url: "https://github.com/saahilpal/RAG-DOCAnalyzer" },
+    ],
+    stack: [
+      "Next.js 16",
+      "Express 5",
+      "PostgreSQL",
+      "pgvector",
+      "Gemini Embeddings (768-dim)",
+      "Firebase Auth",
+      "Supabase Storage",
+      "Server-Sent Events (SSE)",
+    ],
+    problem:
+      "Enterprise document QA systems suffer from ungrounded hallucinations, slow asynchronous ingestion pipelines that block user sessions, and poor ingestion deduplication causing redundant vector embedding costs.",
+    solution:
+      "Constructed a grounded RAG architecture pairing Gemini embedding vectors with PostgreSQL pgvector and full-text fallbacks. Features an asynchronous multi-worker ingestion queue and real-time SSE streaming answer synthesis.",
+    architecture: {
+      title: "Asynchronous Grounded Document Processing Pipeline",
+      description:
+        "Guarantees deterministic grounding and zero server thread starvation through an asynchronous queue:",
+      pipeline: [
+        { stage: "01. INGEST", action: "Upload with Multer & SHA-256 deduplication to Supabase Storage", tech: "Express / Multer" },
+        { stage: "02. PARSE", action: "Multi-page PDF extraction and adaptive semantic sliding-window chunking", tech: "Node / PDF Engine" },
+        { stage: "03. EMBED", action: "Batch embedding generation with dimensional normalisation", tech: "Gemini Embeddings" },
+        { stage: "04. RETRIEVE", action: "Cosine similarity search over pgvector with PostgreSQL FTS fallback", tech: "pgvector / SQL" },
+        { stage: "05. SYNTHESIZE", action: "Token-budgeted grounded prompt synthesis streamed via SSE", tech: "Server-Sent Events" },
+      ],
+      highlights: [
+        "Asynchronous worker queue backed by PostgreSQL FOR UPDATE SKIP LOCKED preventing race conditions in distributed deployments without Redis.",
+        "Strict citation grounding: each LLM response highlights source paragraph coordinates directly in the UI.",
+        "Persistent multi-tenant workspaces with Firebase JWT verification, quota controls, and ownership validation.",
+        "Graceful fallback to SQL full-text search (tsvector) if vector similarity confidence dips below defined threshold.",
+      ],
+    },
+    metrics: [
+      { label: "Ingestion Queue", value: "FOR UPDATE SKIP LOCKED" },
+      { label: "Streaming", value: "Low-latency SSE Streams" },
+      { label: "Deduplication", value: "SHA-256 Bit-level" },
+      { label: "Vector Space", value: "768-dim pgvector" },
+    ],
+  },
+  {
+    id: "leetsync",
+    name: "LeetSync",
+    tagline: "Automated DSA Submission Synchronizer & Problem Vault Browser Extension",
+    category: "Developer Tools & Browser Extensions",
+    status: "PRODUCTION LIVE",
+    featured: false,
+    image: "/media/leetsync-popup.png",
+    links: [
+      { label: "Live Companion", url: "https://leetsync-web.vercel.app/", primary: true },
+      { label: "GitHub Repo", url: "https://github.com/saahilpal/LeetSync" },
+    ],
+    stack: ["TypeScript", "Vite", "Manifest V3", "GitHub API", "Shadow DOM", "Chrome Storage"],
+    problem:
+      "Software engineers waste hours manually copying code and problem statements from competitive platforms into Git repositories for revision and review.",
+    solution:
+      "Built a Manifest V3 browser extension injecting isolated Shadow DOM overlays to capture accepted submissions, format metadata into structured Markdown, and push to GitHub repositories via the Octokit Contents API.",
+    architecture: {
+      title: "Manifest V3 Isolated Context Architecture",
+      description: "Operates safely inside page context without interfering with LeetCode's Monaco Editor:",
+      highlights: [
+        "Injected Shadow DOM container ensuring complete CSS encapsulation and conflict-free in-tab UI.",
+        "Automated commit tree creation categorizing problems by difficulty, category, and runtime benchmarks.",
+        "Companion onboarding web application built with Vite and TypeScript for token verification.",
+      ],
+    },
+    metrics: [
+      { label: "Extension Spec", value: "Manifest V3 Compliant" },
+      { label: "Sync Engine", value: "GitHub Contents API" },
+      { label: "Styling Isolation", value: "100% Shadow DOM" },
+      { label: "Companion App", value: "Vite + TypeScript" },
+    ],
+  },
+  {
     id: "herabilling",
     name: "Hera Billing",
     tagline: "Offline-First Android Billing & PDF Invoice Generator for Wholesale Business",
     category: "Mobile Systems & Invoicing",
     status: "PRODUCTION IN USE",
     featured: true,
+    image: "/media/herabilling-preview.jpg",
     links: [
       { label: "GitHub Repo", url: "https://github.com/saahilpal", primary: true },
     ],
@@ -366,38 +406,6 @@ export const projects: Project[] = [
       { label: "Architecture", value: "Jetpack Compose + Room" },
       { label: "Storage", value: "100% Offline-First" },
       { label: "Platform", value: "Android (API 34 tested)" },
-    ],
-  },
-  {
-    id: "leetsync",
-    name: "LeetSync",
-    tagline: "Automated DSA Submission Synchronizer & Problem Vault Browser Extension",
-    category: "Developer Tools & Browser Extensions",
-    status: "PRODUCTION LIVE",
-    featured: false,
-    links: [
-      { label: "Live Companion", url: "https://leetsync-web.vercel.app/", primary: true },
-      { label: "GitHub Repo", url: "https://github.com/saahilpal/LeetSync" },
-    ],
-    stack: ["TypeScript", "Vite", "Manifest V3", "GitHub API", "Shadow DOM", "Chrome Storage"],
-    problem:
-      "Software engineers waste hours manually copying code and problem statements from competitive platforms into Git repositories for revision and review.",
-    solution:
-      "Built a Manifest V3 browser extension injecting isolated Shadow DOM overlays to capture accepted submissions, format metadata into structured Markdown, and push to GitHub repositories via the Octokit Contents API.",
-    architecture: {
-      title: "Manifest V3 Isolated Context Architecture",
-      description: "Operates safely inside page context without interfering with LeetCode's Monaco Editor:",
-      highlights: [
-        "Injected Shadow DOM container ensuring complete CSS encapsulation and conflict-free in-tab UI.",
-        "Automated commit tree creation categorizing problems by difficulty, category, and runtime benchmarks.",
-        "Companion onboarding web application built with Vite and TypeScript for token verification.",
-      ],
-    },
-    metrics: [
-      { label: "Extension Spec", value: "Manifest V3 Compliant" },
-      { label: "Sync Engine", value: "GitHub Contents API" },
-      { label: "Styling Isolation", value: "100% Shadow DOM" },
-      { label: "Companion App", value: "Vite + TypeScript" },
     ],
   },
 ];

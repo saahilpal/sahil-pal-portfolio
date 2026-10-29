@@ -44,8 +44,15 @@ export function PortfolioHero() {
   }, []);
 
   return (
-    <section id="about" className="pt-12 sm:pt-20 pb-16 sm:pb-24 border-b border-[var(--border-subtle)]">
-      <div ref={containerRef} className="space-y-10 max-w-5xl mx-auto">
+    <section id="about" className="relative pt-16 sm:pt-24 pb-16 sm:pb-24 border-b border-[var(--border-subtle)] overflow-hidden">
+      {/* Background Graphic */}
+      <div
+        className="absolute inset-0 z-0 opacity-20 pointer-events-none bg-cover bg-center"
+        style={{ backgroundImage: "url('/media/hero-bg.jpg')" }}
+      />
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-[var(--bg-canvas)]/70 to-[var(--bg-canvas)] pointer-events-none" />
+
+      <div ref={containerRef} className="relative z-10 space-y-10 max-w-5xl mx-auto">
         {/* Availability Badge */}
         <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[var(--accent-emerald-soft)] border border-[var(--border-subtle)] text-[var(--accent-emerald)] text-xs font-mono font-medium">
           <span className="w-2 h-2 rounded-full bg-[var(--accent-emerald)] animate-pulse" />
@@ -56,7 +63,7 @@ export function PortfolioHero() {
         <div className="space-y-4">
           <div className="space-y-1">
             <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-[var(--accent-emerald)] font-semibold">
-              AI Systems, Grounded Retrieval &amp; Evaluation
+              Software Engineer // Code Intelligence &amp; Distributed Backends
             </span>
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[var(--text-primary)]">
               {profile.name}

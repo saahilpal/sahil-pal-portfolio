@@ -1,11 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Workflow, Cpu } from "lucide-react";
+import { animate } from "animejs";
 import { skills, langGraphPipeline } from "@/lib/portfolio-data";
 
 export function TechStackSection() {
   const [activeStageIndex, setActiveStageIndex] = useState<number>(3); // Investigator loop by default
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectStage = (idx: number) => {
+    setActiveStageIndex(idx);
+    if (panelRef.current) {
+      animate(panelRef.current, {
+        opacity: [0.3, 1],
+        translateY: [4, 0],
+        duration: 200,
+        ease: "outQuad",
+      });
+    }
+  };
 
   const activeStage = langGraphPipeline[activeStageIndex];
 
@@ -54,7 +68,7 @@ export function TechStackSection() {
               return (
                 <button
                   key={stage.step}
-                  onClick={() => setActiveStageIndex(idx)}
+                  onClick={() => handleSelectStage(idx)}
                   className={`p-2.5 rounded-xl border text-left transition-all duration-150 flex flex-col justify-between h-20 ${
                     isActive
                       ? "bg-[var(--accent-emerald-soft)] border-[var(--accent-emerald)] text-[var(--text-primary)] ring-1 ring-[var(--accent-emerald)] shadow-md"
@@ -74,7 +88,10 @@ export function TechStackSection() {
 
           {/* Selected Stage Detail Panel */}
           {activeStage && (
-            <div className="p-5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-4">
+            <div
+              ref={panelRef}
+              className="p-5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-4"
+            >
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-subtle)] pb-3">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-xs px-2 py-0.5 rounded bg-[var(--accent-emerald-soft)] text-[var(--accent-emerald)] font-bold">
