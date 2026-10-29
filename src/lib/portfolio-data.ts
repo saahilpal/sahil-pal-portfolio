@@ -88,7 +88,7 @@ export const profile = {
   keyMetrics: [
     { label: "Strict Test Oracles", value: "80/80", subtext: "PatchBound deterministic verification suite" },
     { label: "Context Token Pruning", value: "72.4%", subtext: "Synapse Tree-sitter AST subgraph extraction" },
-    { label: "False Resolution Rate", value: "0.00%", subtext: "Aegis GI independent SQL outcome assertions" },
+    { label: "Worker Concurrency", value: "Lock-Free", subtext: "PostgreSQL FOR UPDATE SKIP LOCKED queues" },
     { label: "AST Parse Throughput", value: "42k LOC/s", subtext: "Concrete syntax tree parsing via C-bindings" },
   ],
 };
@@ -327,37 +327,6 @@ export const projects: Project[] = [
       { label: "Retrieval Lanes", value: "3 (Lexical + AST + Vector)" },
       { label: "Concurrency", value: "Lock-Free WAL Mode" },
       { label: "Distribution", value: "Published on PyPI (synap-git)" },
-    ],
-  },
-  {
-    id: "aegis-gi",
-    name: "Aegis GI",
-    tagline: "Outcome-Verified Clinical AI Agent for GI Prep & Procedure Booking",
-    category: "Clinical AI & Verification",
-    status: "PRODUCTION LIVE",
-    featured: true,
-    links: [
-      { label: "GitHub Repo", url: "https://github.com/saahilpal/aegis-gi", primary: true },
-    ],
-    stack: ["Python 3.12", "PostgreSQL", "pgvector", "FastAPI", "Next.js 16", "Outcome Engine"],
-    problem:
-      "Conventional conversational agents frequently hallucinate that operational tasks succeeded when downstream systems failed, leading to catastrophic false resolutions in clinical prep.",
-    solution:
-      "Architected an Independent Outcome Verification Engine that asserts whether database writes and scheduling commitments actually committed before confirming completion to patients.",
-    architecture: {
-      title: "Independent Outcome Verification Engine",
-      description: "Decouples conversational generation from transaction validation:",
-      highlights: [
-        "Eliminates false positive task completions via post-turn SQL assertion hooks.",
-        "Clinical guideline grounded retrieval with dense pgvector embeddings.",
-        "Deterministic medication timing matrix for anticoagulants and insulin.",
-      ],
-    },
-    metrics: [
-      { label: "False Resolution Rate", value: "0.00% Verified" },
-      { label: "Database Engine", value: "PostgreSQL + pgvector" },
-      { label: "Runtime", value: "Python 3.12 + FastAPI" },
-      { label: "Verification Model", value: "Post-Turn SQL Assertions" },
     ],
   },
   {

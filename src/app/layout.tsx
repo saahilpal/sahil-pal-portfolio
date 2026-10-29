@@ -35,7 +35,6 @@ export const metadata: Metadata = {
     "SKIP LOCKED",
     "pgvector",
     "DocAnalyzer",
-    "Aegis GI",
     "Hera Billing",
     "LeetSync",
   ],
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
     url: "https://github.com/saahilpal",
     title: "Sahil Pal — AI Systems, Grounded Retrieval & Evaluation Engineer",
     description:
-      "Deterministic Agent Verification, AST Context Engines, and High-Throughput Distributed Backends. Shipped systems: PatchBound v1.1, DocAnalyzer, Synapse, Aegis GI, Hera Billing, LeetSync.",
+      "Deterministic Agent Verification, AST Context Engines, and High-Throughput Distributed Backends. Shipped systems: PatchBound v1.1, DocAnalyzer, Synapse, Hera Billing, LeetSync.",
     siteName: "Sahil Pal Portfolio",
   },
   twitter: {
