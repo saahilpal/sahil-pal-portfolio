@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-serif",
   display: "swap",
 });
 
@@ -21,21 +15,29 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sahil Pal — AI Engineer | Mate in 4",
+  title: "Sahil Pal — AI Systems, Grounded Retrieval & Evaluation Engineer",
   description:
-    "Mate in 4 — Interactive chess-themed portfolio of Sahil Pal, an AI Engineer building AST context daemons (Synapse), durable PostgreSQL worker queues (DocAnalyzer), offline-first Android ERPs (Hera Billing), and developer tools (LeetSync).",
+    "Sahil Pal — AI Systems, Grounded Retrieval & Evaluation Engineer. Architect of PatchBound v1.1 (deterministic agent verification) and creator of Synapse (PyPI synap-git, AST context engine). Production RAG pipelines, lock-free PostgreSQL queues, and reactive event-loop microservices.",
   keywords: [
     "Sahil Pal",
-    "AI Engineer",
+    "AI Systems Engineer",
+    "Grounded Retrieval",
+    "RAG",
+    "Evaluation Engineer",
+    "PatchBound",
+    "Synapse",
+    "synap-git",
     "Tree-sitter",
+    "LangGraph",
     "Model Context Protocol",
     "MCP",
-    "Reciprocal Rank Fusion",
-    "RRF",
     "PostgreSQL",
     "SKIP LOCKED",
     "pgvector",
-    "Offline-first Android",
+    "DocAnalyzer",
+    "Aegis GI",
+    "Hera Billing",
+    "LeetSync",
   ],
   authors: [{ name: "Sahil Pal", url: "https://github.com/saahilpal" }],
   creator: "Sahil Pal",
@@ -43,21 +45,19 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://github.com/saahilpal",
-    title: "Sahil Pal — AI Engineer | Mate in 4",
+    title: "Sahil Pal — AI Systems, Grounded Retrieval & Evaluation Engineer",
     description:
-      "I build engines that evaluate, retrieve, and decide. Four shipped systems: Synapse, DocAnalyzer, Hera Billing, LeetSync.",
+      "Deterministic Agent Verification, AST Context Engines, and High-Throughput Distributed Backends. Shipped systems: PatchBound v1.1, DocAnalyzer, Synapse, Aegis GI, Hera Billing, LeetSync.",
     siteName: "Sahil Pal Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sahil Pal — AI Engineer | Mate in 4",
+    title: "Sahil Pal — AI Systems, Grounded Retrieval & Evaluation Engineer",
     description:
-      "I build engines that evaluate, retrieve, and decide. Four shipped systems: Synapse, DocAnalyzer, Hera Billing, LeetSync.",
+      "Deterministic Agent Verification, AST Context Engines, and High-Throughput Distributed Backends.",
   },
   icons: {
-    icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: "/icon.svg",
     apple: "/icon.svg",
   },
@@ -69,9 +69,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
+    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${playfair.variable} ${mono.variable} font-sans antialiased overflow-x-hidden bg-[#08090A] text-[#F3EFE6]`}
+        className={`${inter.variable} ${mono.variable} font-sans antialiased bg-[var(--bg-canvas)] text-[var(--text-primary)]`}
       >
         {children}
       </body>

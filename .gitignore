@@ -40,3 +40,4 @@ next-env.d.tsexec*
 .synapse/
 .synapse/*-wal
 .synapse/*-shm
+.env*

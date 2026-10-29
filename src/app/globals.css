@@ -7,75 +7,63 @@
 }
 
 /* ══════════════════════════════════════════════════════════════
-   CHESS.COM PRO PALETTE: REFINED CHARCOAL, GREEN & WARM NUDE
+   HIGH-CRAFT SYSTEMS ENGINEERING PALETTE (Deep Obsidian & Emerald)
+   Inspired by top GitHub design engineering portfolios
    ══════════════════════════════════════════════════════════════ */
 :root {
-  /* Rich, warm dark base */
-  --bg-chess-dark: #1C1A18;
-  --bg-chess-card: #252320;
-  --bg-chess-surface: #2E2C28;
-  --bg-chess-subtle: #181614;
-  --bg-chess-hover: #35332F;
+  /* Rich Dark Obsidian Canvas */
+  --bg-canvas: #090B0E;
+  --bg-surface: #11141A;
+  --bg-surface-elevated: #161A22;
+  --bg-surface-subtle: #1C212B;
+  --bg-surface-hover: #222734;
 
-  /* Aliases for full component compatibility */
-  --bg-obsidian: #1C1A18;
-  --bg-obsidian-card: #252320;
-  --bg-obsidian-elevated: #2E2C28;
-  --bg-obsidian-subtle: #181614;
+  /* Precision Green & Emerald Accents */
+  --accent-emerald: #81B64C;
+  --accent-emerald-hover: #93C95A;
+  --accent-emerald-soft: rgba(129, 182, 76, 0.12);
+  --accent-emerald-glow: rgba(129, 182, 76, 0.25);
 
-  /* Signature Chess.com Green */
-  --chess-green: #81B64C;
-  --chess-green-hover: #95C85E;
-  --chess-green-active: #6FA43B;
-  --chess-green-glow: rgba(129, 182, 76, 0.25);
-  --chess-green-subtle: rgba(129, 182, 76, 0.12);
+  /* AI Retrieval Sky / Cyan */
+  --accent-cyan: #38BDF8;
+  --accent-cyan-soft: rgba(56, 189, 248, 0.12);
 
-  /* Primary Accent = Chess.com Green */
-  --accent-copper: #81B64C;
-  --accent-copper-glow: rgba(129, 182, 76, 0.22);
-  --accent-cyan: #3AA1DA;      /* Brilliant Move !! */
-  --accent-emerald: #81B64C;   /* Best Move ★ */
-  --accent-rose: #FA412D;      /* Blunder ?? */
-  --accent-amber: #E5B643;     /* Book Move 📖 */
-
-  /* Chess.com Nude / Ivory / Khaki */
-  --chess-nude: #EEEED2;
-  --chess-nude-light: #F7F5EC;
-  --chess-nude-muted: #B8B3A7;
-  --chess-nude-dark: #8C877D;
+  /* AST Violet / Indigo */
+  --accent-violet: #818CF8;
+  --accent-violet-soft: rgba(129, 140, 248, 0.12);
 
   /* Typography */
-  --text-pure: #FFFFFF;
-  --text-white: #FFFFFF;
-  --text-ivory: #EEEED2;
-  --text-nude: #EEEED2;
-  --text-muted: #A39E93;
-  --text-faint: #6E6960;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-faint: #475569;
 
   /* Hairlines & Dividers */
-  --border-hairline: rgba(238, 238, 210, 0.1);
-  --border-hairline-strong: rgba(238, 238, 210, 0.2);
-  --border-copper: rgba(129, 182, 76, 0.35);
-  --border-chess: rgba(238, 238, 210, 0.1);
-  --border-chess-strong: rgba(238, 238, 210, 0.2);
-  --border-green: rgba(129, 182, 76, 0.35);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-active: rgba(129, 182, 76, 0.4);
+
+  /* Card Shadows */
+  --card-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --card-shadow-hover: 0 12px 32px -4px rgba(0, 0, 0, 0.6), 0 0 16px 1px rgba(129, 182, 76, 0.15);
 }
 
 html,
 body {
-  background-color: var(--bg-chess-dark);
-  color: var(--text-nude);
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   max-width: 100%;
   width: 100%;
+  scroll-behavior: smooth;
 }
 
 /* Custom Selection */
 ::selection {
-  background-color: var(--chess-green);
+  background-color: var(--accent-emerald);
   color: #000000;
 }
 
@@ -85,87 +73,93 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-chess-dark);
+  background: var(--bg-canvas);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-chess-surface);
-  border-radius: 3px;
+  background: var(--bg-surface-elevated);
+  border-radius: 9999px;
+  border: 1px solid var(--border-subtle);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--chess-green);
+  background: var(--accent-emerald);
 }
 
-/* Senior UI/UX Tactile Micro-Interactions */
-.btn-tactile {
-  transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s ease, background-color 0.15s ease;
-  cursor: pointer;
-  user-select: none;
-}
-.btn-tactile:hover {
-  transform: translateY(-1px);
-}
-.btn-tactile:active {
-  transform: scale(0.975);
-}
-
-.card-tactile, .obsidian-card, .chess-card {
-  background-color: var(--bg-chess-card);
-  border: 1px solid var(--border-chess);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.25s ease;
-  will-change: transform, box-shadow;
-}
-.card-tactile:hover, .obsidian-card:hover, .chess-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-green);
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.55), 0 0 15px rgba(129, 182, 76, 0.08);
-}
-
-/* Tactical Piece Icon Micro-Rotation on Card Hover */
-.piece-icon-rotate {
-  display: inline-block;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
-}
-.card-tactile:hover .piece-icon-rotate,
-.group:hover .piece-icon-rotate {
-  transform: rotate(7deg) scale(1.1);
-}
-
-/* Animated Link Underline */
-.animated-link-underline {
+/* Precision Card */
+.craft-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+}
+
+.craft-card:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* Subtle Technical Background Dot Grid */
+.bg-grid-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Tactile Button */
+.btn-emerald {
+  background-color: var(--accent-emerald);
+  color: #000000;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.625rem 1.25rem;
   display: inline-flex;
   align-items: center;
-}
-.animated-link-underline::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 1.5px;
-  bottom: -2px;
-  left: 0;
-  background-color: var(--chess-green);
-  transform-origin: bottom right;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.animated-link-underline:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
+  gap: 0.5rem;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Interactive Slider */
-input[type="range"] {
-  accent-color: var(--chess-green);
+.btn-emerald:hover {
+  background-color: var(--accent-emerald-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(129, 182, 76, 0.35);
 }
 
-/* Global Prefers Reduced Motion Reset */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+.btn-surface {
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 0.625rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.btn-surface:hover {
+  background-color: var(--bg-surface-hover);
+  border-color: var(--border-medium);
+  transform: translateY(-1px);
+}
+
+/* Pill Badge */
+.pill-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.pill-badge:hover {
+  border-color: var(--accent-emerald);
+  color: var(--text-primary);
+}
