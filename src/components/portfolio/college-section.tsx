@@ -19,10 +19,10 @@ export function CollegeSection() {
             </span>
             <span className="h-[1px] w-16 bg-[var(--line-strong)]" aria-hidden="true" />
           </div>
-          <h2 className="torch-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
+          <h2 className="lightup-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
             EDUCATION
           </h2>
-          <p className="text-base sm:text-lg text-[var(--ink-secondary)] max-w-2xl">
+          <p className="lightup-text text-base sm:text-lg text-[var(--ink-secondary)] max-w-2xl">
             Undergraduate coursework in computer systems, algorithms, database internals, and software engineering.
           </p>
         </div>

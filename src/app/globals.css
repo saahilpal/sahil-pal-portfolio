@@ -109,44 +109,23 @@ body, section, header, footer {
   pointer-events: none;
 }
 
-/* Dynamic Cursor Light Font Illumination */
-@media (pointer: fine) {
-  .torch-heading {
-    background-image: radial-gradient(
-      360px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh),
-      #FFFFFF 0%,
-      #F0EAD6 35%,
-      #9DA1AC 75%
-    );
-    background-attachment: fixed;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .torch-text {
-    background-image: radial-gradient(
-      340px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh),
-      #E8E7E3 0%,
-      #D2D0C8 40%,
-      #7C808A 75%
-    );
-    background-attachment: fixed;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+/* Scroll-Driven Dynamic Text Illumination */
+.lightup-heading {
+  color: #5A5F6E;
+  transition: color 350ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (pointer: coarse), (max-width: 768px) {
-  .torch-heading {
-    color: var(--ink-primary);
-    -webkit-text-fill-color: var(--ink-primary);
-  }
-  .torch-text {
-    color: var(--ink-secondary);
-    -webkit-text-fill-color: var(--ink-secondary);
-  }
+.lightup-heading.text-illuminated {
+  color: #FFFFFF;
+}
+
+.lightup-text {
+  color: #727785;
+  transition: color 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightup-text.text-illuminated {
+  color: #E8E7E3;
 }
 
 /* Accessible text selection */

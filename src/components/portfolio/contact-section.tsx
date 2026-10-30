@@ -54,14 +54,14 @@ export function ContactSection() {
             </span>
             <span className="h-[1px] w-16 bg-[var(--line-strong)]" aria-hidden="true" />
           </div>
-          <h2 className="torch-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
+          <h2 className="lightup-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
             CONTACT
           </h2>
         </div>
 
         {/* Big Display Email Callout + Copy Action */}
         <div className="space-y-6">
-          <p className="text-base sm:text-xl text-[var(--ink-secondary)] max-w-xl">
+          <p className="lightup-text text-base sm:text-xl text-[var(--ink-secondary)] max-w-xl">
             Open to engineering roles, research collaboration, and systems architecture work.
           </p>
 
@@ -69,7 +69,7 @@ export function ContactSection() {
             <div className="flex flex-wrap items-center gap-4">
               <a
                 href={`mailto:${profile.email}`}
-                className="torch-heading text-2xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-heading)] font-extrabold tracking-tight text-[var(--ink-primary)] hover:text-[var(--accent-move)] transition-colors inline-block break-all"
+                className="lightup-heading text-2xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-heading)] font-extrabold tracking-tight text-[var(--ink-primary)] hover:text-[var(--accent-move)] transition-colors inline-block break-all"
               >
                 {profile.email}
               </a>

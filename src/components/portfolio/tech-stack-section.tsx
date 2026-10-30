@@ -59,7 +59,7 @@ export function TechStackSection() {
             </span>
             <span className="h-[1px] w-16 bg-[var(--line-strong)]" aria-hidden="true" />
           </div>
-          <h2 className="torch-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
+          <h2 className="lightup-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
             TECH STACK
           </h2>
         </div>

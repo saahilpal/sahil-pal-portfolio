@@ -12,10 +12,7 @@ import { ContactSection } from "@/components/portfolio/contact-section";
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-[var(--canvas)] text-[var(--ink-primary)] selection:bg-[var(--accent-move)] selection:text-[#121315]">
-      {/* Subtle Living Film Grain Canvas Overlay */}
-      <div className="grain-canvas fixed inset-0 pointer-events-none z-[99]" aria-hidden="true" />
-
-      {/* Desktop Spotlight & Kinetic Cursor with Contextual States */}
+      {/* Desktop Kinetic Precision Cursor */}
       <CustomCursor />
 
       {/* Smooth Scroll + Dynamic Midpoint Background Shifts */}

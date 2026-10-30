@@ -6,16 +6,12 @@ import { animate } from "animejs";
 interface TactileCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
-  enableTilt?: boolean;
-  glowColor?: string;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export function TactileCard({
   children,
   className = "",
-  enableTilt = true,
-  glowColor = "rgba(229, 169, 60, 0.15)",
   onClick,
   ...props
 }: TactileCardProps) {
@@ -28,7 +24,7 @@ export function TactileCard({
       try {
         navigator.vibrate(8);
       } catch {
-        // Ignore devices where vibrate is restricted
+        // Ignore
       }
     }
     const el = cardRef.current;
@@ -36,7 +32,7 @@ export function TactileCard({
     animate(el, {
       scale: 0.985,
       translateY: 2,
-      duration: 100,
+      duration: 90,
       ease: "outQuad",
     });
   }, []);
@@ -48,7 +44,7 @@ export function TactileCard({
     animate(el, {
       scale: 1,
       translateY: 0,
-      duration: 380,
+      duration: 280,
       ease: "outBack",
     });
   }, []);
@@ -60,46 +56,10 @@ export function TactileCard({
     animate(el, {
       scale: 1,
       translateY: 0,
-      rotateX: 0,
-      rotateY: 0,
-      duration: 450,
+      duration: 250,
       ease: "outCubic",
     });
-    el.style.removeProperty("--card-x");
-    el.style.removeProperty("--card-y");
-    el.style.removeProperty("--card-active");
   }, []);
-
-  const handlePointerMove = useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      const el = cardRef.current;
-      if (!el) return;
-
-      const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      el.style.setProperty("--card-x", `${x}px`);
-      el.style.setProperty("--card-y", `${y}px`);
-      el.style.setProperty("--card-active", "1");
-
-      if (enableTilt && e.pointerType === "mouse") {
-        const xPct = (x / rect.width - 0.5) * 2; // -1 to 1
-        const yPct = (y / rect.height - 0.5) * 2; // -1 to 1
-
-        const rotX = -yPct * 2.5; // Max 2.5 deg tilt
-        const rotY = xPct * 2.5;
-
-        animate(el, {
-          rotateX: rotX,
-          rotateY: rotY,
-          duration: 150,
-          ease: "outQuad",
-        });
-      }
-    },
-    [enableTilt]
-  );
 
   return (
     <div
@@ -108,27 +68,15 @@ export function TactileCard({
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerLeave}
       onPointerCancel={handlePointerLeave}
-      onPointerMove={handlePointerMove}
       onClick={onClick}
       style={{
-        transformStyle: "preserve-3d",
         touchAction: "manipulation",
       }}
-      className={`group relative rounded-xl border border-[var(--line)] bg-[var(--surface)] transition-colors duration-300 will-change-transform ${
-        isTouched ? "border-[var(--accent-move)] shadow-lg" : "hover:border-[var(--line-strong)]"
+      className={`group relative rounded-xl border border-[var(--line)] bg-[var(--surface)] transition-all duration-200 will-change-transform hover:border-[var(--line-strong)] hover:shadow-lg ${
+        isTouched ? "border-[var(--accent-move)] shadow-md" : ""
       } ${className}`}
       {...props}
     >
-      {/* Subtle interior cursor/finger spotlight sheen */}
-      <div
-        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          background: `radial-gradient(350px circle at var(--card-x, 50%) var(--card-y, 50%), ${glowColor}, transparent 65%)`,
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Card Content */}
       <div className="relative z-10 w-full">{children}</div>
     </div>
   );
@@ -161,8 +109,8 @@ export function TactilePill({
       }
     }
     animate(el, {
-      scale: 0.92,
-      duration: 90,
+      scale: 0.93,
+      duration: 80,
       ease: "outQuad",
     });
   };
@@ -172,13 +120,13 @@ export function TactilePill({
     const el = pillRef.current;
     if (!el) return;
     animate(el, {
-      scale: 1.05,
-      duration: 120,
+      scale: 1.04,
+      duration: 100,
       ease: "outBack",
       onComplete: () => {
         animate(el, {
           scale: 1,
-          duration: 180,
+          duration: 160,
           ease: "outCubic",
         });
       },
@@ -191,7 +139,7 @@ export function TactilePill({
     if (!el) return;
     animate(el, {
       scale: 1,
-      duration: 200,
+      duration: 180,
       ease: "outCubic",
     });
   };
@@ -220,7 +168,6 @@ export function TactilePill({
 interface TactileButtonProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   children: React.ReactNode;
   className?: string;
-  variant?: "primary" | "secondary" | "pill";
 }
 
 export function TactileButton({
@@ -234,15 +181,8 @@ export function TactileButton({
   const handlePointerDown = () => {
     const el = btnRef.current;
     if (!el) return;
-    if (typeof navigator !== "undefined" && navigator.vibrate) {
-      try {
-        navigator.vibrate(10);
-      } catch {
-        // Ignore
-      }
-    }
     animate(el, {
-      scale: 0.95,
+      scale: 0.96,
       translateY: 2,
       duration: 80,
       ease: "outQuad",
@@ -255,7 +195,7 @@ export function TactileButton({
     animate(el, {
       scale: 1,
       translateY: 0,
-      duration: 320,
+      duration: 250,
       ease: "outBack",
     });
   };
@@ -266,7 +206,7 @@ export function TactileButton({
     animate(el, {
       scale: 1,
       translateY: 0,
-      duration: 250,
+      duration: 200,
       ease: "outCubic",
     });
   };
@@ -289,4 +229,3 @@ export function TactileButton({
     </a>
   );
 }
-

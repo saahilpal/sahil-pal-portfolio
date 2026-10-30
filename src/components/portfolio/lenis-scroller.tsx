@@ -2,33 +2,35 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function LenisScroller() {
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let lenis: Lenis | null = null;
 
     if (!isReduced) {
       lenis = new Lenis({
-        duration: 1.1,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // smooth exponential decel
-        touchMultiplier: 1.5,
+        duration: 0.85,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        touchMultiplier: 1.2,
+        infinite: false,
       });
 
-      lenis.on("scroll", ScrollTrigger.update);
-
-      const updateTicker = (time: number) => {
-        lenis?.raf(time * 1000);
+      let rafId: number;
+      const raf = (time: number) => {
+        lenis?.raf(time);
+        rafId = requestAnimationFrame(raf);
       };
+      rafId = requestAnimationFrame(raf);
 
-      gsap.ticker.add(updateTicker);
-      gsap.ticker.lagSmoothing(0);
+      return () => {
+        cancelAnimationFrame(rafId);
+        lenis?.destroy();
+      };
     }
+  }, []);
 
+  useEffect(() => {
     // Dynamic Page Background Tone Transition as sections cross the viewport midpoint
     const sections = [
       { id: "hero", canvas: "#121315", surface: "#1B1D20" },
@@ -39,24 +41,42 @@ export function LenisScroller() {
       { id: "contact", canvas: "#101113", surface: "#181A1D" },
     ];
 
-    sections.forEach(({ id, canvas, surface }) => {
-      const el = document.getElementById(id);
-      if (!el) return;
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sec = sections.find((s) => s.id === entry.target.id);
+            if (sec) {
+              document.documentElement.style.setProperty("--canvas", sec.canvas);
+              document.documentElement.style.setProperty("--surface", sec.surface);
+            }
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
 
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top 55%",
-        end: "bottom 45%",
-        onEnter: () => {
-          document.documentElement.style.setProperty("--canvas", canvas);
-          document.documentElement.style.setProperty("--surface", surface);
-        },
-        onEnterBack: () => {
-          document.documentElement.style.setProperty("--canvas", canvas);
-          document.documentElement.style.setProperty("--surface", surface);
-        },
-      });
+    sections.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) sectionObserver.observe(el);
     });
+
+    // Native C++ IntersectionObserver for Text Illumination: lights up as text moves into view, darkens when scrolled away
+    const lightObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("text-illuminated");
+          } else {
+            entry.target.classList.remove("text-illuminated");
+          }
+        });
+      },
+      { rootMargin: "-8% 0px -15% 0px", threshold: 0.1 }
+    );
+
+    const lightElements = document.querySelectorAll(".lightup-heading, .lightup-text");
+    lightElements.forEach((el) => lightObserver.observe(el));
 
     // Smooth Anchor Navigation Integration
     const handleAnchorClick = (e: MouseEvent) => {
@@ -67,56 +87,15 @@ export function LenisScroller() {
       const element = document.querySelector(hash);
       if (element) {
         e.preventDefault();
-        if (lenis) {
-          lenis.scrollTo(element as HTMLElement, { offset: -64 });
-        } else {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
+        element.scrollIntoView({ behavior: "smooth" });
       }
     };
     document.addEventListener("click", handleAnchorClick);
 
-    // Initial Hash & Query Parameter Scroll Support
-    const urlParams = new URLSearchParams(window.location.search);
-    const scrollYParam = urlParams.get("scrollY");
-    if (scrollYParam) {
-      const y = parseInt(scrollYParam, 10);
-      window.scrollTo(0, y);
-      if (lenis) {
-        lenis.scrollTo(y, { immediate: true });
-      }
-    } else {
-      const targetSection = urlParams.get("section") || window.location.hash.replace("#", "");
-      if (targetSection) {
-        const targetEl = document.getElementById(targetSection);
-        if (targetEl) {
-          targetEl.scrollIntoView({ behavior: "instant" });
-          if (lenis) {
-            lenis.scrollTo(targetEl, { immediate: true, offset: -64 });
-          }
-        }
-      }
-    }
-
-    // Refresh after fonts load to ensure accurate pinning & heights
-    if (document.fonts) {
-      document.fonts.ready.then(() => {
-        ScrollTrigger.refresh();
-      });
-    }
-
-    const handleResize = () => {
-      ScrollTrigger.refresh();
-    };
-
-    window.addEventListener("resize", handleResize);
-
     return () => {
-      window.removeEventListener("resize", handleResize);
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-      if (lenis) {
-        lenis.destroy();
-      }
+      sectionObserver.disconnect();
+      lightObserver.disconnect();
+      document.removeEventListener("click", handleAnchorClick);
     };
   }, []);
 
