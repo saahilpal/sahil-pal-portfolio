@@ -6,7 +6,6 @@ const archivo = Archivo({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
-  axes: ["wdth"],
 });
 
 const schibsted = Schibsted_Grotesk({
