@@ -6,7 +6,7 @@ const archivo = Archivo({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
-  weight: ["600", "700", "800"],
+  axes: ["wdth"],
 });
 
 const schibsted = Schibsted_Grotesk({
@@ -17,7 +17,7 @@ const schibsted = Schibsted_Grotesk({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#141517",
+  themeColor: "#121315",
   width: "device-width",
   initialScale: 1,
 };
@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${archivo.variable} ${schibsted.variable}`}>
-      <body className="bg-[var(--canvas)] text-[var(--ink-primary)] antialiased font-[family-name:var(--font-body)]">
+      <body className="bg-[var(--canvas)] text-[var(--ink-primary)] antialiased font-[family-name:var(--font-body)] overflow-x-hidden selection:bg-[var(--accent-move)] selection:text-[#121315]">
         {children}
       </body>
     </html>

@@ -1,3 +1,6 @@
+import { CustomCursor } from "@/components/portfolio/custom-cursor";
+import { LenisScroller } from "@/components/portfolio/lenis-scroller";
+import { KineticTicker } from "@/components/portfolio/kinetic-ticker";
 import { PortfolioNav } from "@/components/portfolio/navbar";
 import { PortfolioHero } from "@/components/portfolio/hero";
 import { ProjectsSection } from "@/components/portfolio/projects-section";
@@ -8,16 +11,28 @@ import { ContactSection } from "@/components/portfolio/contact-section";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[var(--canvas)] text-[var(--ink-primary)]">
-      {/* Fixed/Sticky Top Navigation with real header and nav */}
+    <div className="relative min-h-screen bg-[var(--canvas)] text-[var(--ink-primary)] selection:bg-[var(--accent-move)] selection:text-[#121315]">
+      {/* Subtle Living Film Grain Canvas Overlay */}
+      <div className="grain-canvas fixed inset-0 pointer-events-none z-[99]" aria-hidden="true" />
+
+      {/* Desktop Spotlight & Kinetic Cursor with Contextual States */}
+      <CustomCursor />
+
+      {/* Smooth Scroll + Dynamic Midpoint Background Shifts */}
+      <LenisScroller />
+
+      {/* Top Navigation with Sliding Active Indicator & System Status */}
       <PortfolioNav />
 
       {/* Main Content Area following the exact 5-section sequence */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6">
+      <main className="w-full">
         {/* 1. Hero */}
         <PortfolioHero />
 
-        {/* 2. Projects */}
+        {/* Ambient Engineering Loop Ribbon */}
+        <KineticTicker />
+
+        {/* 2. Projects (Slides over pinned Hero) */}
         <ProjectsSection />
 
         {/* 3. Tech Stack */}
