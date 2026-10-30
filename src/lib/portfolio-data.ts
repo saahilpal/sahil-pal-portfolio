@@ -24,6 +24,7 @@ export interface Project {
   version?: string;
   isOngoing?: boolean;
   image?: string;
+  chessRole?: string;
   links: ProjectLink[];
   stack: string[];
   problem: string;
@@ -87,10 +88,19 @@ export const profile = {
     resume: "/resume.pdf",
     portfolio: "https://sahil-pal-portfolio-d147.vercel.app/",
   },
+  chess: {
+    rating: "1000 ELO",
+    platform: "Chess.com",
+    format: "Rapid (10m)",
+    favoritePiece: "♞ Knight",
+    favoriteOpenings: ["Italian Game", "Vienna Gambit"],
+    philosophy:
+      "At 1000 ELO on Chess.com, you don't lose to 25-move computer prep—you lose to hanging a piece when the clock drops below 20s. That is why I build deterministic test oracles, lock-free queues, and strict state machines: production systems can never afford to hang a queen.",
+  },
   keyMetrics: [
     { label: "Strict Test Oracles", value: "80/80", subtext: "PatchBound deterministic verification suite" },
     { label: "Context Token Pruning", value: "72.4%", subtext: "Synapse Tree-sitter AST subgraph extraction" },
-    { label: "AST Parse Throughput", value: "42k LOC/s", subtext: "Concrete syntax tree parsing via C-bindings" },
+    { label: "Chess.com Rating", value: "~1000", subtext: "Rapid player & tactical 0-blunder philosophy" },
     { label: "Worker Concurrency", value: "Lock-Free", subtext: "PostgreSQL FOR UPDATE SKIP LOCKED queues" },
   ],
 };
@@ -180,6 +190,7 @@ export const projects: Project[] = [
     featured: true,
     version: "v1.1.0",
     isOngoing: true,
+    chessRole: "♚ King's Perimeter (Safety Boundary)",
     image: "/media/patchbound-preview.jpg",
     links: [
       { label: "Architecture Spec", url: "https://github.com/saahilpal", primary: true },
@@ -230,6 +241,7 @@ export const projects: Project[] = [
     status: "OPEN SOURCE • PyPI",
     featured: true,
     version: "v0.3.4",
+    chessRole: "♝ Bishop's Diagonal (AST Traversal)",
     image: "/media/synapse-preview.jpg",
     links: [
       { label: "PyPI Package", url: "https://pypi.org/project/synap-git/", primary: true },
@@ -291,6 +303,7 @@ export const projects: Project[] = [
     category: "AI Systems & Grounded RAG",
     status: "PRODUCTION LIVE",
     featured: true,
+    chessRole: "♜ Rook's Open File (Durable Queues)",
     image: "/media/docanalyzer-preview.jpg",
     links: [
       { label: "Live App", url: "https://www.docanalyzer.app/", primary: true },
@@ -342,6 +355,7 @@ export const projects: Project[] = [
     category: "Developer Tools & Browser Extensions",
     status: "PRODUCTION LIVE",
     featured: false,
+    chessRole: "♟ Pawn Promotion (Browser to Git)",
     image: "/media/leetsync-popup.png",
     links: [
       { label: "Live Companion", url: "https://leetsync-web.vercel.app/", primary: true },
@@ -375,6 +389,7 @@ export const projects: Project[] = [
     category: "Mobile Systems & Invoicing",
     status: "PRODUCTION IN USE",
     featured: true,
+    chessRole: "♞ Knight's Leap (Offline-First Mobility)",
     image: "/media/herabilling-preview.jpg",
     links: [
       { label: "GitHub Repo", url: "https://github.com/saahilpal", primary: true },

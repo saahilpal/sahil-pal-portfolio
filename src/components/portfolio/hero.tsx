@@ -53,10 +53,22 @@ export function PortfolioHero() {
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-[var(--bg-canvas)]/70 to-[var(--bg-canvas)] pointer-events-none" />
 
       <div ref={containerRef} className="relative z-10 space-y-10 max-w-5xl mx-auto">
-        {/* Availability Badge */}
-        <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[var(--accent-emerald-soft)] border border-[var(--border-subtle)] text-[var(--accent-emerald)] text-xs font-mono font-medium">
-          <span className="w-2 h-2 rounded-full bg-[var(--accent-emerald)] animate-pulse" />
-          <span>{profile.status}</span>
+        {/* Availability & Chess Badges */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[var(--accent-emerald-soft)] border border-[var(--border-subtle)] text-[var(--accent-emerald)] text-xs font-mono font-medium">
+            <span className="w-2 h-2 rounded-full bg-[var(--accent-emerald)] animate-pulse" />
+            <span>{profile.status}</span>
+          </div>
+
+          <a
+            href="#stack"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--bg-canvas)] border border-[var(--border-subtle)] hover:border-amber-400 text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors group cursor-pointer"
+          >
+            <span className="text-amber-400 group-hover:scale-110 transition-transform">♞</span>
+            <span className="font-semibold text-[var(--text-primary)]">~1000 ELO (Rapid)</span>
+            <span className="text-[var(--text-muted)] text-[11px] hidden sm:inline">&bull; 0 Blunders in Code</span>
+            <span className="text-[10px] text-amber-400 underline decoration-dotted">Play Move &darr;</span>
+          </a>
         </div>
 
         {/* Hero Title & Identity */}

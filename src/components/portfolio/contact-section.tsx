@@ -34,8 +34,8 @@ export function ContactSection() {
             <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--text-primary)] tracking-tight">
               Let&apos;s Build Systems That Don&apos;t Hallucinate.
             </h2>
-            <p className="text-base text-[var(--text-secondary)] leading-relaxed">
-              I am actively looking for engineering roles and collaborations in **AI Systems**, **Grounded Retrieval (RAG)**, **Evaluation Frameworks**, and **High-Throughput Backends**.
+            <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
+              Available for full-time software engineering roles and systems engineering work. If you are building code intelligence engines, high-concurrency distributed backends, or deterministic evaluation infrastructure, let&apos;s talk.
             </p>
           </div>
 

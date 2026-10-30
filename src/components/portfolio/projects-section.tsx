@@ -139,6 +139,12 @@ export function ProjectsSection() {
                           {project.version}
                         </span>
                       )}
+
+                      {project.chessRole && (
+                        <span className="text-[10px] font-mono text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                          {project.chessRole}
+                        </span>
+                      )}
                     </div>
 
                     <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
