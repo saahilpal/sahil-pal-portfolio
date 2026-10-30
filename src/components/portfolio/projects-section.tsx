@@ -260,14 +260,14 @@ export function ProjectsSection() {
                   {/* TAB 2: AUTHENTIC SYSTEM INTERFACE PREVIEW */}
                   {currentView === "preview" && project.image && (
                     <div className="p-4 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-medium)] space-y-3">
-                      <div className="flex items-center justify-between text-xs font-mono text-[var(--text-muted)] border-b border-[var(--border-subtle)] pb-2.5">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-[var(--text-muted)] border-b border-[var(--border-subtle)] pb-2.5">
                         <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1.5 shrink-0">
                             <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
                             <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
                             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
                           </div>
-                          <span className="font-semibold text-[var(--text-primary)] pl-2">
+                          <span className="font-semibold text-[var(--text-primary)] pl-1 truncate">
                             {project.name} &bull; System Interface View
                           </span>
                         </div>
@@ -278,7 +278,7 @@ export function ProjectsSection() {
                               title: `${project.name} — High-Resolution Inspection`,
                             })
                           }
-                          className="inline-flex items-center gap-1 text-[11px] text-[var(--accent-emerald)] hover:underline"
+                          className="inline-flex items-center gap-1 text-[11px] text-[var(--accent-emerald)] hover:underline shrink-0"
                         >
                           <Maximize2 className="w-3 h-3" />
                           <span>Inspect Full Resolution</span>
@@ -294,7 +294,7 @@ export function ProjectsSection() {
                         }
                         className="relative w-full rounded-lg overflow-hidden bg-black/60 border border-[var(--border-subtle)] cursor-zoom-in group"
                       >
-                        <div className="relative w-full h-64 sm:h-84 md:h-96">
+                        <div className="relative w-full h-52 sm:h-72 md:h-96">
                           <Image
                             src={project.image}
                             alt={`${project.name} Interface Screenshot`}

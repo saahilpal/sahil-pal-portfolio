@@ -73,7 +73,7 @@ export function PortfolioNav() {
         </nav>
 
         {/* Right: Social & Resume CTA (Desktop) */}
-        <div className="hidden sm:flex items-center gap-3 shrink-0">
+        <div className="hidden md:flex items-center gap-3 shrink-0">
           <a
             href={profile.links.github}
             target="_blank"
@@ -103,8 +103,8 @@ export function PortfolioNav() {
           </a>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="flex sm:hidden items-center gap-2 shrink-0">
+        {/* Mobile Menu Button (< md) */}
+        <div className="flex md:hidden items-center gap-2 shrink-0">
           <a
             href={profile.links.resume}
             target="_blank"
@@ -117,7 +117,7 @@ export function PortfolioNav() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
-            className="p-2 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)]"
+            className="p-2 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>

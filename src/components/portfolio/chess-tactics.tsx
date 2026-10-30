@@ -267,9 +267,9 @@ export function ChessTacticsSandbox() {
           {/* 8x8 Chessboard Container */}
           <div
             ref={boardContainerRef}
-            className="relative p-2.5 rounded-xl bg-[#0c0e12] border border-[var(--border-medium)] shadow-xl"
+            className="relative p-2 sm:p-3 rounded-xl bg-[#0c0e12] border border-[var(--border-medium)] shadow-xl w-full max-w-[320px] sm:max-w-[360px] md:max-w-[400px] flex justify-center"
           >
-            <div className="grid grid-cols-8 grid-rows-8 w-68 h-68 sm:w-84 sm:h-84 md:w-92 md:h-92 select-none border border-black/40 rounded-lg overflow-hidden">
+            <div className="grid grid-cols-8 grid-rows-8 w-full aspect-square select-none border border-black/40 rounded-lg overflow-hidden">
               {board.map((row, rowIdx) =>
                 row.map((cell, colIdx) => {
                   const squareName = `${String.fromCharCode(97 + colIdx)}${8 - rowIdx}` as Square;
@@ -299,25 +299,25 @@ export function ChessTacticsSandbox() {
                     >
                       {/* Square Coordinate Labels (a-h on rank 1, 1-8 on file a) */}
                       {colIdx === 0 && (
-                        <span className="absolute top-0.5 left-1 text-[8px] font-mono text-zinc-500 select-none">
+                        <span className="absolute top-0.5 left-1 text-[7px] sm:text-[8px] font-mono text-zinc-500 select-none">
                           {8 - rowIdx}
                         </span>
                       )}
                       {rowIdx === 7 && (
-                        <span className="absolute bottom-0.5 right-1 text-[8px] font-mono text-zinc-500 select-none">
+                        <span className="absolute bottom-0.5 right-1 text-[7px] sm:text-[8px] font-mono text-zinc-500 select-none">
                           {String.fromCharCode(97 + colIdx)}
                         </span>
                       )}
 
                       {/* Legal Move Destination Indicator */}
                       {isLegalTarget && (
-                        <div className="absolute z-10 w-3 h-3 rounded-full bg-emerald-400/75 animate-pulse shadow-sm" />
+                        <div className="absolute z-10 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-400/80 animate-pulse shadow-sm" />
                       )}
 
                       {/* Chess Piece Glyph */}
                       {cell && (
                         <span
-                          className={`text-2xl sm:text-3xl md:text-4xl font-serif select-none transition-transform duration-150 ${
+                          className={`text-xl sm:text-2xl md:text-3xl font-serif select-none transition-transform duration-150 ${
                             cell.color === "w"
                               ? "text-zinc-100 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
                               : "text-zinc-950 drop-shadow-[0_0_1px_rgba(255,255,255,0.7)]"

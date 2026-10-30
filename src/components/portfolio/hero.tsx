@@ -153,26 +153,56 @@ export function PortfolioHero() {
         {/* 4 Key Verified Proof Metrics Bento */}
         <div
           ref={metricsRef}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6"
+          className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 pt-6"
         >
-          {profile.keyMetrics.map((metric) => (
-            <div
-              key={metric.label}
-              className="craft-card p-4 sm:p-5 flex flex-col justify-between space-y-2 group hover:border-[var(--accent-emerald)]"
-            >
-              <div className="text-2xl sm:text-3xl font-mono font-bold text-[var(--accent-emerald)] tracking-tight">
-                {metric.value}
-              </div>
-              <div className="space-y-1">
-                <div className="text-xs font-semibold text-[var(--text-primary)]">
-                  {metric.label}
+          {profile.keyMetrics.map((metric) => {
+            const isChess = metric.label.includes("Chess");
+            const cardClasses = `craft-card p-3.5 sm:p-5 flex flex-col justify-between space-y-2 group transition-all duration-200 ${
+              isChess ? "hover:border-amber-400 cursor-pointer" : "hover:border-[var(--accent-emerald)]"
+            }`;
+
+            if (isChess) {
+              return (
+                <a
+                  key={metric.label}
+                  href="#stack"
+                  className={cardClasses}
+                >
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-mono font-bold text-amber-400 tracking-tight group-hover:scale-105 transition-transform">
+                    {metric.value}
+                  </div>
+                  <div className="space-y-1">
+                    <div className="text-xs font-semibold text-[var(--text-primary)] flex items-center justify-between">
+                      <span>{metric.label}</span>
+                      <span className="text-[10px] text-amber-400 font-mono underline decoration-dotted">Play &darr;</span>
+                    </div>
+                    <div className="text-[11px] text-[var(--text-muted)] leading-tight">
+                      {metric.subtext}
+                    </div>
+                  </div>
+                </a>
+              );
+            }
+
+            return (
+              <div
+                key={metric.label}
+                className={cardClasses}
+              >
+                <div className="text-xl sm:text-2xl lg:text-3xl font-mono font-bold text-[var(--accent-emerald)] tracking-tight">
+                  {metric.value}
                 </div>
-                <div className="text-[11px] text-[var(--text-muted)] leading-tight">
-                  {metric.subtext}
+                <div className="space-y-1">
+                  <div className="text-xs font-semibold text-[var(--text-primary)]">
+                    {metric.label}
+                  </div>
+                  <div className="text-[11px] text-[var(--text-muted)] leading-tight">
+                    {metric.subtext}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
