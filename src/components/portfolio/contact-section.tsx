@@ -1,138 +1,59 @@
-"use client";
-
-import { useState } from "react";
-import {
-  Mail,
-  Copy,
-  Check,
-  Phone,
-  MapPin,
-  FileText,
-  ArrowUpRight,
-} from "lucide-react";
 import { profile } from "@/lib/portfolio-data";
 
 export function ContactSection() {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(profile.links.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
-    <footer id="contact" className="py-20 sm:py-28">
-      <div className="max-w-5xl mx-auto space-y-12">
-        {/* Main CTA Card */}
-        <div className="craft-card p-8 sm:p-12 space-y-8 bg-gradient-to-b from-[var(--bg-surface)] to-[var(--bg-canvas)] border-[var(--border-medium)]">
-          <div className="space-y-4 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-mono text-[var(--accent-emerald)] uppercase tracking-wider font-semibold">
-              <span className="w-2 h-2 rounded-full bg-[var(--accent-emerald)]" />
-              <span>05 // DISPATCH &amp; GET IN TOUCH</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--text-primary)] tracking-tight">
-              Let&apos;s Build Systems That Don&apos;t Hallucinate.
-            </h2>
-            <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-              Available for full-time software engineering roles and systems engineering work. If you are building code intelligence engines, high-concurrency distributed backends, or deterministic evaluation infrastructure, let&apos;s talk.
-            </p>
-          </div>
+    <footer
+      id="contact"
+      aria-label="Contact and Links"
+      className="py-16 sm:py-24 space-y-10 max-w-4xl"
+    >
+      <div className="space-y-4">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--ink-primary)]">
+          Contact
+        </h2>
+        <p className="text-sm text-[var(--ink-secondary)]">
+          Open to full-time engineering roles, research collaboration, and systems projects.
+        </p>
 
-          {/* Contact Dispatch Buttons */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+        {/* Email with tiny sign-off */}
+        <div className="pt-2 space-y-1">
+          <a
+            href={`mailto:${profile.email}`}
+            className="text-lg sm:text-xl font-bold text-[var(--ink-primary)] hover:text-[var(--accent-move)] transition-colors"
+          >
+            {profile.email}
+          </a>
+          <p className="text-xs font-mono text-[var(--ink-muted)]">
+            Your move.
+          </p>
+        </div>
+      </div>
+
+      {/* Links repeated with text labels */}
+      <div className="pt-6 border-t border-[var(--line)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
+        <div className="flex flex-wrap items-center gap-5 font-medium">
+          {profile.links.map((link) => (
             <a
-              href={`mailto:${profile.links.email}?subject=Engineering%20Opportunity%20%E2%80%94%20AI%20Systems`}
-              className="btn-emerald text-sm py-3 px-6 shadow-xl"
-            >
-              <Mail className="w-4 h-4" />
-              <span>Send Direct Email</span>
-            </a>
-
-            <button
-              onClick={handleCopyEmail}
-              className="btn-surface text-sm py-3 px-5 group"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-4 h-4 text-[var(--accent-emerald)]" />
-                  <span className="text-[var(--accent-emerald)]">Copied to Clipboard!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors" />
-                  <span>Copy: {profile.links.email}</span>
-                </>
-              )}
-            </button>
-
-            <a
-              href={profile.links.resume}
+              key={link.label}
+              href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-surface text-sm py-3 px-5 group"
+              className="text-link"
             >
-              <FileText className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors" />
-              <span>Download Résumé</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[var(--text-muted)]" />
+              {link.label}
             </a>
-          </div>
-
-          {/* Quick Info Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[var(--border-subtle)] text-xs text-[var(--text-secondary)]">
-            <div className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-[var(--accent-emerald)]" />
-              <span className="font-mono">{profile.phone}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[var(--accent-cyan)]" />
-              <span>{profile.location}</span>
-            </div>
-            <div className="flex items-center gap-2 sm:justify-end">
-              <span className="w-2 h-2 rounded-full bg-[var(--accent-emerald)]" />
-              <span className="font-mono text-[var(--accent-emerald)]">Immediate Availability</span>
-            </div>
-          </div>
+          ))}
+          <a
+            href={profile.resumePath}
+            download="Sahil_Pal_Resume.pdf"
+            className="text-link text-[var(--accent-move)]"
+          >
+            Download resume (PDF)
+          </a>
         </div>
 
-        {/* Bottom Colophon / Social Links */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-xs text-[var(--text-muted)] border-t border-[var(--border-subtle)]">
-          <div className="flex items-center gap-2">
-            <span>© {new Date().getFullYear()} Sahil Pal. Built with Next.js, Anime.js &amp; Tailwind CSS.</span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <a
-              href={profile.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--text-primary)] transition-colors"
-            >
-              GitHub
-            </a>
-            <a
-              href={profile.links.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--text-primary)] transition-colors"
-            >
-              LinkedIn
-            </a>
-            <a
-              href={profile.links.leetcode}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--text-primary)] transition-colors"
-            >
-              LeetCode
-            </a>
-            <a
-              href={`mailto:${profile.links.email}`}
-              className="hover:text-[var(--text-primary)] transition-colors"
-            >
-              Email
-            </a>
-          </div>
+        <div className="text-[var(--ink-muted)] font-mono text-[11px]">
+          Sahil Pal &bull; Bengaluru
         </div>
       </div>
     </footer>

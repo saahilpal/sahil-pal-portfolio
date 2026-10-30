@@ -1,107 +1,46 @@
-"use client";
-
-import { Briefcase, CheckCircle2, Calendar, MapPin } from "lucide-react";
-import { experience } from "@/lib/portfolio-data";
+import { workExperience, WorkItem } from "@/lib/portfolio-data";
 
 export function ExperienceSection() {
   return (
-    <section id="work" className="py-16 sm:py-24 border-b border-[var(--border-subtle)]">
-      <div className="max-w-5xl mx-auto space-y-12">
-        {/* Section Header */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-xs font-mono text-[var(--accent-emerald)] uppercase tracking-wider font-semibold">
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-emerald)]" />
-            <span>03 // PROFESSIONAL EXPERIENCE</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--text-primary)] tracking-tight">
+    <section
+      id="experience"
+      aria-label="Work Experience"
+      className="py-14 sm:py-20 border-b border-[var(--line)]"
+    >
+      <div className="space-y-8 max-w-4xl">
+        <div className="space-y-1">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--ink-primary)]">
             Work Experience
           </h2>
-          <p className="text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl">
-            Engineering reactive non-blocking microservices, in-memory cache security, and concurrent backend infrastructure.
+          <p className="text-sm text-[var(--ink-secondary)]">
+            Professional software engineering work.
           </p>
         </div>
 
-        {/* Experience Timeline Cards */}
-        <div className="space-y-6">
-          {experience.map((item, idx) => (
-            <div
-              key={idx}
-              className="craft-card p-6 sm:p-8 space-y-6 hover:border-[var(--accent-emerald)] transition-all"
-            >
-              {/* Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border-subtle)] pb-5">
-                <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-xl bg-[var(--accent-emerald-soft)] text-[var(--accent-emerald)] border border-[var(--border-subtle)] mt-1">
-                    <Briefcase className="w-5 h-5" />
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="text-xl font-bold text-[var(--text-primary)]">
-                      {item.role}
-                    </h3>
-                    <div className="text-sm text-[var(--accent-emerald)] font-medium">
-                      {item.company}
-                    </div>
-                  </div>
+        <div className="space-y-8">
+          {workExperience.map((item: WorkItem, idx: number) => (
+            <div key={idx} className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <div>
+                  <h3 className="text-base font-bold text-[var(--ink-primary)]">
+                    {item.company}
+                  </h3>
+                  <p className="text-sm text-[var(--accent-move)] font-medium">
+                    {item.role}
+                  </p>
                 </div>
-
-                <div className="flex flex-col sm:items-end gap-1 text-xs font-mono text-[var(--text-muted)]">
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span>{item.date}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>{item.location}</span>
-                  </div>
+                <div className="text-xs font-mono text-[var(--ink-muted)]">
+                  {item.dates}
                 </div>
               </div>
 
-              {/* Highlights */}
-              <div className="space-y-3">
-                <div className="font-mono text-xs text-[var(--text-muted)] uppercase tracking-wider font-semibold">
-                  Key Technical Deliverables:
-                </div>
-                <div className="grid grid-cols-1 gap-2.5">
-                  {item.highlights.map((highlight, hIdx) => (
-                    <div
-                      key={hIdx}
-                      className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-[var(--accent-emerald)] shrink-0 mt-0.5" />
-                      <span>{highlight}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Architecture Decisions Notes */}
-              {item.architectureNotes && (
-                <div className="p-4 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2">
-                  <div className="font-mono text-xs text-[var(--accent-emerald)] uppercase tracking-wider font-semibold">
-                    Architecture Rationale:
-                  </div>
-                  <div className="space-y-1.5 text-xs text-[var(--text-secondary)]">
-                    {item.architectureNotes.map((note, nIdx) => (
-                      <div key={nIdx} className="flex items-start gap-2">
-                        <span className="text-[var(--accent-emerald)] font-mono">→</span>
-                        <span>{note}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Stack Pills */}
-              <div className="flex flex-wrap items-center gap-1.5 pt-2">
-                {item.stack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-[var(--text-secondary)]"
-                  >
-                    {tech}
-                  </span>
+              <ul className="space-y-1.5 text-sm text-[var(--ink-secondary)] list-disc list-inside">
+                {item.bullets.map((bullet, bIdx) => (
+                  <li key={bIdx} className="leading-relaxed">
+                    {bullet}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           ))}
         </div>

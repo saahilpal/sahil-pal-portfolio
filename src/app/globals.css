@@ -1,58 +1,32 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: var(--font-serif), Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-heading: var(--font-heading), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   HIGH-CRAFT SYSTEMS ENGINEERING PALETTE (Deep Obsidian & Emerald)
-   Inspired by top GitHub design engineering portfolios
-   ══════════════════════════════════════════════════════════════ */
 :root {
-  /* Rich Dark Obsidian Canvas */
-  --bg-canvas: #090B0E;
-  --bg-surface: #11141A;
-  --bg-surface-elevated: #161A22;
-  --bg-surface-subtle: #1C212B;
-  --bg-surface-hover: #222734;
+  /* Concept: Industrial Systems Specification Sheet */
+  --canvas: #141517;
+  --surface: #1B1D20;
+  --surface-hover: #222529;
+  --line: #282B32;
+  --line-strong: #383D47;
+  --ink-primary: #E8E7E3;
+  --ink-secondary: #90949D;
+  --ink-muted: #5E626B;
 
-  /* Precision Green & Emerald Accents */
-  --accent-emerald: #81B64C;
-  --accent-emerald-hover: #93C95A;
-  --accent-emerald-soft: rgba(129, 182, 76, 0.12);
-  --accent-emerald-glow: rgba(129, 182, 76, 0.25);
-
-  /* AI Retrieval Sky / Cyan */
-  --accent-cyan: #38BDF8;
-  --accent-cyan-soft: rgba(56, 189, 248, 0.12);
-
-  /* AST Violet / Indigo */
-  --accent-violet: #818CF8;
-  --accent-violet-soft: rgba(129, 140, 248, 0.12);
-
-  /* Typography */
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --text-faint: #475569;
-
-  /* Hairlines & Dividers */
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.14);
-  --border-active: rgba(129, 182, 76, 0.4);
-
-  /* Card Shadows */
-  --card-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-  --card-shadow-hover: 0 12px 32px -4px rgba(0, 0, 0, 0.6), 0 0 16px 1px rgba(129, 182, 76, 0.15);
+  /* Chess last-move pale yellow/gold accent (used for tiny marks only) */
+  --accent-move: #E2C974;
+  --accent-move-subtle: rgba(226, 201, 116, 0.12);
 }
 
 html,
 body {
-  background-color: var(--bg-canvas);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
+  background-color: var(--canvas);
+  color: var(--ink-primary);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -61,105 +35,85 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Custom Selection */
+/* Accessible text selection */
 ::selection {
-  background-color: var(--accent-emerald);
-  color: #000000;
+  background-color: var(--accent-move);
+  color: #141517;
 }
 
-/* Precision Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-canvas);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--bg-surface-elevated);
-  border-radius: 9999px;
-  border: 1px solid var(--border-subtle);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-emerald);
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--accent-move);
+  outline-offset: 2px;
 }
 
-/* Precision Card */
-.craft-card {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  box-shadow: var(--card-shadow);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
+/* Headlines */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.025em;
+  font-weight: 700;
 }
 
-.craft-card:hover {
-  border-color: var(--border-medium);
-  box-shadow: var(--card-shadow-hover);
-  transform: translateY(-2px);
+/* Clean Spec Panel (No glassmorphism, no blurry shadows) */
+.spec-panel {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
 }
 
-/* Subtle Technical Background Dot Grid */
-.bg-grid-dots {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Interactive link hover */
+.text-link {
+  color: var(--ink-secondary);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
+  transition: color 150ms ease, text-decoration-color 150ms ease;
 }
 
-/* Tactile Button */
-.btn-emerald {
-  background-color: var(--accent-emerald);
-  color: #000000;
+.text-link:hover {
+  color: var(--ink-primary);
+  text-decoration-color: var(--accent-move);
+}
+
+/* Primary Action Button (Solid, 0px or tight 4px radius, clear affordance) */
+.spec-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  border-radius: 10px;
-  padding: 0.625rem 1.25rem;
+  border-radius: 4px;
+  background-color: var(--ink-primary);
+  color: #141517;
+  border: 1px solid transparent;
+  transition: background-color 150ms ease, opacity 150ms ease;
+  min-height: 44px;
+}
+
+.spec-button:hover {
+  background-color: #F4F3EE;
+}
+
+/* Secondary Button / Pill */
+.spec-button-secondary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.btn-emerald:hover {
-  background-color: var(--accent-emerald-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(129, 182, 76, 0.35);
-}
-
-.btn-surface {
-  background-color: var(--bg-surface-elevated);
-  color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  padding: 0.625rem 1.25rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.btn-surface:hover {
-  background-color: var(--bg-surface-hover);
-  border-color: var(--border-medium);
-  transform: translateY(-1px);
-}
-
-/* Pill Badge */
-.pill-badge {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  padding: 0.65rem 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  padding: 3px 8px;
-  border-radius: 6px;
-  background-color: var(--bg-surface-elevated);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.15s ease;
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--ink-primary);
+  border: 1px solid var(--line-strong);
+  transition: border-color 150ms ease, background-color 150ms ease;
+  min-height: 44px;
 }
 
-.pill-badge:hover {
-  border-color: var(--accent-emerald);
-  color: var(--text-primary);
+.spec-button-secondary:hover {
+  border-color: var(--ink-primary);
+  background-color: var(--surface-hover);
 }

@@ -1,64 +1,35 @@
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Archivo, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-heading",
   display: "swap",
+  weight: ["600", "700", "800"],
 });
 
-const mono = JetBrains_Mono({
+const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-body",
   display: "swap",
+  weight: ["400", "500", "600"],
 });
+
+export const viewport: Viewport = {
+  themeColor: "#141517",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
-  title: "Sahil Pal — AI Systems, Grounded Retrieval & Evaluation Engineer",
+  title: "Sahil Pal — AI / Gen AI Engineer",
   description:
-    "Sahil Pal — AI Systems, Grounded Retrieval & Evaluation Engineer. Architect of PatchBound v1.1 (deterministic agent verification) and creator of Synapse (PyPI synap-git, AST context engine). Production RAG pipelines, lock-free PostgreSQL queues, and reactive event-loop microservices.",
-  keywords: [
-    "Sahil Pal",
-    "AI Systems Engineer",
-    "Grounded Retrieval",
-    "RAG",
-    "Evaluation Engineer",
-    "PatchBound",
-    "Synapse",
-    "synap-git",
-    "Tree-sitter",
-    "LangGraph",
-    "Model Context Protocol",
-    "MCP",
-    "PostgreSQL",
-    "SKIP LOCKED",
-    "pgvector",
-    "DocAnalyzer",
-    "Hera Billing",
-    "LeetSync",
-  ],
+    "Sahil Pal — AI / Gen AI Engineer in Bengaluru. Building deterministic context engines, grounded retrieval systems, and offline-first backends.",
   authors: [{ name: "Sahil Pal", url: "https://github.com/saahilpal" }],
   creator: "Sahil Pal",
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://github.com/saahilpal",
-    title: "Sahil Pal — AI Systems, Grounded Retrieval & Evaluation Engineer",
-    description:
-      "Deterministic Agent Verification, AST Context Engines, and High-Throughput Distributed Backends. Shipped systems: PatchBound v1.1, DocAnalyzer, Synapse, Hera Billing, LeetSync.",
-    siteName: "Sahil Pal Portfolio",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Sahil Pal — AI Systems, Grounded Retrieval & Evaluation Engineer",
-    description:
-      "Deterministic Agent Verification, AST Context Engines, and High-Throughput Distributed Backends.",
-  },
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    shortcut: "/icon.svg",
-    apple: "/icon.svg",
   },
 };
 
@@ -68,10 +39,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
-      <body
-        className={`${inter.variable} ${mono.variable} font-sans antialiased bg-[var(--bg-canvas)] text-[var(--text-primary)]`}
-      >
+    <html lang="en" className={`${archivo.variable} ${schibsted.variable}`}>
+      <body className="bg-[var(--canvas)] text-[var(--ink-primary)] antialiased font-[family-name:var(--font-body)]">
         {children}
       </body>
     </html>
