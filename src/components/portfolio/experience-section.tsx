@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { workExperience, WorkItem } from "@/lib/portfolio-data";
 import { TactileCard, TactilePill } from "./tactile-card";
+import { ScrubStatement } from "./scrub-statement";
 
 export function ExperienceSection() {
   const containerRef = useRef<HTMLElement>(null);
@@ -42,7 +43,7 @@ export function ExperienceSection() {
       aria-label="Work Experience"
       className="relative z-20 py-20 sm:py-32 border-b border-[var(--line)] bg-[var(--surface)] text-[var(--ink-primary)] transition-colors duration-500"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-20">
         {/* Section Header */}
         <div className="space-y-3">
           <div className="flex items-center gap-3">
@@ -54,9 +55,11 @@ export function ExperienceSection() {
           <h2 className="lightup-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
             WORK EXPERIENCE
           </h2>
-          <p className="lightup-text text-base sm:text-lg text-[var(--ink-secondary)] max-w-2xl">
-            Software engineering contributions within production client-server environments.
-          </p>
+        </div>
+
+        {/* Scroll-scrub Statement: Lights up word by word as you scroll */}
+        <div className="max-w-4xl py-6 border-y border-[var(--line)]">
+          <ScrubStatement text="Production software engineering contributions across reactive microservices, non-blocking APIs, and low-latency distributed storage." />
         </div>
 
         {/* Experience Rows with Sticky Left and Scroll-Drawn Center Guide Line */}

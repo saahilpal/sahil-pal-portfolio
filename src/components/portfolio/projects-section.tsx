@@ -1,16 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { projects, ProjectItem } from "@/lib/portfolio-data";
 import { TactileCard, TactilePill } from "./tactile-card";
+import { ScrubStatement } from "./scrub-statement";
 
 export function ProjectsSection() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <section
       id="projects"
       aria-label="Projects"
       className="relative z-20 py-20 sm:py-32 border-b border-[var(--line)] bg-[var(--surface)] text-[var(--ink-primary)] transition-colors duration-500 shadow-2xl"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-20">
         {/* Section Heading with Big Display Scale (6 to 9vw) */}
         <div className="space-y-3">
           <div className="flex items-center gap-3">
@@ -22,18 +26,27 @@ export function ProjectsSection() {
           <h2 className="lightup-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
             PROJECTS
           </h2>
-          <p className="lightup-text text-base sm:text-lg text-[var(--ink-secondary)] max-w-2xl">
-            Core systems I designed, implemented, and benchmarked. Structured engineering specifications with direct live links and verifiable benchmarks.
-          </p>
         </div>
 
-        {/* Structured Editorial Projects (Bullet Points & Live Links, No Images) */}
-        <div className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
+        {/* Scroll-Scrub Statement: Lights up word by word as you scroll */}
+        <div className="max-w-4xl py-6 border-y border-[var(--line)]">
+          <ScrubStatement text="Core systems I designed, built, and benchmarked — replacing fragile prompt heuristics with grounded context engines, parallel AST parsers, and verifiable evaluation." />
+        </div>
+
+        {/* Structured Editorial Projects (Interactive Light-Up & Soft Dimming) */}
+        <div className="divide-y divide-[var(--line)] border-b border-[var(--line)]">
           {projects.map((project: ProjectItem, index: number) => {
+            const isHovered = hoveredIndex === index;
+            const isDimmed = hoveredIndex !== null && !isHovered;
+
             return (
               <article
                 key={project.id}
-                className="py-12 sm:py-16 space-y-8 group transition-colors duration-300"
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className={`py-12 sm:py-16 space-y-8 group transition-all duration-300 ${
+                  isDimmed ? "opacity-35" : "opacity-100"
+                }`}
               >
                 {/* Project Header Row: Index, Name, One-liner, Live Links */}
                 <div className="flex flex-col lg:flex-row lg:items-baseline justify-between gap-6">
@@ -78,7 +91,7 @@ export function ProjectsSection() {
                 </div>
 
                 {/* Animated Tactile Specification Card */}
-                <TactileCard className="p-6 sm:p-8 bg-[var(--canvas)] cursor-default">
+                <TactileCard className={`p-6 sm:p-8 bg-[var(--canvas)] cursor-default transition-all duration-300 ${isHovered ? "border-[var(--accent-move)] shadow-2xl" : ""}`}>
                   <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 text-sm sm:text-base">
                       {/* Bullet 1: The Problem */}

@@ -5,6 +5,7 @@ import { profile } from "@/lib/portfolio-data";
 import { MagneticButton } from "./magnetic-button";
 import { RollLink } from "./roll-link";
 import { TactileCard, TactilePill } from "./tactile-card";
+import { ScrubStatement } from "./scrub-statement";
 
 export function ContactSection() {
   const [istTime, setIstTime] = useState<string>("");
@@ -45,7 +46,7 @@ export function ContactSection() {
       aria-label="Contact and Links"
       className="relative z-20 py-20 sm:py-32 bg-[var(--canvas)] text-[var(--ink-primary)] transition-colors duration-500"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-20">
         {/* Header */}
         <div className="space-y-3">
           <div className="flex items-center gap-3">
@@ -59,12 +60,13 @@ export function ContactSection() {
           </h2>
         </div>
 
+        {/* Scroll-scrub Statement: Lights up word by word as you scroll */}
+        <div className="max-w-4xl py-6 border-y border-[var(--line)]">
+          <ScrubStatement text="Open to forward-looking AI engineering roles, technical research partnerships, and distributed context architecture engagements." />
+        </div>
+
         {/* Big Display Email Callout + Copy Action */}
         <div className="space-y-6">
-          <p className="lightup-text text-base sm:text-xl text-[var(--ink-secondary)] max-w-xl">
-            Open to engineering roles, research collaboration, and systems architecture work.
-          </p>
-
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-4">
               <a

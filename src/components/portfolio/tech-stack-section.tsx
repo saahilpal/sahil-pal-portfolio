@@ -1,56 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
 import { techStack, TechStackGroup } from "@/lib/portfolio-data";
 import { TactileCard, TactilePill } from "./tactile-card";
+import { ScrubStatement } from "./scrub-statement";
 
 export function TechStackSection() {
-  const containerRef = useRef<HTMLElement>(null);
-  const statementRef = useRef<HTMLParagraphElement>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (isReduced) return;
-
-    const words = statementRef.current?.querySelectorAll(".scrub-word");
-    if (!words || words.length === 0) return;
-
-    // Scroll scrub animation that fills words from faint to full ink
-    const trigger = ScrollTrigger.create({
-      trigger: statementRef.current,
-      start: "top 80%",
-      end: "bottom 45%",
-      scrub: 0.6,
-      animation: gsap.to(words, {
-        opacity: 1,
-        color: "#E8E7E3",
-        stagger: 0.05,
-        ease: "none",
-      }),
-    });
-
-    return () => {
-      trigger.kill();
-    };
-  }, []);
-
-  const statementText =
-    "I engineer deterministic systems — choosing robust runtimes, explicit schema contracts, and verifiable data flows over speculative hype.";
-  const words = statementText.split(" ");
 
   return (
     <section
       id="tech-stack"
-      ref={containerRef}
       aria-label="Tech Stack"
       className="relative z-20 py-20 sm:py-32 border-b border-[var(--line)] bg-[var(--canvas)] text-[var(--ink-primary)] transition-colors duration-500"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-20">
         {/* Section Header */}
         <div className="space-y-3">
           <div className="flex items-center gap-3">
@@ -64,21 +28,9 @@ export function TechStackSection() {
           </h2>
         </div>
 
-        {/* Scroll-scrub Statement */}
+        {/* Scroll-scrub Statement: Lights up word by word as you scroll */}
         <div className="max-w-4xl py-6 border-y border-[var(--line)]">
-          <p
-            ref={statementRef}
-            className="text-2xl sm:text-4xl lg:text-[2.65rem] font-[family-name:var(--font-heading)] font-bold leading-snug tracking-tight"
-          >
-            {words.map((word, idx) => (
-              <span
-                key={idx}
-                className="scrub-word inline-block mr-[0.28em] text-[var(--ink-muted)] opacity-25 transition-colors will-change-[opacity,color]"
-              >
-                {word}
-              </span>
-            ))}
-          </p>
+          <ScrubStatement text="I engineer deterministic systems — choosing robust runtimes, explicit schema contracts, and verifiable data flows over speculative hype." />
         </div>
 
         {/* Grouped Plain Text with Tactile Anime.js Cards & Skill Pills */}
@@ -95,7 +47,7 @@ export function TechStackSection() {
                 onMouseLeave={() => setHoveredIndex(null)}
                 className={`transition-opacity duration-300 ${isDimmed ? "opacity-35" : "opacity-100"}`}
               >
-                <TactileCard className="p-6 sm:p-8 space-y-5 cursor-default">
+                <TactileCard className={`p-6 sm:p-8 space-y-5 cursor-default transition-all duration-300 ${isHovered ? "border-[var(--accent-move)] shadow-2xl" : ""}`}>
                   {/* Corner Crosshairs */}
                   <span
                     className={`absolute top-3 left-3 text-[10px] font-mono transition-colors ${
