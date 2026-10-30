@@ -53,7 +53,7 @@ export function ContactSection() {
         </div>
 
         <div className="text-[var(--ink-muted)] font-mono text-[11px]">
-          Sahil Pal &bull; Bengaluru
+          Sahil Pal &bull; AI / Gen AI Engineer
         </div>
       </div>
     </footer>

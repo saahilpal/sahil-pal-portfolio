@@ -11,7 +11,7 @@ export function PortfolioHero() {
         {/* Title & Name */}
         <div className="space-y-2">
           <p className="text-xs sm:text-sm font-mono text-[var(--accent-move)] tracking-normal">
-            {profile.title} &bull; {profile.location}
+            {profile.title}
           </p>
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-[var(--ink-primary)] leading-none">
             {profile.name}

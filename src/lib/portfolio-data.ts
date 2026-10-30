@@ -36,11 +36,10 @@ export const profile = {
   name: "Sahil Pal",
   title: "AI / Gen AI Engineer",
   summaryLines: [
-    "I am an AI and systems engineer based in Bengaluru.",
-    "I build deterministic context engines for coding agents, grounded retrieval pipelines, and offline-first mobile backends.",
+    "I build deterministic context engines for coding agents, grounded retrieval pipelines, and offline-first backends.",
+    "Creator of Synapse (published on PyPI as synap-git) and DocAnalyzer.",
     "Focused on AST parsing, database concurrency, and verifiable model evaluation.",
   ],
-  location: "Bengaluru, India",
   email: "saahilpal17@gmail.com",
   resumePath: "/resume.pdf",
   links: [

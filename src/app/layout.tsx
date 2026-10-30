@@ -25,7 +25,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Sahil Pal — AI / Gen AI Engineer",
   description:
-    "Sahil Pal — AI / Gen AI Engineer in Bengaluru. Building deterministic context engines, grounded retrieval systems, and offline-first backends.",
+    "Sahil Pal — AI / Gen AI Engineer. Building deterministic context engines, grounded retrieval systems, and offline-first backends.",
   authors: [{ name: "Sahil Pal", url: "https://github.com/saahilpal" }],
   creator: "Sahil Pal",
   icons: {
