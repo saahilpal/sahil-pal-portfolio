@@ -1,4 +1,4 @@
-import { CustomCursor } from "@/components/portfolio/custom-cursor";
+import { IntroCurtain } from "@/components/portfolio/intro-curtain";
 import { LenisScroller } from "@/components/portfolio/lenis-scroller";
 import { KineticTicker } from "@/components/portfolio/kinetic-ticker";
 import { PortfolioNav } from "@/components/portfolio/navbar";
@@ -12,13 +12,13 @@ import { ContactSection } from "@/components/portfolio/contact-section";
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-[var(--canvas)] text-[var(--ink-primary)] selection:bg-[var(--accent-move)] selection:text-[#121315]">
-      {/* Desktop Kinetic Precision Cursor */}
-      <CustomCursor />
+      {/* Fast & Efficient 1-second Chessboard Opening Stagger Curtain */}
+      <IntroCurtain />
 
-      {/* Smooth Scroll + Dynamic Midpoint Background Shifts */}
+      {/* Lightweight Smooth Scroll & Background Shifts */}
       <LenisScroller />
 
-      {/* Top Navigation with Sliding Active Indicator & System Status */}
+      {/* Top Navigation with Sliding Active Indicator & Chess Rating */}
       <PortfolioNav />
 
       {/* Main Content Area following the exact 5-section sequence */}

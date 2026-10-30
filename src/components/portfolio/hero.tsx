@@ -1,13 +1,45 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { profile } from "@/lib/portfolio-data";
 import { MagneticButton } from "./magnetic-button";
+import { RollLink } from "./roll-link";
 import { TactileCard, TactilePill } from "./tactile-card";
 
 export function PortfolioHero() {
+  const containerRef = useRef<HTMLElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+    // Variable font animation responding to mouse position (Desktop cursor)
+    if (!hasFinePointer || isReduced) return;
+
+    const nameEl = nameRef.current;
+    if (!nameEl) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const { innerWidth, innerHeight } = window;
+      const xRatio = Math.max(0, Math.min(1, e.clientX / innerWidth));
+      const yRatio = Math.max(0, Math.min(1, e.clientY / innerHeight));
+
+      // Vary width axis between 75 and 125, weight between 600 and 850
+      const wdth = Math.round(75 + xRatio * 50);
+      const wght = Math.round(650 + yRatio * 200);
+
+      nameEl.style.fontVariationSettings = `'wdth' ${wdth}, 'wght' ${wght}`;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
     <section
       id="hero"
+      ref={containerRef}
       aria-label="Introduction"
       className="relative z-10 sticky top-16 min-h-[min(90vh,940px)] flex flex-col justify-between pt-8 sm:pt-12 pb-10 sm:pb-14 border-b border-[var(--line)] bg-[var(--canvas)]"
     >
@@ -32,9 +64,16 @@ export function PortfolioHero() {
             </TactilePill>
           </div>
 
-          {/* Scaled Hero Display Name (clean static typography, zero layout thrashing) */}
+          {/* Scaled Hero Display Name (fluid responsive clamp) */}
           <div className="py-1">
-            <h1 className="lightup-heading text-illuminated text-[13vw] sm:text-[11vw] lg:text-[10vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.88] text-[var(--ink-primary)] select-none uppercase">
+            <h1
+              ref={nameRef}
+              className="lightup-heading text-[13vw] sm:text-[11vw] lg:text-[10vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.88] text-[var(--ink-primary)] select-none uppercase will-change-[font-variation-settings]"
+              style={{
+                fontVariationSettings: "'wdth' 100, 'wght' 700",
+                display: "inline-block",
+              }}
+            >
               {profile.name}
             </h1>
           </div>
@@ -42,34 +81,10 @@ export function PortfolioHero() {
           {/* 2 to 3 simple lines on who I am and what I build */}
           <div className="space-y-3 max-w-3xl text-base sm:text-xl lg:text-[1.3rem] leading-relaxed text-[var(--ink-secondary)]">
             {profile.summaryLines.map((line, idx) => (
-              <p key={idx} className="lightup-text text-illuminated">
+              <p key={idx} className="lightup-text">
                 {line}
               </p>
             ))}
-          </div>
-
-          {/* Social Links — PLACED DIRECTLY AFTER THE SUMMARY AS REQUESTED */}
-          <div className="pt-2 pb-2">
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-              <span className="text-xs font-mono uppercase tracking-wider text-[var(--ink-muted)] pr-1">
-                CONNECT //
-              </span>
-              {profile.links.map((link) => (
-                <TactilePill key={link.label}>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-mono font-medium bg-[var(--surface)] border border-[var(--line)] text-[var(--ink-primary)] hover:border-[var(--accent-move)] hover:text-white hover:bg-[var(--surface-hover)] transition-all min-h-[44px]"
-                  >
-                    <span>{link.label}</span>
-                    <span className="text-[var(--accent-move)] text-xs" aria-hidden="true">
-                      ↗
-                    </span>
-                  </a>
-                </TactilePill>
-              ))}
-            </div>
           </div>
 
           {/* Tactile Engineering Pillars (Interactive Touch Boxes) */}
@@ -116,8 +131,8 @@ export function PortfolioHero() {
           </div>
         </div>
 
-        {/* Hero Actions: Download Resume & Direct Email */}
-        <div className="pt-6 sm:pt-8 border-t border-[var(--line)]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Hero Actions visible immediately without scrolling: Links + Resume button */}
+        <div className="pt-6 sm:pt-8 border-t border-[var(--line)]/60 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             {/* Magnetic Resume Download Button */}
             <MagneticButton
@@ -136,7 +151,7 @@ export function PortfolioHero() {
             <TactilePill>
               <a
                 href={`mailto:${profile.email}`}
-                className="text-xs sm:text-sm font-mono text-[var(--ink-secondary)] hover:text-white px-3.5 py-2.5 rounded-lg border border-[var(--line)] hover:border-[var(--accent-move)] transition-colors min-h-[44px] inline-flex items-center gap-2 bg-[var(--surface)]/50"
+                className="text-xs sm:text-sm font-mono text-[var(--ink-secondary)] hover:text-white px-3.5 py-2.5 rounded-lg border border-[var(--line)] hover:border-[var(--accent-move)] transition-colors min-h-[48px] inline-flex items-center gap-2 bg-[var(--surface)]/50"
               >
                 <span className="w-2 h-2 rounded-full bg-[var(--accent-move)]" />
                 <span>{profile.email}</span>
@@ -144,8 +159,18 @@ export function PortfolioHero() {
             </TactilePill>
           </div>
 
-          <div className="text-xs font-mono text-[var(--ink-muted)]">
-            <span>SCROLL TO EXPLORE WORK ↓</span>
+          {/* Text-labeled Links with roll-up micro-interaction */}
+          <div className="flex flex-wrap items-center gap-5 sm:gap-6 text-sm font-medium">
+            {profile.links.map((link) => (
+              <TactilePill key={link.label}>
+                <RollLink
+                  href={link.url}
+                  label={link.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              </TactilePill>
+            ))}
           </div>
         </div>
       </div>
