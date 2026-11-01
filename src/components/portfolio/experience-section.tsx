@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { workExperience, WorkItem } from "@/lib/portfolio-data";
 import { TactileCard, TactilePill } from "./tactile-card";
 import { ScrubStatement } from "./scrub-statement";
+import { ShieldCheck, Briefcase } from "lucide-react";
 
 export function ExperienceSection() {
   const containerRef = useRef<HTMLElement>(null);
@@ -43,15 +44,9 @@ export function ExperienceSection() {
       aria-label="Work Experience"
       className="relative z-20 py-20 sm:py-32 border-b border-[var(--line)] bg-[var(--surface)] text-[var(--ink-primary)] transition-colors duration-500"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-20">
-        {/* Section Header */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-mono text-[var(--accent-move)] tracking-widest uppercase">
-              {"// 03 • INDUSTRY & INTERNSHIP"}
-            </span>
-            <span className="h-[1px] w-16 bg-[var(--line-strong)]" aria-hidden="true" />
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-12 sm:space-y-16">
+        {/* Section Header (No Kicker Eyebrow) */}
+        <div className="space-y-4">
           <h2 className="lightup-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
             WORK EXPERIENCE
           </h2>
@@ -71,10 +66,13 @@ export function ExperienceSection() {
             >
               {/* Left Column: Sticky Company & Role on Desktop */}
               <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start space-y-3">
-                <span className="text-xs font-mono text-[var(--accent-move)] uppercase tracking-wider block font-bold">
-                  {item.role}
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-[family-name:var(--font-heading)] font-bold text-[var(--ink-primary)]">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-4 h-4 text-[var(--accent-move)]" />
+                  <span className="text-xs font-mono text-[var(--accent-move)] uppercase tracking-wider block font-bold">
+                    {item.role}
+                  </span>
+                </div>
+                <h3 className="lightup-heading text-2xl sm:text-3xl font-[family-name:var(--font-heading)] font-bold text-[var(--ink-primary)]">
                   {item.company}
                 </h3>
                 <TactilePill>
@@ -97,11 +95,12 @@ export function ExperienceSection() {
               <div className="lg:col-span-6 space-y-6">
                 <TactileCard className="p-6 sm:p-8 bg-[var(--canvas)] space-y-6 cursor-default">
                   <div className="flex items-center justify-between border-b border-[var(--line)] pb-3">
-                    <span className="text-xs font-mono uppercase tracking-widest text-[var(--accent-move)] font-semibold">
+                    <span className="text-xs font-mono uppercase tracking-wider text-[var(--accent-move)] font-semibold">
                       Core Technical Deliverables
                     </span>
-                    <span className="text-xs font-mono text-[var(--ink-muted)]">
-                      VERIFIED PRODUCTION
+                    <span className="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-400">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <span>VERIFIED PRODUCTION</span>
                     </span>
                   </div>
 

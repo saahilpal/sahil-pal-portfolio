@@ -3,8 +3,18 @@
 import { useEffect, useRef } from "react";
 import { profile } from "@/lib/portfolio-data";
 import { MagneticButton } from "./magnetic-button";
-import { RollLink } from "./roll-link";
 import { TactileCard, TactilePill } from "./tactile-card";
+import {
+  Download,
+  Mail,
+  Github,
+  Linkedin,
+  Code2,
+  Package,
+  Cpu,
+  Database,
+  ArrowUpRight,
+} from "lucide-react";
 
 export function PortfolioHero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -36,6 +46,21 @@ export function PortfolioHero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const getSocialIcon = (label: string) => {
+    switch (label.toLowerCase()) {
+      case "github":
+        return <Github className="w-4 h-4 shrink-0" />;
+      case "linkedin":
+        return <Linkedin className="w-4 h-4 shrink-0" />;
+      case "leetcode":
+        return <Code2 className="w-4 h-4 shrink-0" />;
+      case "pypi":
+        return <Package className="w-4 h-4 shrink-0" />;
+      default:
+        return <ArrowUpRight className="w-4 h-4 shrink-0" />;
+    }
+  };
+
   return (
     <section
       id="hero"
@@ -56,11 +81,14 @@ export function PortfolioHero() {
               <span>OPEN TO ENGINEERING ROLES</span>
             </span>
             <TactilePill>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-[var(--surface)] border border-[var(--line)] text-[var(--ink-secondary)] hover:border-[var(--accent-move)] hover:text-white transition-colors cursor-pointer">
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-[var(--surface)] border border-[var(--line)] text-[var(--ink-secondary)] hover:border-[var(--accent-move)] hover:text-white transition-colors cursor-pointer"
+              >
                 <span className="text-[var(--accent-move)]">♞</span>
                 <span className="font-bold text-[var(--ink-primary)]">1000 Elo</span>
                 <span className="text-[10px] text-[var(--ink-muted)]">Rapid</span>
-              </span>
+              </a>
             </TactilePill>
           </div>
 
@@ -87,12 +115,61 @@ export function PortfolioHero() {
             ))}
           </div>
 
-          {/* Tactile Engineering Pillars (Interactive Touch Boxes) */}
+          {/* Social Links & Primary CTAs placed IMMEDIATELY after summary */}
+          <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-[var(--line)]/50 pt-5">
+            {/* Social Links Pills */}
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+              {profile.links.map((link) => (
+                <TactilePill key={link.label}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-mono font-medium bg-[var(--surface)] border border-[var(--line)] text-[var(--ink-secondary)] hover:text-white hover:border-[var(--accent-move)] transition-all min-h-[44px]"
+                  >
+                    <span className="text-[var(--ink-muted)] group-hover:text-[var(--accent-move)] transition-colors">
+                      {getSocialIcon(link.label)}
+                    </span>
+                    <span>{link.label}</span>
+                    <ArrowUpRight className="w-3 h-3 text-[var(--ink-muted)] opacity-50 group-hover:opacity-100 group-hover:text-[var(--accent-move)] transition-all" />
+                  </a>
+                </TactilePill>
+              ))}
+
+              <TactilePill>
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-mono font-medium bg-[var(--surface)] border border-[var(--line)] text-[var(--ink-secondary)] hover:text-white hover:border-[var(--accent-move)] transition-all min-h-[44px]"
+                >
+                  <Mail className="w-4 h-4 text-[var(--accent-move)]" />
+                  <span>{profile.email}</span>
+                </a>
+              </TactilePill>
+            </div>
+
+            {/* Resume Download Action */}
+            <div className="shrink-0">
+              <MagneticButton
+                href={profile.resumePath}
+                download="Sahil_Pal_Resume.pdf"
+                className="spec-button"
+                dataCursor="download"
+              >
+                <span>Download resume (PDF)</span>
+                <Download className="w-4 h-4" />
+              </MagneticButton>
+            </div>
+          </div>
+
+          {/* Tactile Engineering Pillars (Interactive Touch Boxes with Corner Crosshairs) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
             <TactileCard className="p-4 bg-[var(--surface)]/70 cursor-pointer">
-              <span className="text-[10px] font-mono uppercase text-[var(--accent-move)] block font-semibold">
-                01 // CORE PACKAGE
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase text-[var(--accent-move)] block font-semibold">
+                  01 // CORE PACKAGE
+                </span>
+                <Cpu className="w-3.5 h-3.5 text-[var(--accent-move)]" />
+              </div>
               <p className="text-sm font-bold text-[var(--ink-primary)] pt-1">
                 PyPI: synap-git
               </p>
@@ -102,9 +179,12 @@ export function PortfolioHero() {
             </TactileCard>
 
             <TactileCard className="p-4 bg-[var(--surface)]/70 cursor-pointer">
-              <span className="text-[10px] font-mono uppercase text-[var(--accent-move)] block font-semibold">
-                02 // GROUNDED RAG
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase text-[var(--accent-move)] block font-semibold">
+                  02 // GROUNDED RAG
+                </span>
+                <Database className="w-3.5 h-3.5 text-[var(--accent-move)]" />
+              </div>
               <p className="text-sm font-bold text-[var(--ink-primary)] pt-1">
                 DocAnalyzer
               </p>
@@ -114,10 +194,12 @@ export function PortfolioHero() {
             </TactileCard>
 
             <TactileCard className="p-4 bg-[var(--surface)]/70 cursor-pointer">
-              <span className="text-[10px] font-mono uppercase text-[var(--accent-move)] block font-semibold flex items-center justify-between">
-                <span>03 // TACTICAL MINDSET</span>
-                <span className="text-xs">♞</span>
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase text-[var(--accent-move)] block font-semibold">
+                  03 // TACTICAL MINDSET
+                </span>
+                <span className="text-xs text-[var(--accent-move)]">♞</span>
+              </div>
               <p className="text-sm font-bold text-[var(--ink-primary)] pt-1 flex items-center gap-1.5">
                 <span>1000 Elo Rapid</span>
                 <span className="text-[10px] font-mono text-[var(--accent-move)] px-1 py-0.2 rounded bg-[var(--canvas)] border border-[var(--line)]">
@@ -128,49 +210,6 @@ export function PortfolioHero() {
                 Positional calculation &amp; foresight
               </p>
             </TactileCard>
-          </div>
-        </div>
-
-        {/* Hero Actions visible immediately without scrolling: Links + Resume button */}
-        <div className="pt-6 sm:pt-8 border-t border-[var(--line)]/60 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            {/* Magnetic Resume Download Button */}
-            <MagneticButton
-              href={profile.resumePath}
-              download="Sahil_Pal_Resume.pdf"
-              className="spec-button"
-              dataCursor="download"
-            >
-              <span>Download resume (PDF)</span>
-              <span className="text-xs font-mono opacity-80" aria-hidden="true">
-                ↓
-              </span>
-            </MagneticButton>
-
-            {/* Quick email link with tactile feedback */}
-            <TactilePill>
-              <a
-                href={`mailto:${profile.email}`}
-                className="text-xs sm:text-sm font-mono text-[var(--ink-secondary)] hover:text-white px-3.5 py-2.5 rounded-lg border border-[var(--line)] hover:border-[var(--accent-move)] transition-colors min-h-[48px] inline-flex items-center gap-2 bg-[var(--surface)]/50"
-              >
-                <span className="w-2 h-2 rounded-full bg-[var(--accent-move)]" />
-                <span>{profile.email}</span>
-              </a>
-            </TactilePill>
-          </div>
-
-          {/* Text-labeled Links with roll-up micro-interaction */}
-          <div className="flex flex-wrap items-center gap-5 sm:gap-6 text-sm font-medium">
-            {profile.links.map((link) => (
-              <TactilePill key={link.label}>
-                <RollLink
-                  href={link.url}
-                  label={link.label}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
-              </TactilePill>
-            ))}
           </div>
         </div>
       </div>

@@ -4,9 +4,25 @@ import { useState } from "react";
 import { techStack, TechStackGroup } from "@/lib/portfolio-data";
 import { TactileCard, TactilePill } from "./tactile-card";
 import { ScrubStatement } from "./scrub-statement";
+import { Code2, Cpu, Database, Layers } from "lucide-react";
 
 export function TechStackSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const getCategoryIcon = (category: string) => {
+    switch (category.toLowerCase()) {
+      case "languages":
+        return <Code2 className="w-4 h-4 text-[var(--accent-move)]" />;
+      case "llms & genai tools":
+        return <Cpu className="w-4 h-4 text-[var(--accent-move)]" />;
+      case "data & vector stores":
+        return <Database className="w-4 h-4 text-[var(--accent-move)]" />;
+      case "cloud & deployment":
+        return <Layers className="w-4 h-4 text-[var(--accent-move)]" />;
+      default:
+        return <Code2 className="w-4 h-4 text-[var(--accent-move)]" />;
+    }
+  };
 
   return (
     <section
@@ -14,15 +30,9 @@ export function TechStackSection() {
       aria-label="Tech Stack"
       className="relative z-20 py-20 sm:py-32 border-b border-[var(--line)] bg-[var(--canvas)] text-[var(--ink-primary)] transition-colors duration-500"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-20">
-        {/* Section Header */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-mono text-[var(--accent-move)] tracking-widest uppercase">
-              {"// 02 • RUNTIME & FOUNDATIONS"}
-            </span>
-            <span className="h-[1px] w-16 bg-[var(--line-strong)]" aria-hidden="true" />
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-12 sm:space-y-16">
+        {/* Section Header (No Kicker Eyebrow) */}
+        <div className="space-y-4">
           <h2 className="lightup-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
             TECH STACK
           </h2>
@@ -67,11 +77,14 @@ export function TechStackSection() {
                   </span>
 
                   <div className="flex items-center justify-between">
-                    <h3 className="text-xs sm:text-sm font-mono uppercase tracking-widest text-[var(--accent-move)] font-bold">
-                      {group.category}
-                    </h3>
-                    <span className="text-xs font-mono text-[var(--ink-muted)]">
-                      {"// 0" + (idx + 1)}
+                    <div className="flex items-center gap-2.5">
+                      {getCategoryIcon(group.category)}
+                      <h3 className="text-sm font-mono uppercase tracking-wider text-[var(--ink-primary)] font-bold">
+                        {group.category}
+                      </h3>
+                    </div>
+                    <span className="text-xs font-mono text-[var(--accent-move)] font-semibold">
+                      0{idx + 1}
                     </span>
                   </div>
 

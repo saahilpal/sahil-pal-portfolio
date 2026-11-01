@@ -7,7 +7,7 @@
 }
 
 :root {
-  /* Concept: Industrial Systems Specification Sheet — High-Contrast Luminance */
+  /* Concept: Industrial AI Systems Specification — High-Contrast Titanium Luminance */
   --canvas: #101114;
   --surface: #181A1E;
   --surface-hover: #22252B;
@@ -17,7 +17,7 @@
   --ink-secondary: #E5E7EB;
   --ink-muted: #9CA3AF;
 
-  /* Chess last-move pale yellow/gold accent (used for tactical marks) */
+  /* Tactical chess accent */
   --accent-move: #E2C974;
   --accent-move-subtle: rgba(226, 201, 116, 0.15);
 }
@@ -29,14 +29,31 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
   width: 100%;
   scroll-behavior: smooth;
+  font-variant-numeric: tabular-nums;
 }
 
 body, section, header, footer {
-  transition: background-color 500ms cubic-bezier(0.16, 1, 0.3, 1), border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 400ms cubic-bezier(0.16, 1, 0.3, 1), border-color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Custom Themed Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-move);
 }
 
 /* Tactile & Living Loop Animations */
@@ -103,18 +120,26 @@ body, section, header, footer {
   transform: scale(0.965);
 }
 
-/* Bright, High-Contrast Typography */
+/* Text Illumination: smooth transition from subdued to full brilliance */
 .lightup-heading {
+  color: #7A8090;
+  transition: color 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lightup-heading.text-illuminated,
+.lightup-heading:hover {
   color: #FFFFFF;
-  transition: color 250ms ease;
 }
 
 .lightup-text {
+  color: #8E94A4;
+  transition: color 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lightup-text.text-illuminated,
+.lightup-text:hover {
   color: #E5E7EB;
-  transition: color 250ms ease;
 }
 
-/* Accessible text selection */
+/* Accessible text selection themed from palette */
 ::selection {
   background-color: var(--accent-move);
   color: #141517;
@@ -197,7 +222,7 @@ h1, h2, h3, h4 {
   background-color: var(--surface-hover);
 }
 
-/* UI/UX Lead Polish: Touch Optimization & No-Scrollbar utility */
+/* Touch Optimization & No-Scrollbar utility */
 * {
   -webkit-tap-highlight-color: transparent;
 }

@@ -3,9 +3,20 @@
 import { useState, useEffect } from "react";
 import { profile } from "@/lib/portfolio-data";
 import { MagneticButton } from "./magnetic-button";
-import { RollLink } from "./roll-link";
 import { TactileCard, TactilePill } from "./tactile-card";
 import { ScrubStatement } from "./scrub-statement";
+import {
+  Copy,
+  Check,
+  Download,
+  Clock,
+  Activity,
+  Github,
+  Linkedin,
+  Code2,
+  Package,
+  ArrowUpRight,
+} from "lucide-react";
 
 export function ContactSection() {
   const [istTime, setIstTime] = useState<string>("");
@@ -40,21 +51,30 @@ export function ContactSection() {
     }
   };
 
+  const getSocialIcon = (label: string) => {
+    switch (label.toLowerCase()) {
+      case "github":
+        return <Github className="w-4 h-4 shrink-0" />;
+      case "linkedin":
+        return <Linkedin className="w-4 h-4 shrink-0" />;
+      case "leetcode":
+        return <Code2 className="w-4 h-4 shrink-0" />;
+      case "pypi":
+        return <Package className="w-4 h-4 shrink-0" />;
+      default:
+        return <ArrowUpRight className="w-4 h-4 shrink-0" />;
+    }
+  };
+
   return (
     <footer
       id="contact"
       aria-label="Contact and Links"
       className="relative z-20 py-20 sm:py-32 bg-[var(--canvas)] text-[var(--ink-primary)] transition-colors duration-500"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-16 sm:space-y-20">
-        {/* Header */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-mono text-[var(--accent-move)] tracking-widest uppercase">
-              {"// 05 • INITIATE CONTACT"}
-            </span>
-            <span className="h-[1px] w-16 bg-[var(--line-strong)]" aria-hidden="true" />
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-12 sm:space-y-16">
+        {/* Header (No Kicker Eyebrow) */}
+        <div className="space-y-4">
           <h2 className="lightup-heading text-[10vw] sm:text-[8vw] lg:text-[6.5vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.03em] leading-[0.9] uppercase text-[var(--ink-primary)]">
             CONTACT
           </h2>
@@ -79,9 +99,19 @@ export function ContactSection() {
               <TactilePill onClick={handleCopyEmail}>
                 <button
                   type="button"
-                  className="px-3.5 py-2 rounded-lg text-xs font-mono bg-[var(--surface)] border border-[var(--line)] hover:border-[var(--accent-move)] text-[var(--ink-primary)] hover:text-white transition-all shadow-sm flex items-center gap-1.5"
+                  className="px-3.5 py-2.5 rounded-lg text-xs font-mono bg-[var(--surface)] border border-[var(--line)] hover:border-[var(--accent-move)] text-[var(--ink-primary)] hover:text-white transition-all shadow-sm flex items-center gap-2 cursor-pointer"
                 >
-                  <span>{copied ? "✓ COPIED" : "COPY EMAIL"}</span>
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400 font-semibold">COPIED</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>COPY EMAIL</span>
+                    </>
+                  )}
                 </button>
               </TactilePill>
             </div>
@@ -90,19 +120,22 @@ export function ContactSection() {
               <span className="text-[var(--accent-move)] select-none" aria-hidden="true">
                 ♞
               </span>
-              <span>1000 Elo Rapid &bull; Direct responses within 24 hours.</span>
+              <span>1000 Elo Rapid • Direct responses within 24 hours.</span>
             </p>
           </div>
         </div>
 
         {/* Engineering Status Panel: Live IST Clock + Chess Rating + System Availability */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-          <TactileCard className="p-6 bg-[var(--surface)] space-y-2 cursor-pointer">
-            <span className="text-xs font-mono text-[var(--ink-muted)] uppercase block font-semibold">
-              TIMEZONE / AVAILABILITY
-            </span>
+          <TactileCard className="p-6 bg-[var(--surface)] space-y-2 cursor-pointer border-[var(--line)] hover:border-[var(--line-strong)]">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono text-[var(--ink-muted)] uppercase block font-semibold">
+                TIMEZONE / AVAILABILITY
+              </span>
+              <Clock className="w-3.5 h-3.5 text-[var(--accent-move)]" />
+            </div>
             <span className="text-[var(--ink-primary)] font-semibold text-base font-mono block">
-              IST &bull; {istTime || "Loading..."}
+              IST • {istTime || "Loading..."}
             </span>
             <span className="text-xs text-[var(--ink-muted)] block">
               UTC +05:30 (Bengaluru)
@@ -125,10 +158,13 @@ export function ContactSection() {
             </span>
           </TactileCard>
 
-          <TactileCard className="p-6 bg-[var(--surface)] space-y-2 cursor-pointer">
-            <span className="text-xs font-mono text-[var(--ink-muted)] uppercase block font-semibold">
-              STATUS
-            </span>
+          <TactileCard className="p-6 bg-[var(--surface)] space-y-2 cursor-pointer border-[var(--line)] hover:border-[var(--line-strong)]">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono text-[var(--ink-muted)] uppercase block font-semibold">
+                SYSTEM STATUS
+              </span>
+              <Activity className="w-3.5 h-3.5 text-emerald-400" />
+            </div>
             <span className="text-emerald-400 font-semibold text-base font-mono flex items-center gap-2">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -142,17 +178,23 @@ export function ContactSection() {
           </TactileCard>
         </div>
 
-        {/* Bottom Bar: Links repeated with text labels + working resume button */}
+        {/* Bottom Bar: Links repeated with icons + working resume button */}
         <div className="pt-8 border-t border-[var(--line)] flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex flex-wrap items-center gap-6 text-sm font-medium">
+          <div className="flex flex-wrap items-center gap-3 text-sm font-medium">
             {profile.links.map((link) => (
               <TactilePill key={link.label}>
-                <RollLink
+                <a
                   href={link.url}
-                  label={link.label}
                   target="_blank"
                   rel="noopener noreferrer"
-                />
+                  className="group inline-flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-mono bg-[var(--surface)] border border-[var(--line)] text-[var(--ink-secondary)] hover:text-white hover:border-[var(--accent-move)] transition-all min-h-[44px]"
+                >
+                  <span className="text-[var(--ink-muted)] group-hover:text-[var(--accent-move)] transition-colors">
+                    {getSocialIcon(link.label)}
+                  </span>
+                  <span>{link.label}</span>
+                  <ArrowUpRight className="w-3 h-3 text-[var(--ink-muted)] opacity-50 group-hover:opacity-100 group-hover:text-[var(--accent-move)] transition-all" />
+                </a>
               </TactilePill>
             ))}
           </div>
@@ -165,16 +207,14 @@ export function ContactSection() {
               dataCursor="download"
             >
               <span>Download resume (PDF)</span>
-              <span className="text-xs font-mono" aria-hidden="true">
-                ↓
-              </span>
+              <Download className="w-4 h-4" />
             </MagneticButton>
           </div>
         </div>
 
         {/* Bottom Colophon */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-[var(--ink-muted)] pt-4">
-          <div>Sahil Pal &bull; Systems Specification Edition</div>
+          <div>Sahil Pal • AI Systems Specification</div>
           <div>Built with Next.js, Archivo Variable, GSAP, Anime.js &amp; Lenis</div>
         </div>
       </div>
