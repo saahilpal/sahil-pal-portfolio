@@ -1,25 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap');
 @import "tailwindcss";
 
 @theme inline {
-  --font-heading: var(--font-heading), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-body: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-heading: "Syne", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 
-:root {
-  /* Concept: Industrial AI Systems Specification — High-Contrast Titanium Luminance */
-  --canvas: #101114;
-  --surface: #181A1E;
-  --surface-hover: #22252B;
-  --line: #262930;
-  --line-strong: #3A3E4A;
-  --ink-primary: #FFFFFF;
-  --ink-secondary: #E5E7EB;
-  --ink-muted: #9CA3AF;
+/* Nolan Temporal Turnstile: VOID vs BLUEPRINT */
+:root,
+[data-theme="void"] {
+  --canvas: #050507;
+  --surface: #0D0E12;
+  --surface-raised: #15171E;
+  --ink-primary: #F4F4F0;
+  --ink-muted: #9A9DA8;
+  --border-grid: #262934;
+  --border-frame: #F4F4F0;
+  --accent-lime: #CCFF00;
+  --accent-red: #FF3B30;
+  --accent-blue: #3B82F6;
+  --shadow-card: 5px 5px 0px #CCFF00;
+  --shadow-cta: 4px 4px 0px #FF3B30;
+  --shadow-brutal: 4px 4px 0px #F4F4F0;
+  --square-light: #20232E;
+  --square-dark: #101218;
+  --turnstile-label: "BLUEPRINT";
+}
 
-  /* Tactical chess accent */
-  --accent-move: #E2C974;
-  --accent-move-subtle: rgba(226, 201, 116, 0.15);
+[data-theme="blueprint"] {
+  --canvas: #F4F3EC;
+  --surface: #FFFFFF;
+  --surface-raised: #E9E7DC;
+  --ink-primary: #0A0A0C;
+  --ink-muted: #4A4D57;
+  --border-grid: #D0CDBE;
+  --border-frame: #0A0A0C;
+  --accent-lime: #16A34A;
+  --accent-red: #FF3B30;
+  --accent-blue: #0044FF;
+  --shadow-card: 5px 5px 0px #0A0A0C;
+  --shadow-cta: 4px 4px 0px #0A0A0C;
+  --shadow-brutal: 4px 4px 0px #0A0A0C;
+  --square-light: #FFFFFF;
+  --square-dark: #D8D5C8;
+  --turnstile-label: "VOID";
 }
 
 html,
@@ -34,10 +59,112 @@ body {
   width: 100%;
   scroll-behavior: smooth;
   font-variant-numeric: tabular-nums;
+  cursor: default;
 }
 
-body, section, header, footer {
-  transition: background-color 400ms cubic-bezier(0.16, 1, 0.3, 1), border-color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+/* Hard Brutalist Elements */
+.brutalist-border {
+  border: 1.5px solid var(--border-frame);
+}
+
+.brutalist-card {
+  border: 1.5px solid var(--border-frame);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-card);
+  transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 140ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brutalist-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 1.5px solid var(--border-frame);
+  background-color: var(--surface);
+  color: var(--ink-primary);
+  box-shadow: 3px 3px 0px var(--border-frame);
+  transition: transform 100ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 100ms cubic-bezier(0.16, 1, 0.3, 1), background-color 120ms ease;
+  user-select: none;
+  cursor: pointer;
+}
+
+.brutalist-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--border-frame);
+}
+
+.brutalist-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--border-frame);
+}
+
+.brutalist-btn-primary {
+  background-color: var(--accent-lime);
+  color: #0A0A0C;
+  border: 1.5px solid var(--border-frame);
+  box-shadow: var(--shadow-cta);
+}
+
+.brutalist-btn-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--accent-red);
+}
+
+.brutalist-btn-primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--accent-red);
+}
+
+/* Hollow 2px Outline Stroke */
+.outline-text-stroke {
+  -webkit-text-stroke: 2px var(--ink-primary);
+  color: transparent;
+}
+
+@media (max-width: 640px) {
+  .outline-text-stroke {
+    -webkit-text-stroke: 1.5px var(--ink-primary);
+  }
+}
+
+/* Hopping Knight animation for active tab */
+@keyframes knightHop {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-5px) rotate(-6deg);
+  }
+  60% {
+    transform: translateY(-2px) rotate(3deg);
+  }
+}
+
+.animate-knight-hop {
+  display: inline-block;
+  animation: knightHop 0.9s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Kinetic Ticker Marquee */
+@keyframes tickerMove {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  display: flex;
+  width: max-content;
+  animation: tickerMove 24s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
 }
 
 /* Custom Themed Scrollbar */
@@ -49,189 +176,30 @@ body, section, header, footer {
   background: var(--canvas);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--line-strong);
-  border-radius: 3px;
+  background: var(--border-grid);
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-move);
+  background: var(--accent-lime);
 }
 
-/* Tactile & Living Loop Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes flowDash {
-  to {
-    stroke-dashoffset: -24;
-  }
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.4;
-    transform: scale(0.92);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-flow-dash {
-  stroke-dasharray: 6 6;
-  animation: flowDash 1.2s linear infinite;
-}
-
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 28s linear infinite;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2.4s ease-in-out infinite;
-}
-
-/* Tactile Button Feedback */
-.tactile-press {
-  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease;
-}
-
-.tactile-press:active {
-  transform: scale(0.965);
-}
-
-/* Text Illumination: smooth transition from subdued to full brilliance */
-.lightup-heading {
-  color: #7A8090;
-  transition: color 350ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.lightup-heading.text-illuminated,
-.lightup-heading:hover {
-  color: #FFFFFF;
-}
-
-.lightup-text {
-  color: #8E94A4;
-  transition: color 350ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.lightup-text.text-illuminated,
-.lightup-text:hover {
-  color: #E5E7EB;
-}
-
-/* Accessible text selection themed from palette */
+/* Selection & Focus */
 ::selection {
-  background-color: var(--accent-move);
-  color: #141517;
+  background-color: var(--accent-lime);
+  color: #050507;
 }
 
-/* Accessible focus ring */
 :focus-visible {
-  outline: 2px solid var(--accent-move);
+  outline: 2px solid var(--accent-lime);
   outline-offset: 2px;
 }
 
-/* Headlines */
-h1, h2, h3, h4 {
-  font-family: var(--font-heading);
-  letter-spacing: -0.025em;
-  font-weight: 700;
-}
-
-/* Clean Spec Panel (No glassmorphism, no blurry shadows) */
-.spec-panel {
-  background-color: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-}
-
-/* Interactive link hover */
-.text-link {
-  color: var(--ink-secondary);
-  text-decoration: underline;
-  text-decoration-color: var(--line-strong);
-  text-underline-offset: 3px;
-  transition: color 150ms ease, text-decoration-color 150ms ease;
-}
-
-.text-link:hover {
-  color: var(--ink-primary);
-  text-decoration-color: var(--accent-move);
-}
-
-/* Primary Action Button (Solid, 0px or tight 4px radius, clear affordance) */
-.spec-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.15rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  border-radius: 4px;
-  background-color: var(--ink-primary);
-  color: #141517;
-  border: 1px solid transparent;
-  transition: background-color 150ms ease, opacity 150ms ease;
-  min-height: 44px;
-}
-
-.spec-button:hover {
-  background-color: #F4F3EE;
-}
-
-/* Secondary Button / Pill */
-.spec-button-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  border-radius: 4px;
-  background-color: transparent;
-  color: var(--ink-primary);
-  border: 1px solid var(--line-strong);
-  transition: border-color 150ms ease, background-color 150ms ease;
-  min-height: 44px;
-}
-
-.spec-button-secondary:hover {
-  border-color: var(--ink-primary);
-  background-color: var(--surface-hover);
-}
-
-/* Touch Optimization & No-Scrollbar utility */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

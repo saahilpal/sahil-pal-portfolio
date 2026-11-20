@@ -1,48 +1,97 @@
-import { IntroCurtain } from "@/components/portfolio/intro-curtain";
-import { LenisScroller } from "@/components/portfolio/lenis-scroller";
-import { KineticTicker } from "@/components/portfolio/kinetic-ticker";
-import { PortfolioNav } from "@/components/portfolio/navbar";
-import { PortfolioHero } from "@/components/portfolio/hero";
-import { ProjectsSection } from "@/components/portfolio/projects-section";
-import { TechStackSection } from "@/components/portfolio/tech-stack-section";
-import { ExperienceSection } from "@/components/portfolio/experience-section";
-import { CollegeSection } from "@/components/portfolio/college-section";
-import { ContactSection } from "@/components/portfolio/contact-section";
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { StockfishEvalBar } from "@/components/portfolio/eval-bar";
+import { PortfolioHeader } from "@/components/portfolio/header";
+import { KineticTickerTape } from "@/components/portfolio/ticker-tape";
+import { HeroSection } from "@/components/portfolio/hero";
+import { SystemsWorkbench } from "@/components/portfolio/systems-workbench";
+import { ChessArena } from "@/components/portfolio/chess-arena";
+import { DoctrineAndSignal } from "@/components/portfolio/doctrine-and-signal";
+import { EasterEggsController } from "@/components/portfolio/easter-eggs";
 
 export default function Home() {
+  const [theme, setTheme] = useState<"void" | "blueprint">(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("sahil_theme");
+      if (saved === "blueprint" || saved === "void") return saved;
+    }
+    return "void";
+  });
+  const [eggCount, setEggCount] = useState(0);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+
+  // Synchronize document attribute with theme
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const handleToggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === "void" ? "blueprint" : "void";
+      localStorage.setItem("sahil_theme", next);
+      return next;
+    });
+  }, []);
+
+  const handleEggUnlock = useCallback((eggId: number, title: string) => {
+    if (typeof window !== "undefined") {
+      const trigger = (window as unknown as { unlockEgg?: (id: number, t: string) => void }).unlockEgg;
+      if (trigger) {
+        trigger(eggId, title);
+      }
+    }
+  }, []);
+
+  // Expose togglePalette for global Cmd+K
+  useEffect(() => {
+    (window as unknown as { togglePalette?: () => void }).togglePalette = () => {
+      setIsPaletteOpen((prev) => !prev);
+    };
+  }, []);
+
   return (
-    <div className="relative min-h-screen bg-[var(--canvas)] text-[var(--ink-primary)] selection:bg-[var(--accent-move)] selection:text-[#121315]">
-      {/* Fast & Efficient 1-second Chessboard Opening Stagger Curtain */}
-      <IntroCurtain />
+    <div className="relative min-h-screen bg-[var(--canvas)] text-[var(--ink-primary)] selection:bg-[var(--accent-lime)] selection:text-[#050507]">
+      {/* Stockfish Fixed Left-Edge Evaluation Bar */}
+      <StockfishEvalBar />
 
-      {/* Lightweight Smooth Scroll & Background Shifts */}
-      <LenisScroller />
+      {/* Easter Eggs Controller: Terminal, Palette, Context Menu, Tab Title, Sounds */}
+      <EasterEggsController
+        onToggleTheme={handleToggleTheme}
+        eggCount={eggCount}
+        onEggCountChange={setEggCount}
+        isPaletteOpen={isPaletteOpen}
+        onClosePalette={() => setIsPaletteOpen(false)}
+        isTerminalOpen={isTerminalOpen}
+        onCloseTerminal={() => setIsTerminalOpen(false)}
+        onOpenTerminal={() => setIsTerminalOpen(true)}
+      />
 
-      {/* Top Navigation with Sliding Active Indicator & Chess Rating */}
-      <PortfolioNav />
+      {/* Sticky Command Bar Header */}
+      <PortfolioHeader
+        onOpenPalette={() => setIsPaletteOpen(true)}
+        onOpenTerminal={() => setIsTerminalOpen(true)}
+        eggCount={eggCount}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
+      />
 
-      {/* Main Content Area following the exact 5-section sequence */}
+      {/* Kinetic Acid-Lime Ticker Tape */}
+      <KineticTickerTape />
+
       <main className="w-full">
-        {/* 1. Hero */}
-        <PortfolioHero />
+        {/* ACT I — THE PLEDGE (Monumental Hero + 3D Wireframe Canvas) */}
+        <HeroSection />
 
-        {/* Ambient Engineering Loop Ribbon */}
-        <KineticTicker />
+        {/* ACT II — THE TURN (4 Flagship Systems Workbench) */}
+        <SystemsWorkbench />
 
-        {/* 2. Projects (Slides over pinned Hero) */}
-        <ProjectsSection />
+        {/* ACT III — THE PRESTIGE (Playable Chess Arena) */}
+        <ChessArena />
 
-        {/* 3. Tech Stack */}
-        <TechStackSection />
-
-        {/* 4. Work Experience */}
-        <ExperienceSection />
-
-        {/* 5. Education */}
-        <CollegeSection />
-
-        {/* Footer: email and links again */}
-        <ContactSection />
+        {/* ACT IV — THE SIGNAL (Core Doctrine & Open Signal Footer) */}
+        <DoctrineAndSignal onUnlockEgg={handleEggUnlock} />
       </main>
     </div>
   );

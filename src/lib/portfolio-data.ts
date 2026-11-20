@@ -1,158 +1,149 @@
-export interface ProjectLink {
-  label: string;
-  url: string;
-}
-
-export interface ProjectItem {
+export interface SystemProject {
   id: string;
+  keyNum: string;
+  symbol: string;
+  badge?: string;
   name: string;
-  whatItDoes: string;
+  tagline: string;
   problem: string;
-  whatIBuilt: string;
-  toolsUsed: string[];
-  result: string;
-  links: ProjectLink[];
+  mechanism: string;
+  proof: string;
+  stats: { label: string; value: string }[];
+  tools: string[];
+  links: { label: string; url: string }[];
 }
 
-export interface WorkItem {
-  company: string;
-  role: string;
-  dates: string;
-  bullets: string[];
-}
-
-export interface EducationItem {
-  college: string;
-  degree: string;
-  years: string;
-}
-
-export interface TechStackGroup {
-  category: string;
-  skills: string;
-}
-
-export const profile = {
-  name: "Sahil Pal",
-  title: "AI / Gen AI Engineer",
-  summaryLines: [
-    "I build deterministic context engines for coding agents, grounded retrieval pipelines, and offline-first backends.",
-    "Creator of Synapse (published on PyPI as synap-git) and DocAnalyzer.",
-    "Focused on AST parsing, database concurrency, and verifiable model evaluation.",
-  ],
-  email: "saahilpal17@gmail.com",
-  resumePath: "/resume.pdf",
-  links: [
-    { label: "GitHub", url: "https://github.com/saahilpal" },
-    { label: "LinkedIn", url: "https://www.linkedin.com/in/sahiilpal" },
-    { label: "LeetCode", url: "https://leetcode.com/u/saahiilpal/" },
-    { label: "PyPI", url: "https://pypi.org/project/synap-git/" },
-  ],
-};
-
-export const projects: ProjectItem[] = [
+export const FLAGSHIP_SYSTEMS: SystemProject[] = [
   {
     id: "synapse",
+    keyNum: "01",
+    symbol: "♔",
+    badge: "FAVORITE !!",
     name: "Synapse (synap-git)",
-    whatItDoes: "Git-aware structural context engine and MCP daemon for coding agents.",
+    tagline: "Git-Aware Structural Context Engine & MCP Daemon for AI Coding Agents",
     problem:
-      "Coding agents like Cursor or Claude exhaust context windows on large codebases because naive grep or vector-only search fails to retrieve call hierarchies and scope definitions.",
-    whatIBuilt:
-      "A background daemon that parses repository ASTs in parallel with Tree-sitter, maintains an incremental symbol graph in SQLite WAL mode, and serves token-budgeted context packages over the Model Context Protocol (MCP).",
-    toolsUsed: ["Python 3.12", "Tree-sitter", "Model Context Protocol", "SQLite (WAL)", "tiktoken", "AsyncIO"],
-    result:
-      "Published as a public package on PyPI (`synap-git`) with sub-2 second indexing across 50,000+ symbol codebases.",
+      "Coding agents exhaust token budgets by grepping raw source trees, repeating reverted mistakes across multi-file refactors.",
+    mechanism:
+      "Builds an offline-first Tree-sitter AST symbol graph, computes Git blast radius, and serves token-budgeted context packs over MCP backed by SQLite WAL and FTS5.",
+    proof:
+      "Published on PyPI as synap-git. Benchmarked 85.2% token reduction via AST skeletons. P95 symbol lookup: 2.1ms. P95 graph neighborhood: 0.8ms.",
+    stats: [
+      { label: "Token Reduction", value: "85.2%" },
+      { label: "P95 Symbol Lookup", value: "2.1ms" },
+      { label: "P95 Graph Query", value: "0.8ms" },
+      { label: "Incremental Index", value: "14ms" },
+    ],
+    tools: ["Python 3.12", "Tree-sitter", "Model Context Protocol (MCP)", "SQLite WAL", "FTS5", "PageRank"],
     links: [
       { label: "PyPI Package", url: "https://pypi.org/project/synap-git/" },
-      { label: "Documentation", url: "https://synapse-six-eta.vercel.app/" },
       { label: "GitHub Source", url: "https://github.com/saahilpal/synapse" },
+      { label: "Documentation", url: "https://synapse-six-eta.vercel.app/" },
+    ],
+  },
+  {
+    id: "propeval",
+    keyNum: "02",
+    symbol: "♕",
+    badge: "v1.0.0",
+    name: "PropEval",
+    tagline: "Hinglish Real-Estate Voice Agent Evaluation & Prompt Regression Workbench",
+    problem:
+      "A single prompt edit can silently trigger TRAI Do-Not-Call compliance violations and false booking commitments over Indian phone audio.",
+    mechanism:
+      "Executes an asymmetric confidence cascade (0.15 < p < 0.85) where a 0.36ms CPU System-1 classifier resolves 92% of turns, escalating edge cases to frontier LLM judges via PostgreSQL 17 SKIP LOCKED queues.",
+    proof:
+      "158/158 tests passing. 0.99 ID / 0.98 OOD Macro-F1. $1.984 per 1,000 turns versus $25.00 for pure LLM judges (92.06% net cost reduction).",
+    stats: [
+      { label: "Test Suite", value: "158/158 GREEN" },
+      { label: "System-1 CPU P95", value: "0.36ms" },
+      { label: "Turn Escalation", value: "7.94%" },
+      { label: "Cost vs Pure LLM", value: "-92.06%" },
+    ],
+    tools: ["Python 3.12", "PostgreSQL 17", "Next.js", "L-BFGS Temperature Scaling", "FastAPI", "SKIP LOCKED"],
+    links: [
+      { label: "GitHub Source", url: "https://github.com/saahilpal/propeval" },
+      { label: "Training Pipeline", url: "https://github.com/saahilpal/propeval-laya-training" },
+    ],
+  },
+  {
+    id: "disha",
+    keyNum: "03",
+    symbol: "♖",
+    badge: "HEALTH AI",
+    name: "Disha AI",
+    tagline: "Deterministic Voice-Enabled Clinical Health Coach & Emergency Breaker",
+    problem:
+      "Multilingual health coaching across Hindi and Hinglish cannot risk hallucinated clinical claims or missed acute myocardial infarction signals.",
+    mechanism:
+      "Compiled Aho-Corasick emergency breaker trips under 10µs to escalate to 112 before any model inference. Clinical retrieval uses PostgreSQL tsvector and pg_trgm reciprocal rank fusion.",
+    proof:
+      "Zero-ML emergency breaker runs under 10µs. Curated corpus of 960 ICMR-NIN guideline chunks. Cryptographic SHA-256 Merkle audit ledger.",
+    stats: [
+      { label: "Emergency Breaker", value: "<10µs" },
+      { label: "Guideline Chunks", value: "960 Verified" },
+      { label: "Search Architecture", value: "tsvector + pg_trgm" },
+      { label: "Audit Ledger", value: "SHA-256 Chain" },
+    ],
+    tools: ["FastAPI", "PostgreSQL 16", "Aho-Corasick", "Reciprocal Rank Fusion", "Groq Whisper", "Edge-TTS"],
+    links: [
+      { label: "GitHub Source", url: "https://github.com/saahilpal/disha-ai" },
     ],
   },
   {
     id: "docanalyzer",
-    name: "DocAnalyzer (RAG-DOCAnalyzer)",
-    whatItDoes: "Grounded multi-document QA platform with citation verification and worker queues.",
+    keyNum: "04",
+    symbol: "♘",
+    badge: "RETRIEVAL",
+    name: "RAG-DOCAnalyzer",
+    tagline: "PostgreSQL pgvector Euclidean Distance Multi-Document Retrieval Platform",
     problem:
-      "Document question-answering systems frequently hallucinate without exact paragraph attribution, and concurrent PDF ingestion tasks block Node.js server execution threads.",
-    whatIBuilt:
-      "An asynchronous multi-worker ingestion queue backed by PostgreSQL row locks (`FOR UPDATE SKIP LOCKED`), combining 768-dimensional Gemini embeddings, pgvector cosine search, full-text search fallback, and Server-Sent Events (SSE) streaming answers with exact citation highlights.",
-    toolsUsed: ["Next.js", "Express", "PostgreSQL", "pgvector", "Gemini Embeddings", "Supabase Storage", "Server-Sent Events"],
-    result:
-      "Eliminated upload race conditions across concurrent multi-page PDFs with bit-level SHA-256 deduplication and line-level citation coordinates.",
+      "Document Q&A engines hallucinate when concurrent multi-page PDF ingestion blocks workers and distance metrics lack paragraph attribution.",
+    mechanism:
+      "Asynchronous worker queue with PostgreSQL row locks, Gemini 768d embeddings, and pgvector L2 (<->) Euclidean distance ordering with chunk-level citations and FTS fallback.",
+    proof:
+      "Verified c.embedding <-> $3::vector Euclidean ordering. Exact chunk-level citation coordinates [Source N | file | chunk K]. Bit-level SHA-256 upload deduplication.",
+    stats: [
+      { label: "Vector Distance", value: "pgvector L2 (<->)" },
+      { label: "Embedding Dim", value: "768d Gemini" },
+      { label: "Citation Granularity", value: "Chunk-Level" },
+      { label: "Deduplication", value: "SHA-256 Bitwise" },
+    ],
+    tools: ["Next.js", "Express", "PostgreSQL", "pgvector L2", "Gemini Embeddings", "SSE Streaming"],
     links: [
       { label: "Live Application", url: "https://www.docanalyzer.app/" },
       { label: "GitHub Source", url: "https://github.com/saahilpal/RAG-DOCAnalyzer" },
     ],
   },
-  {
-    id: "herabilling",
-    name: "Hera Billing",
-    whatItDoes: "Offline-first Android ERP and A4 invoice generator for a wholesale textile business.",
-    problem:
-      "A garment wholesale shop (Hera Hosiery) required fast, reliable billing, odd-rupee textile GST calculations, and print-ready A4 invoices on budget devices without depending on active internet connections.",
-    whatIBuilt:
-      "A native Android application with Kotlin and Jetpack Compose using Room SQLite in WAL mode. Generates clean single-page or two-column A4 PDF invoices directly on device via Android WebView printing and handles 5% textile GST rounding.",
-    toolsUsed: ["Kotlin", "Jetpack Compose", "Room SQLite (WAL)", "Coroutines", "Android Print Framework", "Clean Architecture"],
-    result:
-      "Deployed and actively used in shop operations, eliminating handwritten billing errors and generating print-ready invoices in under 1 second.",
-    links: [
-      { label: "GitHub Source", url: "https://github.com/saahilpal" },
-    ],
-  },
-  {
-    id: "leetsync",
-    name: "LeetSync",
-    whatItDoes: "Manifest V3 browser extension that automatically synchronizes accepted coding submissions to GitHub.",
-    problem:
-      "Engineers solve problems on competitive coding platforms but manually copying code, runtime benchmarks, and problem descriptions into Git repositories is tedious.",
-    whatIBuilt:
-      "A browser extension that injects an isolated Shadow DOM overlay into the submission page, parses accepted solutions and execution stats, formats them into structured Markdown, and commits them via the GitHub Octokit API.",
-    toolsUsed: ["TypeScript", "Vite", "Manifest V3", "GitHub REST API", "Shadow DOM", "Chrome Storage"],
-    result:
-      "Zero CSS collisions with platform code editors, automated categorized commits, and an onboarding companion site built with Vite.",
-    links: [
-      { label: "Live Companion", url: "https://leetsync-web.vercel.app/" },
-      { label: "GitHub Source", url: "https://github.com/saahilpal/LeetSync" },
-    ],
-  },
 ];
 
-export const techStack: TechStackGroup[] = [
-  {
-    category: "Languages",
-    skills: "Python 3.12, TypeScript, Kotlin, Java 17, SQL, HTML/CSS",
-  },
-  {
-    category: "LLMs & GenAI Tools",
-    skills: "Model Context Protocol (MCP), Tree-sitter AST, Gemini Embeddings, Prompt Engineering, Evaluation Oracles, tiktoken",
-  },
-  {
-    category: "Data & Vector Stores",
-    skills: "PostgreSQL, pgvector, SQLite (WAL mode), Room SQLite, Redis, MongoDB",
-  },
-  {
-    category: "Cloud & Deployment",
-    skills: "Docker, Git, Linux, Supabase, Express.js, Next.js, Vercel, Android Studio",
-  },
-];
+export const PROFILE_CORE = {
+  name: "Sahil Pal",
+  callsign: "SAHIL.LAB",
+  title: "AI Systems Engineer",
+  email: "saahilpal17@gmail.com",
+  chessHandle: "sahill17",
+  chessUrl: "https://www.chess.com/member/sahill17",
+  githubUrl: "https://github.com/saahilpal",
+  linkedinUrl: "https://www.linkedin.com/in/sahiilpal",
+  huggingfaceUrl: "https://huggingface.co/sahilpal",
+  pitchLine1: "Building deterministic guardrails, sub-0.4ms evaluation cascades, and Postgres-native retrieval engines.",
+  pitchLine2: "No speculative wrappers. Every system verified against production benchmarks and regression suites.",
+};
 
-export const workExperience: WorkItem[] = [
+export const DOCTRINES = [
   {
-    company: "Kristu Jayanti Software Development Centre",
-    role: "Software Engineering Intern",
-    dates: "June 2025 – July 2025",
-    bullets: [
-      "Engineered reactive non-blocking REST APIs in Java 17 with Vert.x for authentication, profiles, and catalog access.",
-      "Implemented a token revocation blacklist in Redis with TTLs mapped to JWT session expiry, preventing revoked token replay.",
-      "Optimized document queries in MongoDB to maintain sub-50ms read latency during high concurrent loads.",
-    ],
+    num: "01",
+    title: "DETERMINISTIC FIRST",
+    body: "Probabilistic models generate candidate tokens; deterministic code graphs, Tree-sitter parsers, and Aho-Corasick breakers decide what executes.",
   },
-];
-
-export const education: EducationItem[] = [
   {
-    college: "Kristu Jayanti College, Autonomous (Bengaluru)",
-    degree: "Bachelor of Computer Applications (BCA)",
-    years: "2023 – 2026",
+    num: "02",
+    title: "POSTGRES IS THE ENGINE",
+    body: "Before adopting standalone vector databases, exhaust PostgreSQL. pgvector L2 (<->) and tsvector + pg_trgm RRF handle high-throughput indexing with ACID transactions.",
+  },
+  {
+    num: "03",
+    title: "TEST THE EDGE CASES",
+    body: "Systems fail at phone audio noise, phone-number redactions, and prompt regressions. We verify with paired McNemar significance and metamorphic test suites.",
   },
 ];

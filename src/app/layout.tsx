@@ -1,34 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const archivo = Archivo({
-  subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const schibsted = Schibsted_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-  weight: ["400", "500", "600"],
-});
-
 export const viewport: Viewport = {
-  themeColor: "#121315",
+  themeColor: "#050507",
   width: "device-width",
   initialScale: 1,
 };
 
 export const metadata: Metadata = {
-  title: "Sahil Pal — AI / Gen AI Engineer",
+  title: "Sahil Pal — Grandmaster Systems Lab",
   description:
-    "Sahil Pal — AI / Gen AI Engineer. Building deterministic context engines, grounded retrieval systems, and offline-first backends.",
+    "AI Systems Engineer. Building deterministic context engines, sub-0.4ms evaluation cascades, and Postgres-native retrieval platforms.",
   authors: [{ name: "Sahil Pal", url: "https://github.com/saahilpal" }],
   creator: "Sahil Pal",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+  },
+  openGraph: {
+    title: "Sahil Pal — Grandmaster Systems Lab",
+    description:
+      "Deterministic guardrails, sub-0.4ms evaluation cascades, and Postgres-native retrieval engines.",
+    url: "https://sahil-pal-portfolio-d147.vercel.app",
+    siteName: "Sahil Pal Systems Lab",
+    type: "website",
   },
 };
 
@@ -38,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${archivo.variable} ${schibsted.variable}`}>
-      <body className="bg-[var(--canvas)] text-[var(--ink-primary)] antialiased font-[family-name:var(--font-body)] overflow-x-hidden selection:bg-[var(--accent-move)] selection:text-[#121315]">
+    <html lang="en" data-theme="void">
+      <body className="bg-[var(--canvas)] text-[var(--ink-primary)] antialiased font-[family-name:var(--font-body)] overflow-x-clip selection:bg-[var(--accent-lime)] selection:text-[#050507]">
         {children}
       </body>
     </html>
