@@ -78,37 +78,45 @@ async function run() {
       console.log(`✓ PASS [${vp.name}]: No horizontal overflow.`);
     }
 
-    // 2. Check Rhythm Operator Bar and Hero Decluttering
-    const hasRhythmBar = await page.evaluate(() => {
-      return document.body.innerText.includes("RHYTHM ENGINE");
+    // 2. Check Launchpad & OG Beats Bar and Hero Decluttering
+    const hasLaunchpadBar = await page.evaluate(() => {
+      return (
+        document.body.innerText.includes("LAUNCHPAD & OG BEATS") ||
+        document.body.innerText.includes("TACTILE LAUNCHPAD PADS")
+      );
     });
-    if (hasRhythmBar) {
-      console.log(`✓ PASS [${vp.name}]: Pocket Operator Rhythm Engine bar present.`);
-      // Test Play/Stop toggle
+    if (hasLaunchpadBar) {
+      console.log(`✓ PASS [${vp.name}]: Tactile Launchpad & OG Beats bar present.`);
+
+      // Test Launchpad Pad Click (Kick pad)
+      const kickPad = await page.$('button[data-pad="kick"]');
+      if (kickPad) {
+        await kickPad.click();
+        await page.waitForTimeout(100);
+        console.log(`✓ PASS [${vp.name}]: Clicked Launchpad 808 Kick pad.`);
+      }
+
+      // Test Keyboard Launchpad trigger (Key Q)
+      await page.keyboard.press("q");
+      await page.waitForTimeout(100);
+      console.log(`✓ PASS [${vp.name}]: Pressed Key 'Q' to trigger Launchpad Kick.`);
+
+      // Test OG Beats Play/Stop toggle
       const playBtn = await page.$('button[aria-label="Start Rhythm"]');
       if (playBtn) {
         await playBtn.click();
         await page.waitForTimeout(200);
         const stopBtn = await page.$('button[aria-label="Stop Rhythm"]');
         if (stopBtn) {
-          console.log(`✓ PASS [${vp.name}]: Rhythm started, Stop button active.`);
+          console.log(`✓ PASS [${vp.name}]: OG Beat started, Stop button active.`);
           // Stop with Space key
           await page.keyboard.press("Space");
           await page.waitForTimeout(200);
-          console.log(`✓ PASS [${vp.name}]: Rhythm stopped via Space hotkey.`);
+          console.log(`✓ PASS [${vp.name}]: OG Beat stopped via Space hotkey.`);
         }
       }
-      // Test Keyboard Synthesizer Note Trigger
-      await page.keyboard.press("a");
-      await page.waitForTimeout(100);
-      const noteActive = await page.evaluate(() => {
-        return document.body.innerText.includes("D3");
-      });
-      if (noteActive) {
-        console.log(`✓ PASS [${vp.name}]: Keyboard note 'a' (D3) triggered visual synth feedback.`);
-      }
     } else {
-      console.error(`❌ FAIL [${vp.name}]: Rhythm Engine bar missing!`);
+      console.error(`❌ FAIL [${vp.name}]: Launchpad & OG Beats bar missing!`);
       testPassed = false;
     }
 
