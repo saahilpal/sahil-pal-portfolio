@@ -1,69 +1,83 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Chess, Square } from "chess.js";
 import confetti from "canvas-confetti";
 import { sound } from "@/lib/audio";
 import { PROFILE_CORE } from "@/lib/portfolio-data";
-import { ExternalLink, RotateCcw, Check, Trophy, Lightbulb, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ExternalLink,
+  RotateCcw,
+  Check,
+  Trophy,
+  Lightbulb,
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+} from "lucide-react";
 import { ChessPiece } from "./chess-piece";
 
 interface Step {
   from: Square;
   to: Square;
   notation: string;
+  isBrilliant?: boolean;
 }
 
 interface Puzzle {
   id: number;
   name: string;
-  difficulty: "WARMUP" | "TACTICAL" | "HARD // GRANDMASTER";
   theme: string;
   fen: string;
-  whiteSteps: Step[];
-  blackReplies: Step[];
+  whiteStep1: Step;
+  blackReply: Step;
+  whiteStep2: Step;
   hint: string;
+  challengeNote: string;
 }
 
 const PUZZLES: Puzzle[] = [
   {
     id: 1,
-    name: "01 // BACK-RANK CORRIDOR",
-    difficulty: "WARMUP",
-    theme: "Back-Rank Clearance",
-    fen: "6k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1",
-    whiteSteps: [{ from: "d1", to: "d8", notation: "1. Rd8#" }],
-    blackReplies: [],
-    hint: "The 8th rank is undefended; strike behind the enemy pawn shield.",
+    name: "01 // PHILIDOR SMOTHERED MATE",
+    theme: "Queen Sacrifice & Smothered Mate",
+    fen: "5r1k/6pp/7N/8/8/1Q6/5PPP/6K1 w - - 0 1",
+    whiteStep1: { from: "b3", to: "g8", notation: "1. Qg8+!!", isBrilliant: true },
+    blackReply: { from: "f8", to: "g8", notation: "1... Rxg8" },
+    whiteStep2: { from: "h6", to: "f7", notation: "2. Nf7#" },
+    hint: "Sacrifice the Queen on g8 to lure Black's Rook into smothering its own King, then jump the Knight to f7.",
+    challengeNote:
+      "Solved your Philidor Smothered Mate (1. Qg8+!! Rxg8 2. Nf7#) — ready for 3+0 blitz on chess.com/member/sahill17",
   },
   {
     id: 2,
-    name: "02 // ARABIAN COORDINATION",
-    difficulty: "TACTICAL",
-    theme: "Knight & Rook Net",
-    fen: "7k/2R5/5N2/8/8/8/8/6K1 w - - 0 1",
-    whiteSteps: [{ from: "c7", to: "h7", notation: "1. Rh7#" }],
-    blackReplies: [],
-    hint: "The f6 knight locks down g8 and shields h7; drive the rook in.",
+    name: "02 // ANASTASIA'S MATE",
+    theme: "Knight Anchor & Rook File Slice",
+    fen: "7k/4Nppp/8/7Q/8/5R2/5PPP/6K1 w - - 0 1",
+    whiteStep1: { from: "h5", to: "h7", notation: "1. Qxh7+!!", isBrilliant: true },
+    blackReply: { from: "h8", to: "h7", notation: "1... Kxh7" },
+    whiteStep2: { from: "f3", to: "h3", notation: "2. Rh3#" },
+    hint: "Your Knight on e7 seals the g8 escape square. Sacrifice the Queen on h7 to drag the King onto the h-file, then swing the Rook to h3.",
+    challengeNote:
+      "Solved your Anastasia Mate (1. Qxh7+!! Kxh7 2. Rh3#) — ready for 3+0 blitz on chess.com/member/sahill17",
   },
   {
     id: 3,
-    name: "03 // OPERA GAME SACRIFICE",
-    difficulty: "HARD // GRANDMASTER",
-    theme: "Queen Sacrifice & Back-Rank Pin",
-    fen: "4kb1r/p2n1ppp/4q3/4p1B1/4P3/1Q6/PPP2PPP/2KR4 w k - 0 1",
-    whiteSteps: [
-      { from: "b3", to: "b8", notation: "1. Qb8+!" },
-      { from: "d1", to: "d8", notation: "2. Rd8#" },
-    ],
-    blackReplies: [{ from: "d7", to: "b8", notation: "1... Nxb8" }],
-    hint: "44 legal moves. Only ONE wins: Deflect the d7 knight with a queen sacrifice, then execute checkmate.",
+    name: "03 // BACK-RANK BATTERY",
+    theme: "Rook Deflection & Back-Rank Battery",
+    fen: "2r3k1/5ppp/8/8/8/8/4RPPP/4Q1K1 w - - 0 1",
+    whiteStep1: { from: "e2", to: "e8", notation: "1. Re8+!" },
+    blackReply: { from: "c8", to: "e8", notation: "1... Rxe8" },
+    whiteStep2: { from: "e1", to: "e8", notation: "2. Qxe8#" },
+    hint: "Clear the e-file with a Rook sacrifice on e8 so your Queen delivers mate behind it.",
+    challengeNote:
+      "Solved your Back-Rank Battery (1. Re8+! Rxe8 2. Qxe8#) — ready for 3+0 blitz on chess.com/member/sahill17",
   },
 ];
 
 export function ChessArena() {
   const [activePuzzleIdx, setActivePuzzleIdx] = useState(0);
-  const [stepIndex, setStepIndex] = useState(0);
+  const [stepPhase, setStepPhase] = useState<1 | 2>(1);
   const [chess, setChess] = useState<Chess>(() => new Chess(PUZZLES[0].fen));
   const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
   const [legalMoves, setLegalMoves] = useState<string[]>([]);
@@ -71,7 +85,11 @@ export function ChessArena() {
   const [isWrongMove, setIsWrongMove] = useState(false);
   const [showHintBox, setShowHintBox] = useState(false);
   const [highlightHintSquare, setHighlightHintSquare] = useState<Square | null>(null);
-  const [lastMoveStatus, setLastMoveStatus] = useState<string | null>(null);
+  const [brilliantSquare, setBrilliantSquare] = useState<Square | null>(null);
+  const [lastMoveSquares, setLastMoveSquares] = useState<{ from?: Square; to?: Square }>({});
+  const [moveHistory, setMoveHistory] = useState<string[]>([]);
+  const [lastStatus, setLastStatus] = useState<string | null>(null);
+  const [copiedChallenge, setCopiedChallenge] = useState(false);
   const [liveRating, setLiveRating] = useState<string>("LIVE");
   const [isEngineResponding, setIsEngineResponding] = useState(false);
   const engineTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -81,10 +99,10 @@ export function ChessArena() {
   // Load puzzle
   const loadPuzzle = useCallback(
     (idx: number) => {
-      sound.tick();
+      sound.relay();
       if (engineTimerRef.current) clearTimeout(engineTimerRef.current);
       setActivePuzzleIdx(idx);
-      setStepIndex(0);
+      setStepPhase(1);
       const p = PUZZLES[idx];
       setChess(new Chess(p.fen));
       setSelectedSquare(null);
@@ -92,13 +110,16 @@ export function ChessArena() {
       setIsWrongMove(false);
       setShowHintBox(false);
       setHighlightHintSquare(null);
-      setLastMoveStatus(null);
+      setBrilliantSquare(null);
+      setLastMoveSquares({});
+      setMoveHistory([]);
+      setLastStatus(null);
       setIsEngineResponding(false);
     },
     []
   );
 
-  // Fetch Chess.com rating with fallback
+  // Fetch verified rating from Chess.com with graceful fallback
   useEffect(() => {
     fetch(`https://api.chess.com/pub/player/${PROFILE_CORE.chessHandle}/stats`)
       .then((res) => {
@@ -117,14 +138,101 @@ export function ChessArena() {
       });
   }, []);
 
+  // Execute a candidate move
+  const executeMove = (from: Square, to: Square) => {
+    if (isEngineResponding) return;
+
+    if (stepPhase === 1) {
+      // Step 1: User must play whiteStep1
+      const target = currentPuzzle.whiteStep1;
+      if (from === target.from && to === target.to) {
+        chess.move({ from, to });
+        sound.check();
+        setSelectedSquare(null);
+        setLegalMoves([]);
+        setIsWrongMove(false);
+        setLastMoveSquares({ from, to });
+        setMoveHistory([target.notation]);
+
+        if (target.isBrilliant) {
+          setBrilliantSquare(to);
+        }
+
+        setLastStatus(`${target.notation} — BRILLIANT SACRIFICE!`);
+        setIsEngineResponding(true);
+
+        // Black auto-replies after exactly 320ms
+        engineTimerRef.current = setTimeout(() => {
+          const reply = currentPuzzle.blackReply;
+          chess.move({ from: reply.from, to: reply.to });
+          sound.reply();
+          setLastMoveSquares({ from: reply.from, to: reply.to });
+          setMoveHistory([target.notation, reply.notation]);
+          setStepPhase(2);
+          setIsEngineResponding(false);
+          setLastStatus(`${reply.notation} (Forced). DELIVER CHECKMATE!`);
+        }, 320);
+      } else {
+        // Wrong move for step 1
+        handleWrongMove();
+      }
+    } else if (stepPhase === 2) {
+      // Step 2: User must play whiteStep2 (Checkmate)
+      const target = currentPuzzle.whiteStep2;
+      if (from === target.from && to === target.to) {
+        chess.move({ from, to });
+        sound.checkmate();
+        setSelectedSquare(null);
+        setLegalMoves([]);
+        setIsWrongMove(false);
+        setLastMoveSquares({ from, to });
+        setMoveHistory((prev) => [...prev, target.notation]);
+        setLastStatus(`${target.notation} — CHECKMATE !! PUZZLE SOLVED`);
+
+        setSolvedPuzzles((prev) => {
+          const next = new Set(prev);
+          next.add(currentPuzzle.id);
+          return next;
+        });
+
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.65 },
+          colors: ["#CCFF00", "#FF3B30", "#3B82F6", "#F4F4F0"],
+        });
+      } else {
+        // Wrong move for step 2
+        handleWrongMove();
+      }
+    }
+  };
+
+  const handleWrongMove = () => {
+    sound.error();
+    setIsWrongMove(true);
+    setLastStatus("Incorrect move. Defended by Black. Try again.");
+    setTimeout(() => {
+      setIsWrongMove(false);
+      setChess(new Chess(currentPuzzle.fen));
+      setStepPhase(1);
+      setSelectedSquare(null);
+      setLegalMoves([]);
+      setBrilliantSquare(null);
+      setLastMoveSquares({});
+      setMoveHistory([]);
+    }, 750);
+  };
+
   const handleSquareClick = (square: Square) => {
     if (isEngineResponding) return;
 
-    // If clicking a white piece, select it
     const piece = chess.get(square);
 
+    // Click white piece to select
     if (piece && piece.color === "w") {
-      sound.tick();
+      const rankNum = parseInt(square[1], 10) || 4;
+      sound.chessMove(rankNum);
       setSelectedSquare(square);
       const moves = chess.moves({ square, verbose: true }).map((m) => m.to);
       setLegalMoves(moves);
@@ -132,81 +240,58 @@ export function ChessArena() {
       return;
     }
 
-    // If a square is selected and clicking a destination
+    // Click destination square
     if (selectedSquare) {
-      const targetStep = currentPuzzle.whiteSteps[stepIndex];
+      executeMove(selectedSquare, square);
+    }
+  };
 
-      if (targetStep && selectedSquare === targetStep.from && square === targetStep.to) {
-        // Correct White move
-        chess.move({ from: selectedSquare, to: square });
-        sound.thock();
-        setSelectedSquare(null);
-        setLegalMoves([]);
-        setIsWrongMove(false);
+  // Drag and Drop handlers
+  const handleDragStart = (e: React.DragEvent, square: Square) => {
+    if (isEngineResponding) return;
+    const piece = chess.get(square);
+    if (!piece || piece.color !== "w") return;
 
-        // Check if there is a forced Black engine reply for this step
-        const blackReply = currentPuzzle.blackReplies[stepIndex];
+    e.dataTransfer.setData("text/plain", square);
+    setSelectedSquare(square);
+    const moves = chess.moves({ square, verbose: true }).map((m) => m.to);
+    setLegalMoves(moves);
+  };
 
-        if (blackReply) {
-          setLastMoveStatus(`${targetStep.notation} — BRILLIANT MOVE!`);
-          setIsEngineResponding(true);
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
 
-          engineTimerRef.current = setTimeout(() => {
-            chess.move({ from: blackReply.from, to: blackReply.to });
-            sound.thock();
-            setStepIndex((prev) => prev + 1);
-            setIsEngineResponding(false);
-            setLastMoveStatus(`${blackReply.notation} (Forced). NOW DELIVER CHECKMATE!`);
-          }, 500);
-        } else {
-          // Final checkmate delivered!
-          sound.checkmate();
-          setLastMoveStatus(`${targetStep.notation} — CHECKMATE !!`);
-
-          setSolvedPuzzles((prev) => {
-            const next = new Set(prev);
-            next.add(currentPuzzle.id);
-            return next;
-          });
-
-          // Trigger victory confetti
-          confetti({
-            particleCount: 80,
-            spread: 70,
-            origin: { y: 0.65 },
-            colors: ["#CCFF00", "#FF3B30", "#F4F4F0"],
-          });
-        }
-      } else {
-        // Wrong move
-        sound.error();
-        setIsWrongMove(true);
-        setLastMoveStatus("Incorrect move. Look for the tactical combination.");
-        setTimeout(() => {
-          setIsWrongMove(false);
-          setChess(new Chess(currentPuzzle.fen));
-          setStepIndex(0);
-          setSelectedSquare(null);
-          setLegalMoves([]);
-        }, 850);
-      }
+  const handleDrop = (e: React.DragEvent, targetSquare: Square) => {
+    e.preventDefault();
+    const fromSquare = e.dataTransfer.getData("text/plain") as Square;
+    if (fromSquare && fromSquare !== targetSquare) {
+      executeMove(fromSquare, targetSquare);
     }
   };
 
   const handleShowHint = () => {
     sound.pulse();
     setShowHintBox(true);
-    const target = currentPuzzle.whiteSteps[stepIndex];
-    if (target) {
-      setHighlightHintSquare(target.from);
+    const currentTarget = stepPhase === 1 ? currentPuzzle.whiteStep1 : currentPuzzle.whiteStep2;
+    if (currentTarget) {
+      setHighlightHintSquare(currentTarget.from);
       setTimeout(() => setHighlightHintSquare(null), 2500);
     }
+  };
+
+  const handleCopyChallengeNote = async () => {
+    try {
+      await navigator.clipboard.writeText(currentPuzzle.challengeNote);
+      sound.relay();
+      setCopiedChallenge(true);
+      setTimeout(() => setCopiedChallenge(false), 2400);
+    } catch {}
   };
 
   const isSolved = solvedPuzzles.has(currentPuzzle.id);
   const totalSolved = solvedPuzzles.size;
 
-  // Board layout 8x8
   const board = chess.board();
   const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
   const ranks = ["8", "7", "6", "5", "4", "3", "2", "1"];
@@ -224,7 +309,7 @@ export function ChessArena() {
             <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-[var(--accent-lime)]">
               <span>[ACT III // THE PRESTIGE]</span>
               <span className="text-[var(--border-frame)]">•</span>
-              <span>TACTICAL FORESIGHT &amp; ARENA</span>
+              <span>FORCED MATE-IN-2 TACTICAL ARENA</span>
             </div>
             <h2 className="text-4xl sm:text-6xl font-[family-name:var(--font-heading)] font-black tracking-tight uppercase">
               SOLVE THE MATE
@@ -238,6 +323,46 @@ export function ChessArena() {
             <div className="px-3 py-1.5 bg-[var(--surface)] border border-[var(--border-frame)] text-[var(--ink-muted)]">
               CHESS.COM: {liveRating}
             </div>
+          </div>
+        </div>
+
+        {/* Live Algebraic Move Strip + Step Indicator */}
+        <div className="p-3 bg-[var(--surface)] border border-[var(--border-frame)] flex flex-wrap items-center justify-between gap-4 font-mono text-xs shadow-[3px_3px_0px_var(--border-frame)]">
+          <div className="flex items-center gap-3">
+            <span
+              className={`px-2 py-0.5 font-bold uppercase ${
+                isSolved
+                  ? "bg-[var(--accent-lime)] text-black"
+                  : "bg-[var(--surface-raised)] border border-[var(--accent-lime)] text-[var(--accent-lime)]"
+              }`}
+            >
+              {isSolved ? "CHECKMATE SOLVED" : `STEP ${stepPhase}/2`}
+            </span>
+            <span className="text-[var(--ink-muted)]">MOVE STRIP:</span>
+            <div className="flex items-center gap-2 font-bold text-sm">
+              {moveHistory.length === 0 ? (
+                <span className="text-[var(--ink-muted)]">1. ... White to move</span>
+              ) : (
+                moveHistory.map((m, i) => (
+                  <span
+                    key={i}
+                    className={
+                      m.includes("!!")
+                        ? "text-[#00E5FF] drop-shadow-[0_0_6px_#00E5FF]"
+                        : m.includes("#")
+                        ? "text-[var(--accent-lime)] font-black"
+                        : "text-[var(--ink-primary)]"
+                    }
+                  >
+                    {m}
+                  </span>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="text-[11px] text-[var(--ink-muted)]">
+            CLICK OR DRAG PIECES • BLACK AUTO-REPLIES IN 320ms
           </div>
         </div>
 
@@ -259,17 +384,28 @@ export function ChessArena() {
                     const isSelected = selectedSquare === square;
                     const isLegalTarget = legalMoves.includes(square);
                     const isHinted = highlightHintSquare === square;
+                    const isLastFrom = lastMoveSquares.from === square;
+                    const isLastTo = lastMoveSquares.to === square;
+                    const hasBrilliantBadge = brilliantSquare === square;
                     const piece = cell ? (cell.color === "w" ? cell.type.toUpperCase() : cell.type) : null;
+                    const isWhitePiece = cell?.color === "w";
 
                     return (
                       <button
                         key={square}
+                        data-square={square}
                         type="button"
                         onClick={() => handleSquareClick(square)}
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, square)}
                         className={`relative flex items-center justify-center aspect-square select-none cursor-pointer transition-all ${
                           isLight ? "bg-[var(--square-light)]" : "bg-[var(--square-dark)]"
                         } ${isSelected ? "ring-2 ring-[var(--accent-lime)] bg-[var(--accent-lime)]/20 z-10" : ""} ${
                           isHinted ? "ring-2 ring-[var(--accent-lime)] animate-pulse z-10" : ""
+                        } ${
+                          isLastFrom || isLastTo
+                            ? "bg-[var(--accent-blue)]/20 ring-1 ring-[var(--accent-blue)]"
+                            : ""
                         }`}
                         aria-label={`Square ${square}${piece ? ` with ${piece}` : ""}`}
                       >
@@ -278,9 +414,22 @@ export function ChessArena() {
                           <span className="absolute w-3.5 h-3.5 rounded-full bg-[var(--accent-lime)] opacity-90 z-20 pointer-events-none shadow-[0_0_8px_var(--accent-lime)]" />
                         )}
 
-                        {/* High-Contrast Staunton Vector SVG Piece */}
+                        {/* Teal Brilliant Move Badge (!!) */}
+                        {hasBrilliantBadge && (
+                          <span className="absolute top-0.5 right-0.5 px-1 py-0.2 bg-[#00E5FF] text-black font-black text-[9px] font-mono rounded-sm shadow-[0_0_8px_#00E5FF] z-30 animate-bounce">
+                            !!
+                          </span>
+                        )}
+
+                        {/* High-Contrast Staunton Vector SVG Piece (Draggable on White) */}
                         {piece && (
-                          <div className="w-[80%] h-[80%] flex items-center justify-center z-10">
+                          <div
+                            draggable={isWhitePiece && !isEngineResponding}
+                            onDragStart={(e) => handleDragStart(e, square)}
+                            className={`w-[80%] h-[80%] flex items-center justify-center z-10 ${
+                              isWhitePiece ? "cursor-grab active:cursor-grabbing" : "cursor-default"
+                            }`}
+                          >
                             <ChessPiece type={piece} className="w-full h-full" />
                           </div>
                         )}
@@ -335,7 +484,7 @@ export function ChessArena() {
             {/* Puzzle Selector Tabs */}
             <div className="space-y-2">
               <span className="text-xs font-mono uppercase tracking-wider text-[var(--accent-lime)] font-bold block">
-                TACTICAL PUZZLES (PROGRESSIVE DIFFICULTY)
+                FORCED MATE-IN-2 COMBINATIONS
               </span>
               <div className="space-y-2">
                 {PUZZLES.map((pz, idx) => {
@@ -354,14 +503,8 @@ export function ChessArena() {
                     >
                       <div className="flex items-center gap-2">
                         <span>{pz.name}</span>
-                        <span
-                          className={`text-[9px] px-1.5 py-0.2 border ${
-                            pz.difficulty.includes("HARD")
-                              ? "bg-[var(--accent-red)] text-white border-[var(--border-frame)]"
-                              : "bg-[var(--canvas)] text-[var(--accent-lime)] border-[var(--border-grid)]"
-                          }`}
-                        >
-                          {pz.difficulty}
+                        <span className="text-[9px] px-1.5 py-0.2 border bg-[var(--canvas)] text-[var(--accent-lime)] border-[var(--border-grid)]">
+                          MATE IN 2
                         </span>
                       </div>
                       {pzSolved ? (
@@ -411,11 +554,11 @@ export function ChessArena() {
                 </p>
               ) : (
                 <p className="text-[var(--ink-secondary)]">
-                  White to move and win. Click a piece to inspect legal targets, then strike.
+                  White to move. Find the forced Queen/Rook sacrifice, wait for Black&apos;s auto-reply, then deliver mate.
                 </p>
               )}
 
-              {lastMoveStatus && (
+              {lastStatus && (
                 <div
                   className={`pt-2 font-bold border-t border-[var(--border-grid)] ${
                     isSolved
@@ -425,7 +568,7 @@ export function ChessArena() {
                       : "text-[var(--ink-primary)]"
                   }`}
                 >
-                  {lastMoveStatus}
+                  {lastStatus}
                 </div>
               )}
             </div>
@@ -443,18 +586,38 @@ export function ChessArena() {
                     </span>
                   </div>
                   <p className="text-xs font-mono text-[var(--ink-primary)]">
-                    Send a game challenge directly to Sahil on Chess.com.
+                    Send a game challenge directly to Sahil on Chess.com or copy the challenge note.
                   </p>
-                  <a
-                    href={PROFILE_CORE.chessUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => sound.thock()}
-                    className="brutalist-btn brutalist-btn-primary w-full py-2.5 text-xs gap-1.5"
-                  >
-                    <span>♔ PLAY SAHILL17 ON CHESS.COM</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <a
+                      href={PROFILE_CORE.chessUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => sound.chessMove(4)}
+                      className="brutalist-btn brutalist-btn-primary flex-1 py-2.5 text-xs gap-1.5"
+                    >
+                      <span>♔ PLAY ON CHESS.COM</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+
+                    <button
+                      type="button"
+                      onClick={handleCopyChallengeNote}
+                      className="brutalist-btn py-2.5 px-3 text-xs gap-1.5"
+                    >
+                      {copiedChallenge ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-[var(--accent-lime)]" />
+                          <span>NOTE COPIED</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>COPY NOTE</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div className="p-4 bg-[var(--surface)] border border-[var(--border-grid)] font-mono text-xs text-[var(--ink-muted)] space-y-2">

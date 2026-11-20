@@ -3,67 +3,89 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { PROFILE_CORE } from "@/lib/portfolio-data";
 import { sound } from "@/lib/audio";
-import { ArrowDown, Copy, Check, ExternalLink, Zap } from "lucide-react";
+import { ArrowDown, Copy, Check } from "lucide-react";
 
-interface HeroProps {
-  onOverclock?: () => void;
+interface Shockwave {
+  x: number;
+  y: number;
+  radius: number;
+  maxRadius: number;
+  alpha: number;
+  color: string;
+  noteName: string;
 }
 
-export function HeroSection({ onOverclock }: HeroProps) {
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  alpha: number;
+  color: string;
+}
+
+export function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [copied, setCopied] = useState(false);
   const [namePulse, setNamePulse] = useState(false);
   const [identityStatus, setIdentityStatus] = useState<string | null>(null);
-  const [isOverclocked, setIsOverclocked] = useState(false);
+  const [scrollSkew, setScrollSkew] = useState(0);
+
   const pointerPosRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
-  const overclockRef = useRef(1);
-  const spawnParticlesRef = useRef<((cx: number, cy: number, count?: number) => void) | null>(null);
+  const shockwavesRef = useRef<Shockwave[]>([]);
+  const particlesRef = useRef<Particle[]>([]);
+
+  // Scroll Velocity Skew (spring-damped clamp between -4deg and 4deg)
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let lastTime = performance.now();
+    let animFrame: number;
+
+    const handleScroll = () => {
+      const now = performance.now();
+      const dt = Math.max(16, now - lastTime);
+      const dy = window.scrollY - lastY;
+      const velocity = dy / dt; // px per ms
+      const targetSkew = Math.max(-4, Math.min(4, velocity * 2.5));
+      setScrollSkew(targetSkew);
+      lastY = window.scrollY;
+      lastTime = now;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    const damp = () => {
+      setScrollSkew((prev) => (Math.abs(prev) > 0.05 ? prev * 0.88 : 0));
+      animFrame = requestAnimationFrame(damp);
+    };
+    animFrame = requestAnimationFrame(damp);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(animFrame);
+    };
+  }, []);
 
   // Tactile Hardware Stamp on Name Click
   const handleNameClick = useCallback(() => {
     sound.pulse();
     setNamePulse(true);
-    setIdentityStatus("IDENTITY // SAHIL PAL // GRANDMASTER ARCHITECT");
-    setTimeout(() => setNamePulse(false), 600);
-    setTimeout(() => setIdentityStatus(null), 3000);
+    setIdentityStatus("IDENTITY // SAHIL PAL // SYSTEMS ARCHITECT");
+    setTimeout(() => setNamePulse(false), 500);
+    setTimeout(() => setIdentityStatus(null), 2800);
   }, []);
 
   const handleCopyEmail = async () => {
     try {
       await navigator.clipboard.writeText(PROFILE_CORE.email);
-      sound.tick();
+      sound.relay();
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {}
   };
 
-  const handleOverclockClick = () => {
-    if (isOverclocked) {
-      // Throttle back down
-      sound.tick();
-      setIsOverclocked(false);
-      overclockRef.current = 1;
-    } else {
-      // Engage 10x Overclock!
-      sound.overclock();
-      setIsOverclocked(true);
-      overclockRef.current = 8;
-      if (spawnParticlesRef.current && canvasRef.current) {
-        const w = canvasRef.current.width;
-        const h = canvasRef.current.height;
-        spawnParticlesRef.current(w * 0.7, h * 0.45, 64);
-      }
-      if (onOverclock) onOverclock();
-
-      // Auto-cool down after 7 seconds
-      setTimeout(() => {
-        setIsOverclocked(false);
-        overclockRef.current = 1;
-      }, 7000);
-    }
-  };
-
-  // Full-Bleed Cursor-Reactive 3D Polyhedron Canvas Engine
+  // Full-Bleed Cursor-Reactive 3D Polyhedron & Pocket Operator Canvas Engine
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -88,9 +110,9 @@ export function HeroSection({ onOverclock }: HeroProps) {
       [0, -1, phi], [0, 1, phi], [0, -1, -phi], [0, 1, -phi],
       [phi, 0, -1], [phi, 0, 1], [-phi, 0, -1], [-phi, 0, 1]
     ];
-    // Scale vertices
-    const scale = Math.min(width, height) * 0.22;
-    const vertices = rawVertices.map(([x, y, z]) => [x * scale * 0.6, y * scale * 0.6, z * scale * 0.6]);
+    // Scale vertices with generous proportions
+    const scale = Math.min(width, height) * 0.24;
+    const vertices = rawVertices.map(([x, y, z]) => [x * scale * 0.62, y * scale * 0.62, z * scale * 0.62]);
 
     // Edges
     const edges: [number, number][] = [
@@ -98,37 +120,36 @@ export function HeroSection({ onOverclock }: HeroProps) {
       [3,4],[3,6],[3,8],[3,9],[4,5],[4,9],[4,11],[5,9],[5,11],[6,7],[6,8],[6,10],[7,8],[7,10],[8,9],[10,11]
     ];
 
-    // Particles system
-    interface Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      alpha: number;
-      color: string;
-    }
-    const particles: Particle[] = [];
-
-    const spawnParticles = (cx: number, cy: number, count = 24) => {
-      sound.thock();
+    const spawnBeatEffect = (cx: number, cy: number, noteName: string) => {
       const colors = ["#CCFF00", "#FF3B30", "#3B82F6", "#F4F4F0"];
-      for (let i = 0; i < count; i++) {
+      const hitColor = colors[Math.floor(Math.random() * colors.length)];
+
+      // Shockwave ring
+      shockwavesRef.current.push({
+        x: cx,
+        y: cy,
+        radius: 6,
+        maxRadius: 72,
+        alpha: 1,
+        color: hitColor,
+        noteName,
+      });
+
+      // Small particle spray
+      for (let i = 0; i < 18; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = 2 + Math.random() * 6 * overclockRef.current;
-        particles.push({
+        const speed = 1.5 + Math.random() * 4.5;
+        particlesRef.current.push({
           x: cx,
           y: cy,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          size: 2.5 + Math.random() * 4,
+          size: 2 + Math.random() * 3,
           alpha: 1,
           color: colors[Math.floor(Math.random() * colors.length)],
         });
       }
     };
-
-    spawnParticlesRef.current = spawnParticles;
 
     const handlePointerMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
@@ -140,7 +161,10 @@ export function HeroSection({ onOverclock }: HeroProps) {
       const rect = canvas.getBoundingClientRect();
       const clickX = e.clientX - rect.left;
       const clickY = e.clientY - rect.top;
-      spawnParticles(clickX, clickY, 32);
+      const normX = clickX / width;
+      const normY = clickY / height;
+      const note = sound.spatialBeat(normX, normY);
+      spawnBeatEffect(clickX, clickY, note.name);
     };
 
     window.addEventListener("mousemove", handlePointerMove, { passive: true });
@@ -170,8 +194,7 @@ export function HeroSection({ onOverclock }: HeroProps) {
       // 1. Draw 64px Architectural Grid with Cursor Proximity Illumination
       const gridSize = 64;
       ctx.lineWidth = 1;
-      const isBoosted = overclockRef.current > 1;
-      const radius = isBoosted ? 360 : 180;
+      const radius = 200;
 
       for (let x = 0; x < width; x += gridSize) {
         for (let y = 0; y < height; y += gridSize) {
@@ -179,33 +202,28 @@ export function HeroSection({ onOverclock }: HeroProps) {
           const dy = py - y;
           const dist = Math.hypot(dx, dy);
 
-          // Grid line tick / crosshair
           if (dist < radius) {
-            const intensity = (1 - dist / radius);
-            ctx.fillStyle = isBoosted
-              ? `rgba(204, 255, 0, ${intensity * 1.0})`
-              : `rgba(204, 255, 0, ${intensity * 0.9})`;
-            const size = isBoosted ? 5 : 4;
-            ctx.fillRect(x - size / 2, y - size / 2, size, size);
+            const intensity = 1 - dist / radius;
+            ctx.fillStyle = `rgba(204, 255, 0, ${intensity * 0.9})`;
+            ctx.fillRect(x - 2, y - 2, 4, 4);
           } else {
-            ctx.fillStyle = isBoosted ? "rgba(204, 255, 0, 0.25)" : "rgba(100, 110, 130, 0.2)";
+            ctx.fillStyle = "rgba(100, 110, 130, 0.2)";
             ctx.fillRect(x - 1, y - 1, 2, 2);
           }
         }
       }
 
       // 2. 3D Polyhedron Rotation Physics with Pointer Inertia
-      const speedMult = overclockRef.current;
-      const tiltX = ((py - height / 2) / height) * 0.008 * speedMult;
-      const tiltY = ((px - width / 2) / width) * 0.008 * speedMult;
+      const tiltX = ((py - height / 2) / height) * 0.007;
+      const tiltY = ((px - width / 2) / width) * 0.007;
 
-      rotX += 0.004 * speedMult + tiltX;
-      rotY += 0.006 * speedMult + tiltY;
-      rotZ += 0.002 * speedMult;
+      rotX += 0.004 + tiltX;
+      rotY += 0.006 + tiltY;
+      rotZ += 0.002;
 
-      // Center in upper right or center of hero
-      const centerX = width > 1024 ? width * 0.72 : width * 0.5;
-      const centerY = height * 0.45;
+      // Position in the upper-right quadrant on desktop, centered on mobile
+      const centerX = width > 1024 ? width * 0.74 : width * 0.5;
+      const centerY = width > 1024 ? height * 0.44 : height * 0.35;
 
       // Project vertices
       const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
@@ -213,22 +231,19 @@ export function HeroSection({ onOverclock }: HeroProps) {
       const cosZ = Math.cos(rotZ), sinZ = Math.sin(rotZ);
 
       const projected = vertices.map(([vx, vy, vz]) => {
-        // Rotate Y
         const x1 = vx * cosY + vz * sinY;
         const y1 = vy;
         const z1 = -vx * sinY + vz * cosY;
 
-        // Rotate X
         const x2 = x1;
         const y2 = y1 * cosX - z1 * sinX;
         const z2 = y1 * sinX + z1 * cosX;
 
-        // Rotate Z
         const x3 = x2 * cosZ - y2 * sinZ;
         const y3 = x2 * sinZ + y2 * cosZ;
         const z3 = z2;
 
-        const fov = 450;
+        const fov = 460;
         const pz = z3 + fov;
         const factor = fov / Math.max(10, pz);
 
@@ -245,11 +260,9 @@ export function HeroSection({ onOverclock }: HeroProps) {
         const p1 = projected[i];
         const p2 = projected[j];
         const avgZ = (p1.z + p2.z) / 2;
-        const edgeAlpha = Math.max(0.15, Math.min(0.9, (avgZ + 120) / 240));
+        const edgeAlpha = Math.max(0.18, Math.min(0.85, (avgZ + 120) / 240));
 
-        ctx.strokeStyle = overclockRef.current > 1
-          ? `rgba(204, 255, 0, ${edgeAlpha})`
-          : `rgba(244, 244, 240, ${edgeAlpha * 0.65})`;
+        ctx.strokeStyle = `rgba(244, 244, 240, ${edgeAlpha * 0.65})`;
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
@@ -264,17 +277,43 @@ export function HeroSection({ onOverclock }: HeroProps) {
         ctx.fill();
       });
 
-      // 3. Update & Draw Particles
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
+      // 3. Draw & Update Shockwave Beat Rings
+      for (let i = shockwavesRef.current.length - 1; i >= 0; i--) {
+        const sw = shockwavesRef.current[i];
+        sw.radius += 3;
+        sw.alpha -= 0.035;
+
+        if (sw.alpha <= 0 || sw.radius >= sw.maxRadius) {
+          shockwavesRef.current.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.strokeStyle = sw.color;
+        ctx.globalAlpha = sw.alpha;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Note label floating above ring
+        ctx.font = "bold 12px 'JetBrains Mono', monospace";
+        ctx.fillStyle = sw.color;
+        ctx.fillText(sw.noteName, sw.x - 8, sw.y - sw.radius * 0.5);
+        ctx.restore();
+      }
+
+      // 4. Update & Draw Particles
+      for (let i = particlesRef.current.length - 1; i >= 0; i--) {
+        const p = particlesRef.current[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vx *= 0.96;
-        p.vy *= 0.96;
-        p.alpha -= 0.018;
+        p.vx *= 0.95;
+        p.vy *= 0.95;
+        p.alpha -= 0.022;
 
         if (p.alpha <= 0) {
-          particles.splice(i, 1);
+          particlesRef.current.splice(i, 1);
           continue;
         }
 
@@ -305,7 +344,7 @@ export function HeroSection({ onOverclock }: HeroProps) {
       aria-label="Act I — The Pledge"
       className="relative z-10 min-h-[min(94vh,980px)] flex flex-col justify-between pt-6 sm:pt-10 pb-12 sm:pb-16 border-b border-[var(--border-frame)] bg-[var(--canvas)] overflow-hidden"
     >
-      {/* Background Interactive HTML5 Canvas */}
+      {/* Background Interactive HTML5 Canvas (Spatial Beat Pad + 3D Mesh) */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full pointer-events-auto cursor-crosshair z-0"
@@ -329,158 +368,87 @@ export function HeroSection({ onOverclock }: HeroProps) {
           </div>
         </div>
 
-        {/* Floating Overclock HUD Banner */}
-        {isOverclocked && (
-          <div className="mx-auto px-4 py-1.5 bg-[var(--accent-red)] text-white text-xs font-mono font-bold tracking-wider border-2 border-[var(--border-frame)] shadow-[4px_4px_0px_var(--accent-lime)] animate-pulse flex items-center justify-center gap-2">
-            <Zap className="w-4 h-4 fill-current animate-bounce" />
-            <span>[TURBINE OVERCLOCK ACTIVE (10X) // 4.8 GHz BUS // INERTIA MAXED]</span>
-          </div>
-        )}
+        {/* Hero Central Space: Oversized 3-Line Monumental Title + Product Pitch + Clean Breathing Room */}
+        <div className="max-w-4xl space-y-6 sm:space-y-8 pt-4 sm:pt-8">
+          <div
+            className="space-y-1 sm:space-y-2 select-none cursor-pointer group"
+            onClick={handleNameClick}
+            title="Sahil Pal — Click to verify identity"
+            style={{
+              transform: `skewX(${scrollSkew}deg)`,
+              transition: "transform 0.12s ease-out",
+            }}
+          >
+            {/* Line 1: Solid Ink with subtle mechanical tactile interaction */}
+            <div className="relative inline-block">
+              <h1
+                className={`text-[12vw] sm:text-[9.5vw] lg:text-[7.6vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] text-[var(--ink-primary)] uppercase transition-all duration-200 ${
+                  namePulse
+                    ? "scale-[0.98] text-[var(--accent-lime)] drop-shadow-[0_0_24px_rgba(204,255,0,0.5)]"
+                    : "group-hover:text-[var(--accent-lime)]"
+                }`}
+              >
+                SAHIL PAL
+              </h1>
+              {identityStatus && (
+                <div className="absolute -bottom-6 left-0 text-[10px] font-mono font-bold text-[var(--accent-lime)] bg-[var(--surface-raised)] border border-[var(--accent-lime)] px-2 py-0.5 shadow-[2px_2px_0px_var(--border-frame)] z-20 animate-in fade-in slide-in-from-top-1">
+                  {identityStatus}
+                </div>
+              )}
+            </div>
 
-        {/* Hero Central Grid: IMAX 3-Line Title + Product Pitch + Right Telemetry Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start pt-2">
-          {/* Left Column: 3-Line Monumental Brutalist Title & Pitch */}
-          <div className="lg:col-span-8 space-y-6 sm:space-y-8">
-            <div
-              className="space-y-1 sm:space-y-2 select-none cursor-pointer group"
-              onClick={handleNameClick}
-              title="Sahil Pal — Click to verify identity"
+            {/* Line 2: Hollow 2px Outline Stroke */}
+            <div className="text-[12vw] sm:text-[9.5vw] lg:text-[7.6vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] outline-text-stroke uppercase">
+              BUILDS FAST
+            </div>
+
+            {/* Line 3: Solid Acid Lime */}
+            <div className="text-[12vw] sm:text-[9.5vw] lg:text-[7.6vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] text-[var(--accent-lime)] uppercase">
+              AI SYSTEMS.
+            </div>
+          </div>
+
+          {/* Zero-Slop Product Pitch (Strictly 2 lines) */}
+          <p className="max-w-2xl text-base sm:text-xl font-[family-name:var(--font-body)] text-[var(--ink-primary)] leading-relaxed border-l-2 border-[var(--accent-lime)] pl-4">
+            Building deterministic guardrails, sub-0.4ms evaluation cascades, and Postgres-native retrieval engines. No speculative wrappers; every system verified against production benchmarks.
+          </p>
+
+          {/* CTAs Bar */}
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
+            <a
+              href="#arena"
+              onClick={() => sound.chessMove(4)}
+              className="brutalist-btn brutalist-btn-primary px-4 sm:px-6 py-3 text-xs sm:text-sm"
             >
-              {/* Line 1: Solid Ink with subtle mechanical tactile interaction */}
-              <div className="relative inline-block">
-                <h1
-                  className={`text-[12vw] sm:text-[9.5vw] lg:text-[7.8vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] text-[var(--ink-primary)] uppercase transition-all duration-200 ${
-                    namePulse
-                      ? "scale-[0.98] text-[var(--accent-lime)] drop-shadow-[0_0_24px_rgba(204,255,0,0.5)]"
-                      : "group-hover:text-[var(--accent-lime)]"
-                  }`}
-                >
-                  SAHIL PAL
-                </h1>
-                {identityStatus && (
-                  <div className="absolute -bottom-6 left-0 text-[10px] font-mono font-bold text-[var(--accent-lime)] bg-[var(--surface-raised)] border border-[var(--accent-lime)] px-2 py-0.5 shadow-[2px_2px_0px_var(--border-frame)] z-20 animate-in fade-in slide-in-from-top-1">
-                    {identityStatus}
-                  </div>
-                )}
-              </div>
+              <span>♔ ACCEPT CHESS CHALLENGE</span>
+            </a>
 
-              {/* Line 2: Hollow 2px Outline Stroke */}
-              <div className="text-[12vw] sm:text-[9.5vw] lg:text-[7.8vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] outline-text-stroke uppercase">
-                BUILDS FAST
-              </div>
+            <a
+              href="#systems"
+              onClick={() => sound.relay()}
+              className="brutalist-btn px-4 sm:px-5 py-3 text-xs sm:text-sm gap-2"
+            >
+              <span>INSPECT 4 SYSTEMS</span>
+              <ArrowDown className="w-4 h-4 text-[var(--accent-lime)]" />
+            </a>
 
-              {/* Line 3: Solid Acid Lime */}
-              <div className="text-[12vw] sm:text-[9.5vw] lg:text-[7.8vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] text-[var(--accent-lime)] uppercase">
-                AI SYSTEMS.
-              </div>
-            </div>
-
-            {/* Zero-Slop Product Pitch (Strictly 2 lines) */}
-            <p className="max-w-2xl text-base sm:text-xl font-[family-name:var(--font-body)] text-[var(--ink-primary)] leading-relaxed border-l-2 border-[var(--accent-lime)] pl-4">
-              Building deterministic guardrails, sub-0.4ms evaluation cascades, and Postgres-native retrieval engines. No speculative wrappers; every system verified against production benchmarks.
-            </p>
-
-            {/* CTAs Bar */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
-              <a
-                href="#arena"
-                onClick={() => sound.thock()}
-                className="brutalist-btn brutalist-btn-primary px-4 sm:px-6 py-3 text-xs sm:text-sm"
-              >
-                <span>♔ ACCEPT CHESS CHALLENGE</span>
-              </a>
-
-              <a
-                href="#systems"
-                onClick={() => sound.tick()}
-                className="brutalist-btn px-4 sm:px-5 py-3 text-xs sm:text-sm gap-2"
-              >
-                <span>INSPECT 4 SYSTEMS</span>
-                <ArrowDown className="w-4 h-4 text-[var(--accent-lime)]" />
-              </a>
-
-              <button
-                type="button"
-                onClick={handleCopyEmail}
-                className="brutalist-btn px-4 py-3 text-xs sm:text-sm gap-2"
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-4 h-4 text-[var(--accent-lime)]" />
-                    <span>COPIED</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4" />
-                    <span>COPY EMAIL</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Right Column: Live Telemetry Card (Nolan Terminal) */}
-          <div className="lg:col-span-4 w-full">
-            <div className="brutalist-card p-5 sm:p-6 space-y-4 bg-[var(--surface)] text-[var(--ink-primary)] relative">
-              <div className="flex items-center justify-between border-b border-[var(--border-frame)] pb-3">
-                <span className="text-xs font-mono font-bold tracking-wider text-[var(--accent-lime)] uppercase flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-sm bg-[var(--accent-lime)]" />
-                  <span>SYSTEM TELEMETRY</span>
-                </span>
-                <span className="text-[10px] font-mono text-[var(--ink-muted)]">NODE 01</span>
-              </div>
-
-              <div className="space-y-3 font-mono text-xs">
-                <div className="flex justify-between items-center py-1 border-b border-[var(--border-grid)]">
-                  <span className="text-[var(--ink-muted)]">FLAGSHIP BUILD:</span>
-                  <span className="font-bold text-[var(--accent-lime)]">SYNAPSE MCP (!!)</span>
-                </div>
-
-                <div className="flex justify-between items-center py-1 border-b border-[var(--border-grid)]">
-                  <span className="text-[var(--ink-muted)]">LATEST SHIP:</span>
-                  <span className="font-bold">PROPEVAL v1.0.0</span>
-                </div>
-
-                <div className="flex justify-between items-center py-1 border-b border-[var(--border-grid)]">
-                  <span className="text-[var(--ink-muted)]">CASCADE S1 CPU:</span>
-                  <span className="font-bold text-[var(--accent-lime)]">0.36ms · 0.98 OOD F1</span>
-                </div>
-
-                <div className="flex justify-between items-center py-1 border-b border-[var(--border-grid)]">
-                  <span className="text-[var(--ink-muted)]">TEST VERIFICATION:</span>
-                  <span className="font-bold text-emerald-400">158 / 158 GREEN</span>
-                </div>
-
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-[var(--ink-muted)]">CHESS.COM:</span>
-                  <a
-                    href={PROFILE_CORE.chessUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-[var(--accent-lime)] hover:underline inline-flex items-center gap-1"
-                  >
-                    <span>SAHILL17</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
-
-              {/* Overclock 3D Mesh Button */}
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={handleOverclockClick}
-                  className={`w-full brutalist-btn py-2.5 text-xs gap-1.5 transition-all cursor-pointer font-mono font-bold ${
-                    isOverclocked
-                      ? "bg-[var(--accent-red)] text-white border-2 border-[var(--border-frame)] shadow-[4px_4px_0px_var(--accent-lime)] animate-pulse"
-                      : "bg-[var(--surface-raised)] text-[var(--accent-lime)] border border-[var(--border-frame)] hover:bg-[var(--accent-lime)] hover:text-black shadow-[3px_3px_0px_var(--border-frame)]"
-                  }`}
-                >
-                  <Zap className={`w-3.5 h-3.5 ${isOverclocked ? "animate-spin" : ""}`} />
-                  <span>{isOverclocked ? "⚡ DISENGAGE OVERCLOCK (10X)" : "⚡ OVERCLOCK 3D MESH (10X)"}</span>
-                </button>
-              </div>
-            </div>
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              className="brutalist-btn px-4 py-3 text-xs sm:text-sm gap-2"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4 text-[var(--accent-lime)]" />
+                  <span>COPIED</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4" />
+                  <span>COPY EMAIL</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 

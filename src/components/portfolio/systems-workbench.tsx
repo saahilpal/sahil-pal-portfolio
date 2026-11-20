@@ -83,16 +83,16 @@ export function SystemsWorkbench() {
       // Ignore if user is typing in an input
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
       if (e.key === "1") {
-        sound.tick();
+        sound.tabSwitch(0);
         setActiveIndex(0);
       } else if (e.key === "2") {
-        sound.tick();
+        sound.tabSwitch(1);
         setActiveIndex(1);
       } else if (e.key === "3") {
-        sound.tick();
+        sound.tabSwitch(2);
         setActiveIndex(2);
       } else if (e.key === "4") {
-        sound.tick();
+        sound.tabSwitch(3);
         setActiveIndex(3);
       }
     };
@@ -104,7 +104,7 @@ export function SystemsWorkbench() {
   const activeSystem = FLAGSHIP_SYSTEMS[activeIndex];
 
   const handleSelectTab = (idx: number) => {
-    sound.tick();
+    sound.tabSwitch(idx);
     setActiveIndex(idx);
   };
 
@@ -233,7 +233,73 @@ export function SystemsWorkbench() {
                   <span>[02 {"//"} THE MECHANISM]</span>
                 </span>
                 <p className="text-[var(--ink-primary)] leading-relaxed">
-                  {activeSystem.mechanism}
+                  {activeSystem.id === "synapse" ? (
+                    <>
+                      Builds an offline-first{" "}
+                      <span className="relative inline-block group/tip">
+                        <span className="border-b border-dashed border-[var(--accent-lime)] text-[var(--accent-lime)] font-bold cursor-help">
+                          Tree-sitter AST
+                        </span>
+                        <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 bg-[#090A0E] border border-[var(--accent-lime)] text-[10px] font-mono text-[var(--accent-lime)] shadow-[3px_3px_0px_#CCFF00] opacity-0 group-hover/tip:opacity-100 transition-opacity z-30 leading-snug">
+                          <span className="block text-[9px] uppercase tracking-wider text-[var(--ink-muted)] mb-0.5 border-b border-[var(--border-grid)] pb-0.5">
+                            ENGINEERING X-RAY //
+                          </span>
+                          Extracts symbol signatures &amp; elides bodies; cuts 85.2% token context budget without breaking call graph.
+                        </span>
+                      </span>{" "}
+                      symbol graph, computes Git blast radius, and serves token-budgeted context packs over MCP backed by SQLite WAL and FTS5.
+                    </>
+                  ) : activeSystem.id === "propeval" ? (
+                    <>
+                      Executes an asymmetric confidence cascade (0.15 &lt; p &lt; 0.85) where a 0.36ms CPU System-1 classifier resolves 92% of turns, escalating edge cases to frontier LLM judges via PostgreSQL 17{" "}
+                      <span className="relative inline-block group/tip">
+                        <span className="border-b border-dashed border-[var(--accent-lime)] text-[var(--accent-lime)] font-bold cursor-help">
+                          SKIP LOCKED
+                        </span>
+                        <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 bg-[#090A0E] border border-[var(--accent-lime)] text-[10px] font-mono text-[var(--accent-lime)] shadow-[3px_3px_0px_#CCFF00] opacity-0 group-hover/tip:opacity-100 transition-opacity z-30 leading-snug">
+                          <span className="block text-[9px] uppercase tracking-wider text-[var(--ink-muted)] mb-0.5 border-b border-[var(--border-grid)] pb-0.5">
+                            ENGINEERING X-RAY //
+                          </span>
+                          Postgres 17 lock-free concurrency; background workers dequeue jobs concurrently without double-processing.
+                        </span>
+                      </span>{" "}
+                      queues.
+                    </>
+                  ) : activeSystem.id === "disha" ? (
+                    <>
+                      Compiled Aho-Corasick emergency breaker trips under 10µs to escalate to 112 before any model inference. Clinical retrieval uses PostgreSQL{" "}
+                      <span className="relative inline-block group/tip">
+                        <span className="border-b border-dashed border-[var(--accent-lime)] text-[var(--accent-lime)] font-bold cursor-help">
+                          tsvector + pg_trgm RRF
+                        </span>
+                        <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 bg-[#090A0E] border border-[var(--accent-lime)] text-[10px] font-mono text-[var(--accent-lime)] shadow-[3px_3px_0px_#CCFF00] opacity-0 group-hover/tip:opacity-100 transition-opacity z-30 leading-snug">
+                          <span className="block text-[9px] uppercase tracking-wider text-[var(--ink-muted)] mb-0.5 border-b border-[var(--border-grid)] pb-0.5">
+                            ENGINEERING X-RAY //
+                          </span>
+                          Reciprocal Rank Fusion; blends exact lexical keyword match with typo-tolerant trigram similarity for negation-safe Hinglish retrieval.
+                        </span>
+                      </span>{" "}
+                      reciprocal rank fusion.
+                    </>
+                  ) : activeSystem.id === "docanalyzer" ? (
+                    <>
+                      Asynchronous worker queue with PostgreSQL row locks, Gemini 768d embeddings, and{" "}
+                      <span className="relative inline-block group/tip">
+                        <span className="border-b border-dashed border-[var(--accent-lime)] text-[var(--accent-lime)] font-bold cursor-help">
+                          pgvector L2 (&lt;-&gt;)
+                        </span>
+                        <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 bg-[#090A0E] border border-[var(--accent-lime)] text-[10px] font-mono text-[var(--accent-lime)] shadow-[3px_3px_0px_#CCFF00] opacity-0 group-hover/tip:opacity-100 transition-opacity z-30 leading-snug">
+                          <span className="block text-[9px] uppercase tracking-wider text-[var(--ink-muted)] mb-0.5 border-b border-[var(--border-grid)] pb-0.5">
+                            ENGINEERING X-RAY //
+                          </span>
+                          Euclidean distance query; orders by index scan on Gemini 768d vectors with chunk-level citations.
+                        </span>
+                      </span>{" "}
+                      Euclidean distance ordering with chunk-level citations and FTS fallback.
+                    </>
+                  ) : (
+                    activeSystem.mechanism
+                  )}
                 </p>
               </div>
 
