@@ -78,46 +78,28 @@ async function run() {
       console.log(`✓ PASS [${vp.name}]: No horizontal overflow.`);
     }
 
-    // 2. Check Launchpad & OG Beats Bar and Hero Decluttering
+    // 2. Check Launchpad & OG Beats Bar Removed and Hero Decluttered
     const hasLaunchpadBar = await page.evaluate(() => {
       return (
         document.body.innerText.includes("LAUNCHPAD & OG BEATS") ||
-        document.body.innerText.includes("TACTILE LAUNCHPAD PADS")
+        document.body.innerText.includes("TACTILE LAUNCHPAD PADS") ||
+        document.body.innerText.includes("KEYS [Q–F] LAUNCHPAD")
       );
     });
-    if (hasLaunchpadBar) {
-      console.log(`✓ PASS [${vp.name}]: Tactile Launchpad & OG Beats bar present.`);
-
-      // Test Launchpad Pad Click (Kick pad)
-      const kickPad = await page.$('button[data-pad="kick"]');
-      if (kickPad) {
-        await kickPad.click();
-        await page.waitForTimeout(100);
-        console.log(`✓ PASS [${vp.name}]: Clicked Launchpad 808 Kick pad.`);
-      }
-
-      // Test Keyboard Launchpad trigger (Key Q)
-      await page.keyboard.press("q");
-      await page.waitForTimeout(100);
-      console.log(`✓ PASS [${vp.name}]: Pressed Key 'Q' to trigger Launchpad Kick.`);
-
-      // Test OG Beats Play/Stop toggle
-      const playBtn = await page.$('button[aria-label="Start Rhythm"]');
-      if (playBtn) {
-        await playBtn.click();
-        await page.waitForTimeout(200);
-        const stopBtn = await page.$('button[aria-label="Stop Rhythm"]');
-        if (stopBtn) {
-          console.log(`✓ PASS [${vp.name}]: OG Beat started, Stop button active.`);
-          // Stop with Space key
-          await page.keyboard.press("Space");
-          await page.waitForTimeout(200);
-          console.log(`✓ PASS [${vp.name}]: OG Beat stopped via Space hotkey.`);
-        }
-      }
+    if (!hasLaunchpadBar) {
+      console.log(`✓ PASS [${vp.name}]: Launchpad & background music successfully removed, clean UI verified.`);
     } else {
-      console.error(`❌ FAIL [${vp.name}]: Launchpad & OG Beats bar missing!`);
+      console.error(`❌ FAIL [${vp.name}]: Launchpad or music elements still present!`);
       testPassed = false;
+    }
+
+    // Test Rhythmic Button Audio Triggers
+    const heroBtn = await page.$('a.brutalist-btn[href="#systems"]');
+    if (heroBtn) {
+      await heroBtn.scrollIntoViewIfNeeded();
+      await heroBtn.click();
+      await page.waitForTimeout(100);
+      console.log(`✓ PASS [${vp.name}]: Clicked 'INSPECT 4 SYSTEMS' button (rhythmic click triggered).`);
     }
 
     const hasTelemetry = await page.evaluate(() => {

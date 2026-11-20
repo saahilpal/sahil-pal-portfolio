@@ -465,7 +465,7 @@ export function HeroSection() {
           </div>
 
           <div className="flex items-center gap-2 text-[var(--accent-lime)] font-bold">
-            <span className="hidden sm:inline">KEYS [Q–F] LAUNCHPAD • [SPACE] OG BEATS •</span>
+            <span className="hidden sm:inline">SYSTEMS [1–4] • COMMAND [⌘K] •</span>
             <span>PRESS [1–4] SYSTEMS</span>
           </div>
         </div>
