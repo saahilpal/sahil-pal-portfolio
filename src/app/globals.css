@@ -23,8 +23,8 @@
   --shadow-card: 5px 5px 0px #CCFF00;
   --shadow-cta: 4px 4px 0px #FF3B30;
   --shadow-brutal: 4px 4px 0px #F4F4F0;
-  --square-light: #20232E;
-  --square-dark: #101218;
+  --square-light: #2A3142;
+  --square-dark: #11131B;
   --turnstile-label: "BLUEPRINT";
 }
 
@@ -42,8 +42,8 @@
   --shadow-card: 5px 5px 0px #0A0A0C;
   --shadow-cta: 4px 4px 0px #0A0A0C;
   --shadow-brutal: 4px 4px 0px #0A0A0C;
-  --square-light: #FFFFFF;
-  --square-dark: #D8D5C8;
+  --square-light: #FAF9F5;
+  --square-dark: #B8C2D6;
   --turnstile-label: "VOID";
 }
 

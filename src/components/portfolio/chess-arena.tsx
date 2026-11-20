@@ -63,15 +63,15 @@ const PUZZLES: Puzzle[] = [
   },
   {
     id: 3,
-    name: "03 // BACK-RANK BATTERY",
-    theme: "Rook Deflection & Back-Rank Battery",
-    fen: "2r3k1/5ppp/8/8/8/8/4RPPP/4Q1K1 w - - 0 1",
-    whiteStep1: { from: "e2", to: "e8", notation: "1. Re8+!" },
-    blackReply: { from: "c8", to: "e8", notation: "1... Rxe8" },
-    whiteStep2: { from: "e1", to: "e8", notation: "2. Qxe8#" },
-    hint: "Clear the e-file with a Rook sacrifice on e8 so your Queen delivers mate behind it.",
+    name: "03 // BODEN'S CRISS-CROSS MATE",
+    theme: "Queen Sacrifice & Double Bishop Criss-Cross",
+    fen: "2k1r3/pp3ppp/2p1p3/8/5B2/2Q5/PPP2PPP/2KR1B2 w - - 0 1",
+    whiteStep1: { from: "c3", to: "c6", notation: "1. Qxc6+!!" },
+    blackReply: { from: "b7", to: "c6", notation: "1... bxc6" },
+    whiteStep2: { from: "f1", to: "a6", notation: "2. Ba6#" },
+    hint: "Sacrifice your Queen on c6 to deflect Black's b-pawn and open the light diagonal, then slice your f1 Bishop to a6 for criss-cross mate.",
     challengeNote:
-      "Solved your Back-Rank Battery (1. Re8+! Rxe8 2. Qxe8#) — ready for 3+0 blitz on chess.com/member/sahill17",
+      "Solved your Boden's Criss-Cross Mate (1. Qxc6+!! bxc6 2. Ba6#) — ready for 3+0 blitz on chess.com/member/sahill17",
   },
 ];
 
@@ -93,6 +93,7 @@ export function ChessArena() {
   const [liveRating, setLiveRating] = useState<string>("LIVE");
   const [isEngineResponding, setIsEngineResponding] = useState(false);
   const engineTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const wrongMoveTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentPuzzle = PUZZLES[activePuzzleIdx];
 
@@ -101,6 +102,7 @@ export function ChessArena() {
     (idx: number) => {
       sound.relay();
       if (engineTimerRef.current) clearTimeout(engineTimerRef.current);
+      if (wrongMoveTimerRef.current) clearTimeout(wrongMoveTimerRef.current);
       setActivePuzzleIdx(idx);
       setStepPhase(1);
       const p = PUZZLES[idx];
@@ -146,7 +148,9 @@ export function ChessArena() {
       // Step 1: User must play whiteStep1
       const target = currentPuzzle.whiteStep1;
       if (from === target.from && to === target.to) {
-        chess.move({ from, to });
+        const nextChess = new Chess(chess.fen());
+        nextChess.move({ from, to });
+        setChess(nextChess);
         sound.check();
         setSelectedSquare(null);
         setLegalMoves([]);
@@ -164,7 +168,9 @@ export function ChessArena() {
         // Black auto-replies after exactly 320ms
         engineTimerRef.current = setTimeout(() => {
           const reply = currentPuzzle.blackReply;
-          chess.move({ from: reply.from, to: reply.to });
+          const replyChess = new Chess(nextChess.fen());
+          replyChess.move({ from: reply.from, to: reply.to });
+          setChess(replyChess);
           sound.reply();
           setLastMoveSquares({ from: reply.from, to: reply.to });
           setMoveHistory([target.notation, reply.notation]);
@@ -180,7 +186,9 @@ export function ChessArena() {
       // Step 2: User must play whiteStep2 (Checkmate)
       const target = currentPuzzle.whiteStep2;
       if (from === target.from && to === target.to) {
-        chess.move({ from, to });
+        const mateChess = new Chess(chess.fen());
+        mateChess.move({ from, to });
+        setChess(mateChess);
         sound.checkmate();
         setSelectedSquare(null);
         setLegalMoves([]);
@@ -212,7 +220,8 @@ export function ChessArena() {
     sound.error();
     setIsWrongMove(true);
     setLastStatus("Incorrect move. Defended by Black. Try again.");
-    setTimeout(() => {
+    if (wrongMoveTimerRef.current) clearTimeout(wrongMoveTimerRef.current);
+    wrongMoveTimerRef.current = setTimeout(() => {
       setIsWrongMove(false);
       setChess(new Chess(currentPuzzle.fen));
       setStepPhase(1);
@@ -398,20 +407,20 @@ export function ChessArena() {
                         onClick={() => handleSquareClick(square)}
                         onDragOver={handleDragOver}
                         onDrop={(e) => handleDrop(e, square)}
-                        className={`relative flex items-center justify-center aspect-square select-none cursor-pointer transition-all ${
-                          isLight ? "bg-[var(--square-light)]" : "bg-[var(--square-dark)]"
-                        } ${isSelected ? "ring-2 ring-[var(--accent-lime)] bg-[var(--accent-lime)]/20 z-10" : ""} ${
+                        className={`relative flex items-center justify-center aspect-square select-none cursor-pointer transition-all border border-[var(--border-grid)]/25 ${
+                          isLight ? "bg-[var(--square-light)] shadow-inner" : "bg-[var(--square-dark)] shadow-inner"
+                        } ${isSelected ? "ring-2 ring-[var(--accent-lime)] bg-[var(--accent-lime)]/25 z-10" : ""} ${
                           isHinted ? "ring-2 ring-[var(--accent-lime)] animate-pulse z-10" : ""
                         } ${
                           isLastFrom || isLastTo
-                            ? "bg-[var(--accent-blue)]/20 ring-1 ring-[var(--accent-blue)]"
+                            ? "bg-[var(--accent-blue)]/25 ring-1 ring-[var(--accent-blue)]"
                             : ""
                         }`}
                         aria-label={`Square ${square}${piece ? ` with ${piece}` : ""}`}
                       >
                         {/* Legal Target Marker */}
                         {isLegalTarget && (
-                          <span className="absolute w-3.5 h-3.5 rounded-full bg-[var(--accent-lime)] opacity-90 z-20 pointer-events-none shadow-[0_0_8px_var(--accent-lime)]" />
+                          <span className="absolute w-3.5 h-3.5 rounded-full bg-[var(--accent-lime)] opacity-95 z-20 pointer-events-none shadow-[0_0_10px_var(--accent-lime)] ring-2 ring-black/40" />
                         )}
 
                         {/* Teal Brilliant Move Badge (!!) */}
@@ -426,8 +435,8 @@ export function ChessArena() {
                           <div
                             draggable={isWhitePiece && !isEngineResponding}
                             onDragStart={(e) => handleDragStart(e, square)}
-                            className={`w-[80%] h-[80%] flex items-center justify-center z-10 ${
-                              isWhitePiece ? "cursor-grab active:cursor-grabbing" : "cursor-default"
+                            className={`w-[82%] h-[82%] flex items-center justify-center z-10 transition-transform ${
+                              isWhitePiece ? "cursor-grab active:cursor-grabbing hover:scale-105" : "cursor-default"
                             }`}
                           >
                             <ChessPiece type={piece} className="w-full h-full" />
@@ -436,13 +445,17 @@ export function ChessArena() {
 
                         {/* Rank label on left edge */}
                         {cIdx === 0 && (
-                          <span className="absolute top-0.5 left-1 text-[9px] font-mono font-bold text-[var(--ink-muted)] opacity-70 pointer-events-none">
+                          <span className={`absolute top-0.5 left-1 text-[9px] font-mono font-extrabold pointer-events-none ${
+                            isLight ? "text-[var(--ink-primary)]" : "text-[var(--ink-muted)]"
+                          }`}>
                             {ranks[rIdx]}
                           </span>
                         )}
                         {/* File label on bottom edge */}
                         {rIdx === 7 && (
-                          <span className="absolute bottom-0.5 right-1 text-[9px] font-mono font-bold text-[var(--ink-muted)] opacity-70 pointer-events-none">
+                          <span className={`absolute bottom-0.5 right-1 text-[9px] font-mono font-extrabold pointer-events-none ${
+                            isLight ? "text-[var(--ink-primary)]" : "text-[var(--ink-muted)]"
+                          }`}>
                             {files[cIdx]}
                           </span>
                         )}

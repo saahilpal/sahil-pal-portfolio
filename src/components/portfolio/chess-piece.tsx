@@ -17,14 +17,14 @@ export function ChessPiece({ type, className = "w-9 h-9" }: ChessPieceProps) {
   const isWhite = type === type.toUpperCase();
   const lower = type.toLowerCase();
 
-  const strokeColor = isWhite ? "#111318" : "#F4F4F0";
-  const fillColor = isWhite ? "#FFFFFF" : "#1B1D26";
-  const accentColor = isWhite ? "#D6D9E0" : "#CCFF00";
+  const strokeColor = isWhite ? "#0B0C10" : "#F8FAFC";
+  const fillColor = isWhite ? "#FAF9F6" : "#161922";
+  const accentColor = isWhite ? "#CBD5E1" : "#CCFF00";
 
   return (
     <svg
       viewBox="0 0 45 45"
-      className={`select-none pointer-events-none drop-shadow-[0_2px_3px_rgba(0,0,0,0.55)] transition-transform ${className}`}
+      className={`select-none pointer-events-none drop-shadow-[0_3px_5px_rgba(0,0,0,0.7)] transition-transform ${className}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

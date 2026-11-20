@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { StockfishEvalBar } from "@/components/portfolio/eval-bar";
 import { PortfolioHeader } from "@/components/portfolio/header";
 import { KineticTickerTape } from "@/components/portfolio/ticker-tape";
+import { RhythmOperator } from "@/components/portfolio/rhythm-bar";
 import { HeroSection } from "@/components/portfolio/hero";
 import { SystemsWorkbench } from "@/components/portfolio/systems-workbench";
 import { ChessArena } from "@/components/portfolio/chess-arena";
@@ -79,6 +80,9 @@ export default function Home() {
 
       {/* Kinetic Acid-Lime Ticker Tape */}
       <KineticTickerTape />
+
+      {/* Teenage Engineering Pocket Operator Rhythm & Instrument HUD */}
+      <RhythmOperator />
 
       <main className="w-full">
         {/* ACT I — THE PLEDGE (Monumental Hero + 3D Wireframe Canvas) */}

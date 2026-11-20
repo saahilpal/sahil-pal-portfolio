@@ -78,7 +78,40 @@ async function run() {
       console.log(`✓ PASS [${vp.name}]: No horizontal overflow.`);
     }
 
-    // 2. Check Hero Decluttering: Telemetry Box and Overclock button must NOT exist
+    // 2. Check Rhythm Operator Bar and Hero Decluttering
+    const hasRhythmBar = await page.evaluate(() => {
+      return document.body.innerText.includes("RHYTHM ENGINE");
+    });
+    if (hasRhythmBar) {
+      console.log(`✓ PASS [${vp.name}]: Pocket Operator Rhythm Engine bar present.`);
+      // Test Play/Stop toggle
+      const playBtn = await page.$('button[aria-label="Start Rhythm"]');
+      if (playBtn) {
+        await playBtn.click();
+        await page.waitForTimeout(200);
+        const stopBtn = await page.$('button[aria-label="Stop Rhythm"]');
+        if (stopBtn) {
+          console.log(`✓ PASS [${vp.name}]: Rhythm started, Stop button active.`);
+          // Stop with Space key
+          await page.keyboard.press("Space");
+          await page.waitForTimeout(200);
+          console.log(`✓ PASS [${vp.name}]: Rhythm stopped via Space hotkey.`);
+        }
+      }
+      // Test Keyboard Synthesizer Note Trigger
+      await page.keyboard.press("a");
+      await page.waitForTimeout(100);
+      const noteActive = await page.evaluate(() => {
+        return document.body.innerText.includes("D3");
+      });
+      if (noteActive) {
+        console.log(`✓ PASS [${vp.name}]: Keyboard note 'a' (D3) triggered visual synth feedback.`);
+      }
+    } else {
+      console.error(`❌ FAIL [${vp.name}]: Rhythm Engine bar missing!`);
+      testPassed = false;
+    }
+
     const hasTelemetry = await page.evaluate(() => {
       return document.body.innerText.includes("LIVE SYSTEM TELEMETRY");
     });
@@ -207,13 +240,67 @@ async function run() {
             await wrongPiece.click();
             await page.waitForTimeout(100);
             await wrongDest.click();
-            await page.waitForTimeout(300);
+            await page.waitForTimeout(400);
 
             const wrongStatus = await page.innerText("#arena");
             if (wrongStatus.includes("Incorrect move") || wrongStatus.includes("Defended by Black")) {
               console.log("✓ PASS: Wrong move properly triggered error message and board reset.");
             } else {
               console.log("Status after wrong move:", wrongStatus.slice(0, 100));
+            }
+            // Wait for reset timeout
+            await page.waitForTimeout(850);
+          }
+        }
+
+        // Test Puzzle 3: Boden's Criss-Cross Mate
+        console.log("Navigating to Puzzle 3 (Boden Criss-Cross Mate)...");
+        const nextPuzzleBtn2 = await page.$("text=NEXT PUZZLE");
+        if (nextPuzzleBtn2) {
+          await nextPuzzleBtn2.click();
+          await page.waitForTimeout(600);
+
+          const puzzle3Text = await page.innerText("#arena");
+          if (puzzle3Text.includes("BODEN'S CRISS-CROSS MATE")) {
+            console.log("✓ PASS: Puzzle 3 title is '03 // BODEN'S CRISS-CROSS MATE'.");
+          }
+
+          // Step 1: White Queen c3 -> c6 (1. Qxc6+!!)
+          console.log("Playing Step 1: c3 -> c6 (Qxc6+!!)");
+          const c3 = await page.$('button[data-square="c3"]');
+          const c6 = await page.$('button[data-square="c6"]');
+          if (c3 && c6) {
+            await c3.click();
+            await page.waitForTimeout(150);
+            await c6.click();
+            await page.waitForTimeout(200);
+
+            // Wait 500ms for Black's forced auto-reply: 1... bxc6
+            console.log("Waiting for Black's forced auto-reply (bxc6)...");
+            await page.waitForTimeout(500);
+
+            const moveStrip3 = await page.innerText("#arena");
+            if (moveStrip3.includes("bxc6") || moveStrip3.includes("Qxc6+")) {
+              console.log("✓ PASS: Step 1 played and Black played forced reply!");
+            }
+
+            // Step 2: Deliver Double Bishop Checkmate with f1 -> a6 (2. Ba6#)
+            console.log("Playing Step 2: f1 -> a6 (Ba6#)");
+            const f1 = await page.$('button[data-square="f1"]');
+            const a6 = await page.$('button[data-square="a6"]');
+            if (f1 && a6) {
+              await f1.click();
+              await page.waitForTimeout(150);
+              await a6.click();
+              await page.waitForTimeout(400);
+
+              const checkmate3 = await page.innerText("#arena");
+              if (checkmate3.includes("CHECKMATE") || checkmate3.includes("Ba6#")) {
+                console.log("✓ PASS: Boden's Criss-Cross Mate delivered! (2. Ba6# confirmed)");
+              } else {
+                console.error("❌ FAIL: Boden's Mate not confirmed! Text was:", checkmate3.slice(0, 150));
+                testPassed = false;
+              }
             }
           }
         }

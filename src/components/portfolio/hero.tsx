@@ -245,7 +245,8 @@ export function HeroSection() {
 
         const fov = 460;
         const pz = z3 + fov;
-        const factor = fov / Math.max(10, pz);
+        const beatPulse = sound.getBeatPulse();
+        const factor = (fov / Math.max(10, pz)) * (1 + beatPulse * 0.14);
 
         return {
           x: centerX + x3 * factor,
@@ -254,26 +255,29 @@ export function HeroSection() {
         };
       });
 
-      // Draw Edges
-      ctx.lineWidth = 1.5;
+      // Draw Edges with Audio-Reactive Intensity
+      const beatPulse = sound.getBeatPulse();
+      ctx.lineWidth = 1.5 + beatPulse * 1.5;
       edges.forEach(([i, j]) => {
         const p1 = projected[i];
         const p2 = projected[j];
         const avgZ = (p1.z + p2.z) / 2;
         const edgeAlpha = Math.max(0.18, Math.min(0.85, (avgZ + 120) / 240));
 
-        ctx.strokeStyle = `rgba(244, 244, 240, ${edgeAlpha * 0.65})`;
+        ctx.strokeStyle = beatPulse > 0.5
+          ? `rgba(204, 255, 0, ${edgeAlpha * 0.9})`
+          : `rgba(244, 244, 240, ${edgeAlpha * 0.65})`;
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
         ctx.stroke();
       });
 
-      // Draw Vertex Nodes
+      // Draw Vertex Nodes with Audio Flare
       projected.forEach((p) => {
-        ctx.fillStyle = "#CCFF00";
+        ctx.fillStyle = beatPulse > 0.5 ? "#00E5FF" : "#CCFF00";
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, 2.5 + beatPulse * 2.2, 0, Math.PI * 2);
         ctx.fill();
       });
 
@@ -461,7 +465,8 @@ export function HeroSection() {
           </div>
 
           <div className="flex items-center gap-2 text-[var(--accent-lime)] font-bold">
-            <span>PRESS [1–4] TO SWITCH SYSTEMS</span>
+            <span className="hidden sm:inline">KEYS [A–L] PLAY SYNTH NOTES •</span>
+            <span>PRESS [1–4] SYSTEMS</span>
           </div>
         </div>
       </div>

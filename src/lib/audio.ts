@@ -1,5 +1,5 @@
 // Pure Web Audio API Synthesizer — Zero External Audio Files
-// Teenage Engineering Pocket Operator & Brutalist Positional Beat Engine
+// Teenage Engineering Pocket Operator & Nolan Chronometer Rhythmic Instrument Engine
 
 export interface NoteInfo {
   name: string;
@@ -20,9 +20,22 @@ export const D_MIN_PENTATONIC: NoteInfo[] = [
   { name: "D5", freq: 587.33 },
 ];
 
+export type RhythmPatternName = "chrono" | "teenage" | "minimal";
+
 class SoundEngine {
   private ctx: AudioContext | null = null;
   private enabled: boolean = true;
+
+  // Rhythm Sequencer State
+  private isRhythmPlaying: boolean = false;
+  private bpm: number = 120;
+  private currentStep: number = 0;
+  private rhythmTimer: NodeJS.Timeout | null = null;
+  private beatPulseValue: number = 0;
+  private pulseDecayTimer: NodeJS.Timeout | null = null;
+  private currentPattern: RhythmPatternName = "chrono";
+  private stepListeners: Set<(step: number, isDownbeat: boolean) => void> = new Set();
+  private rhythmStateListeners: Set<(isPlaying: boolean, bpm: number, pattern: RhythmPatternName) => void> = new Set();
 
   constructor() {
     if (typeof window !== "undefined") {
@@ -56,11 +69,392 @@ class SoundEngine {
     }
     if (this.enabled) {
       this.relay();
+    } else if (this.isRhythmPlaying) {
+      this.stopRhythm();
     }
     return this.enabled;
   }
 
-  // Pocket Operator Spatial Beat Pad (X = Note on D-min pentatonic, Y = Tone layer & percussion)
+  // ==========================================
+  // RHYTHM & SEQUENCER ENGINE (120 BPM CLOCK)
+  // ==========================================
+
+  public isRhythmActive(): boolean {
+    return this.isRhythmPlaying;
+  }
+
+  public getBpm(): number {
+    return this.bpm;
+  }
+
+  public setBpm(newBpm: number) {
+    this.bpm = Math.max(70, Math.min(180, newBpm));
+    if (this.isRhythmPlaying) {
+      // Restart loop with new tempo
+      this.stopRhythm();
+      this.startRhythm();
+    }
+    this.notifyRhythmState();
+  }
+
+  public getPattern(): RhythmPatternName {
+    return this.currentPattern;
+  }
+
+  public setPattern(pattern: RhythmPatternName) {
+    this.currentPattern = pattern;
+    this.notifyRhythmState();
+  }
+
+  public toggleRhythm(): boolean {
+    if (this.isRhythmPlaying) {
+      this.stopRhythm();
+    } else {
+      this.startRhythm();
+    }
+    return this.isRhythmPlaying;
+  }
+
+  public startRhythm(customBpm?: number) {
+    if (!this.enabled) return;
+    this.initCtx();
+    if (!this.ctx) return;
+
+    if (customBpm) this.bpm = customBpm;
+    if (this.isRhythmPlaying) return;
+
+    this.isRhythmPlaying = true;
+    this.currentStep = 0;
+    this.notifyRhythmState();
+
+    // 16th-note interval in milliseconds
+    const stepIntervalMs = Math.round((60 / this.bpm / 4) * 1000);
+
+    const tickLoop = () => {
+      if (!this.isRhythmPlaying) return;
+      this.executeRhythmStep(this.currentStep);
+      this.currentStep = (this.currentStep + 1) % 16;
+      this.rhythmTimer = setTimeout(tickLoop, stepIntervalMs);
+    };
+
+    tickLoop();
+  }
+
+  public stopRhythm() {
+    this.isRhythmPlaying = false;
+    if (this.rhythmTimer) {
+      clearTimeout(this.rhythmTimer);
+      this.rhythmTimer = null;
+    }
+    this.beatPulseValue = 0;
+    this.notifyRhythmState();
+  }
+
+  public subscribeStep(listener: (step: number, isDownbeat: boolean) => void): () => void {
+    this.stepListeners.add(listener);
+    return () => {
+      this.stepListeners.delete(listener);
+    };
+  }
+
+  public subscribeRhythmState(
+    listener: (isPlaying: boolean, bpm: number, pattern: RhythmPatternName) => void
+  ): () => void {
+    this.rhythmStateListeners.add(listener);
+    listener(this.isRhythmPlaying, this.bpm, this.currentPattern);
+    return () => {
+      this.rhythmStateListeners.delete(listener);
+    };
+  }
+
+  private notifyRhythmState() {
+    this.rhythmStateListeners.forEach((listener) => {
+      try {
+        listener(this.isRhythmPlaying, this.bpm, this.currentPattern);
+      } catch {}
+    });
+  }
+
+  public getBeatPulse(): number {
+    return this.beatPulseValue;
+  }
+
+  private triggerBeatPulse(strength: number) {
+    this.beatPulseValue = strength;
+    if (this.pulseDecayTimer) clearTimeout(this.pulseDecayTimer);
+    const decay = () => {
+      this.beatPulseValue *= 0.82;
+      if (this.beatPulseValue > 0.05) {
+        this.pulseDecayTimer = setTimeout(decay, 25);
+      } else {
+        this.beatPulseValue = 0;
+      }
+    };
+    this.pulseDecayTimer = setTimeout(decay, 25);
+  }
+
+  private executeRhythmStep(step: number) {
+    if (!this.ctx || !this.enabled) return;
+    const now = this.ctx.currentTime;
+    const isQuarter = step % 4 === 0;
+    const isDownbeat = step === 0;
+
+    // Trigger visual pulse
+    this.triggerBeatPulse(isDownbeat ? 1.0 : isQuarter ? 0.7 : 0.25);
+
+    // Broadcast to listeners
+    this.stepListeners.forEach((cb) => {
+      try {
+        cb(step, isQuarter);
+      } catch {}
+    });
+
+    // Patterns
+    if (this.currentPattern === "chrono") {
+      // 1. Precise Nolan Chronometer Hi-Hat (Every 16th note)
+      this.synthesizeHiHat(now, isQuarter ? 0.08 : 0.035, isQuarter ? 8500 : 9800);
+
+      // 2. Sub-bass kick on 0 and 8
+      if (step === 0 || step === 8) {
+        this.synthesizeKick(now, step === 0 ? 0.28 : 0.2);
+      }
+
+      // 3. Mechanical Rimshot on 4 and 12
+      if (step === 4 || step === 12) {
+        this.synthesizeRimshot(now, 0.14);
+      }
+
+      // 4. Rolling Bassline Synth Pluck (D-min pentatonic)
+      const bassMelody = [0, 0, 1, 3, 4, 3, 1, 2, 0, 1, 3, 5, 4, 3, 2, 1];
+      const noteIdx = bassMelody[step];
+      const note = D_MIN_PENTATONIC[noteIdx] || D_MIN_PENTATONIC[0];
+      if (step % 2 === 0) {
+        this.synthesizeBassPluck(now, note.freq, 0.1);
+      }
+    } else if (this.currentPattern === "teenage") {
+      // Teenage Engineering Pocket Operator Breakbeat Groove
+      this.synthesizeHiHat(now, step % 2 === 0 ? 0.06 : 0.02, 7200);
+
+      // Syncopated kick: 0, 6, 10
+      if (step === 0 || step === 6 || step === 10) {
+        this.synthesizeKick(now, step === 0 ? 0.32 : 0.22);
+      }
+
+      // Snare: 4, 12
+      if (step === 4 || step === 12) {
+        this.synthesizeRimshot(now, 0.16);
+      }
+
+      // Synth Arpeggio
+      const arpNotes = [0, 2, 3, 5, 7, 5, 3, 1];
+      const n = D_MIN_PENTATONIC[arpNotes[step % 8]];
+      if (n) {
+        this.synthesizeSynthLead(now, n.freq * 1.5, 0.08);
+      }
+    } else {
+      // Minimal Pulse
+      if (step === 0 || step === 8) {
+        this.synthesizeKick(now, 0.22);
+      }
+      this.synthesizeHiHat(now, 0.03, 10000);
+    }
+  }
+
+  // Pure Web Audio Synth Voices
+  private synthesizeKick(time: number, gainVal: number) {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(145, time);
+    osc.frequency.exponentialRampToValueAtTime(42, time + 0.11);
+
+    gain.gain.setValueAtTime(gainVal, time);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.2);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start(time);
+    osc.stop(time + 0.22);
+  }
+
+  private synthesizeHiHat(time: number, gainVal: number, cutoff: number) {
+    if (!this.ctx) return;
+    const bufferSize = Math.floor(this.ctx.sampleRate * 0.02);
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = "highpass";
+    filter.frequency.setValueAtTime(cutoff, time);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(gainVal, time);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.028);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    noise.start(time);
+  }
+
+  private synthesizeRimshot(time: number, gainVal: number) {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(920, time);
+    osc.frequency.exponentialRampToValueAtTime(260, time + 0.03);
+
+    gain.gain.setValueAtTime(gainVal, time);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.035);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start(time);
+    osc.stop(time + 0.04);
+  }
+
+  private synthesizeBassPluck(time: number, freq: number, gainVal: number) {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const filter = this.ctx.createBiquadFilter();
+    const gain = this.ctx.createGain();
+
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(freq, time);
+
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(650, time);
+    filter.frequency.exponentialRampToValueAtTime(140, time + 0.12);
+
+    gain.gain.setValueAtTime(gainVal, time);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.14);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start(time);
+    osc.stop(time + 0.15);
+  }
+
+  private synthesizeSynthLead(time: number, freq: number, gainVal: number) {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(freq, time);
+
+    gain.gain.setValueAtTime(gainVal, time);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.1);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start(time);
+    osc.stop(time + 0.11);
+  }
+
+  // ==========================================
+  // PLAYABLE KEYBOARD INSTRUMENT VOICES
+  // ==========================================
+
+  public playNote(noteIndexOrName: number | string): NoteInfo {
+    let note: NoteInfo;
+    if (typeof noteIndexOrName === "number") {
+      const idx = Math.max(0, Math.min(D_MIN_PENTATONIC.length - 1, noteIndexOrName));
+      note = D_MIN_PENTATONIC[idx];
+    } else {
+      note =
+        D_MIN_PENTATONIC.find((n) => n.name.toLowerCase() === noteIndexOrName.toLowerCase()) ||
+        D_MIN_PENTATONIC[0];
+    }
+
+    if (!this.enabled) return note;
+
+    try {
+      this.initCtx();
+      if (!this.ctx) return note;
+      const now = this.ctx.currentTime;
+
+      // Rich analog polyphonic synth voice
+      const osc1 = this.ctx.createOscillator();
+      const osc2 = this.ctx.createOscillator();
+      const filter = this.ctx.createBiquadFilter();
+      const gain = this.ctx.createGain();
+
+      osc1.type = "sawtooth";
+      osc1.frequency.setValueAtTime(note.freq, now);
+
+      osc2.type = "sine";
+      osc2.frequency.setValueAtTime(note.freq * 2, now);
+
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(note.freq * 4.5, now);
+      filter.frequency.exponentialRampToValueAtTime(note.freq * 1.2, now + 0.35);
+
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 0.42);
+      osc2.stop(now + 0.42);
+
+      this.triggerBeatPulse(0.85);
+    } catch {}
+
+    return note;
+  }
+
+  // Ambient D-Minor Chord
+  public playChord() {
+    if (!this.enabled) return;
+    try {
+      this.initCtx();
+      if (!this.ctx) return;
+      const chordFreqs = [146.83, 220.0, 293.66, 349.23]; // D3, A3, D4, F4
+      const now = this.ctx.currentTime;
+
+      chordFreqs.forEach((freq, idx) => {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(freq, now + idx * 0.04);
+        gain.gain.setValueAtTime(0.08, now + idx * 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now + idx * 0.04);
+        osc.stop(now + 0.65);
+      });
+      this.triggerBeatPulse(0.9);
+    } catch {}
+  }
+
+  // ==========================================
+  // SPATIAL BEAT PAD & TACTILE SFX
+  // ==========================================
+
   public spatialBeat(normX: number, normY: number): NoteInfo {
     const clampedX = Math.max(0, Math.min(0.999, normX));
     const clampedY = Math.max(0, Math.min(0.999, normY));
@@ -75,7 +469,7 @@ class SoundEngine {
       const now = this.ctx.currentTime;
 
       if (clampedY < 0.33) {
-        // UPPER THIRD: Crisp synth pluck + tight hi-hat tick
+        // UPPER: Crisp synth pluck + tight hi-hat tick
         const osc = this.ctx.createOscillator();
         const filter = this.ctx.createBiquadFilter();
         const gain = this.ctx.createGain();
@@ -97,28 +491,9 @@ class SoundEngine {
         osc.start(now);
         osc.stop(now + 0.19);
 
-        // Hi-hat noise burst
-        const bufferSize = Math.floor(this.ctx.sampleRate * 0.025);
-        const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-        const output = noiseBuffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-          output[i] = Math.random() * 2 - 1;
-        }
-        const whiteNoise = this.ctx.createBufferSource();
-        whiteNoise.buffer = noiseBuffer;
-        const hatFilter = this.ctx.createBiquadFilter();
-        hatFilter.type = "highpass";
-        hatFilter.frequency.setValueAtTime(7500, now);
-        const hatGain = this.ctx.createGain();
-        hatGain.gain.setValueAtTime(0.06, now);
-        hatGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
-
-        whiteNoise.connect(hatFilter);
-        hatFilter.connect(hatGain);
-        hatGain.connect(this.ctx.destination);
-        whiteNoise.start(now);
+        this.synthesizeHiHat(now, 0.06, 7500);
       } else if (clampedY < 0.66) {
-        // MIDDLE THIRD: Warm Rhodes-style FM chord hit + rimshot
+        // MIDDLE: Warm Rhodes FM chord hit + rimshot
         const carrier = this.ctx.createOscillator();
         const modulator = this.ctx.createOscillator();
         const modGain = this.ctx.createGain();
@@ -146,37 +521,11 @@ class SoundEngine {
         carrier.stop(now + 0.28);
         modulator.stop(now + 0.28);
 
-        // Rimshot tap
-        const rim = this.ctx.createOscillator();
-        const rimGain = this.ctx.createGain();
-        rim.type = "triangle";
-        rim.frequency.setValueAtTime(950, now);
-        rim.frequency.exponentialRampToValueAtTime(300, now + 0.03);
-        rimGain.gain.setValueAtTime(0.1, now);
-        rimGain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
-        rim.connect(rimGain);
-        rimGain.connect(this.ctx.destination);
-        rim.start(now);
-        rim.stop(now + 0.04);
+        this.synthesizeRimshot(now, 0.1);
       } else {
-        // LOWER THIRD: Punchy sub-bass kick + low pluck
-        const kick = this.ctx.createOscillator();
-        const kickGain = this.ctx.createGain();
+        // LOWER: Punchy sub-bass kick + low pluck
+        this.synthesizeKick(now, 0.3);
 
-        kick.type = "sine";
-        kick.frequency.setValueAtTime(140, now);
-        kick.frequency.exponentialRampToValueAtTime(42, now + 0.12);
-
-        kickGain.gain.setValueAtTime(0.3, now);
-        kickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
-
-        kick.connect(kickGain);
-        kickGain.connect(this.ctx.destination);
-
-        kick.start(now);
-        kick.stop(now + 0.24);
-
-        // Low root pluck
         const pluck = this.ctx.createOscillator();
         const pluckGain = this.ctx.createGain();
         const rootFreq = note.freq > 300 ? note.freq / 2 : note.freq;
@@ -189,6 +538,8 @@ class SoundEngine {
         pluck.start(now);
         pluck.stop(now + 0.2);
       }
+
+      this.triggerBeatPulse(0.7);
     } catch {}
 
     return note;
@@ -215,7 +566,7 @@ class SoundEngine {
     } catch {}
   }
 
-  // Snappy analog relay detent (for buttons, ⌘K, Turnstile toggle)
+  // Snappy analog relay detent
   public relay() {
     if (!this.enabled) return;
     try {
@@ -223,7 +574,6 @@ class SoundEngine {
       if (!this.ctx) return;
       const now = this.ctx.currentTime;
 
-      // Click 1 (higher frequency latch)
       const osc1 = this.ctx.createOscillator();
       const gain1 = this.ctx.createGain();
       osc1.type = "sine";
@@ -236,7 +586,6 @@ class SoundEngine {
       osc1.start(now);
       osc1.stop(now + 0.02);
 
-      // Click 2 (mechanical body knock)
       const osc2 = this.ctx.createOscillator();
       const gain2 = this.ctx.createGain();
       osc2.type = "triangle";
@@ -251,7 +600,7 @@ class SoundEngine {
     } catch {}
   }
 
-  // Wooden chess move thock pitched by board rank (1–8)
+  // Wooden chess move thock pitched by rank (1–8)
   public chessMove(rank: number = 4) {
     if (!this.enabled) return;
     try {
@@ -273,12 +622,10 @@ class SoundEngine {
     } catch {}
   }
 
-  // Backwards compatibility alias
   public thock() {
     this.chessMove(4);
   }
 
-  // Sharper resonant click on Check (+)
   public check() {
     if (!this.enabled) return;
     try {
@@ -299,7 +646,6 @@ class SoundEngine {
     } catch {}
   }
 
-  // Deeper thud on Black's forced auto-reply
   public reply() {
     if (!this.enabled) return;
     try {
@@ -320,7 +666,6 @@ class SoundEngine {
     } catch {}
   }
 
-  // Checkmate victory major chord arpeggio (C5 - E5 - G5 - C6)
   public checkmate() {
     if (!this.enabled) return;
     try {
@@ -343,17 +688,17 @@ class SoundEngine {
         osc.start(startTime);
         osc.stop(startTime + 0.75);
       });
+      this.triggerBeatPulse(1.0);
     } catch {}
   }
 
-  // Project workbench tab switch with ascending harmonic intervals
   public tabSwitch(index: number) {
     if (!this.enabled) return;
     try {
       this.initCtx();
       if (!this.ctx) return;
       const now = this.ctx.currentTime;
-      const freqs = [293.66, 349.23, 440.0, 587.33]; // D4, F4, A4, D5
+      const freqs = [293.66, 349.23, 440.0, 587.33];
       const freq = freqs[Math.max(0, Math.min(3, index))] || 440.0;
 
       const osc = this.ctx.createOscillator();
@@ -371,12 +716,10 @@ class SoundEngine {
       osc.start(now);
       osc.stop(now + 0.08);
 
-      // Micro relay click
       this.tick();
     } catch {}
   }
 
-  // Error low buzz
   public error() {
     if (!this.enabled) return;
     try {
@@ -397,7 +740,6 @@ class SoundEngine {
     } catch {}
   }
 
-  // Pulse sound
   public pulse() {
     if (!this.enabled) return;
     try {
@@ -418,7 +760,6 @@ class SoundEngine {
     } catch {}
   }
 
-  // Tenet Temporal Turnstile Inversion sweep
   public turnstile() {
     if (!this.enabled) return;
     try {
