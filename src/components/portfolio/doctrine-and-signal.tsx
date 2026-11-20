@@ -4,6 +4,7 @@ import { useState } from "react";
 import { DOCTRINES, PROFILE_CORE } from "@/lib/portfolio-data";
 import { sound } from "@/lib/audio";
 import { Copy, Check, ExternalLink, ArrowUpRight, Github, Linkedin } from "lucide-react";
+import { SahilLogo } from "./logo";
 
 interface DoctrineAndSignalProps {
   onUnlockEgg?: (eggNum: number, title: string) => void;
@@ -188,8 +189,11 @@ export function DoctrineAndSignal({ onUnlockEgg }: DoctrineAndSignalProps) {
             ))}
           </div>
 
-          <div>
-            <span>SAHIL PAL • GRANDMASTER SYSTEMS LAB {"//"} 2026</span>
+          <div className="flex items-center gap-2">
+            <SahilLogo className="w-4 h-4 text-[var(--accent-lime)]" />
+            <span className="font-mono lowercase font-bold text-[var(--ink-primary)]">sahil</span>
+            <span className="text-[var(--border-frame)]">•</span>
+            <span>GRANDMASTER SYSTEMS LAB {"//"} 2026</span>
           </div>
         </div>
       </div>

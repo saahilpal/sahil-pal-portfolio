@@ -49,7 +49,7 @@ export function EasterEggsController({
   >([
     {
       output:
-        "♔ SAHIL.LAB INTERACTIVE GM TERMINAL v2.6.0\nType 'help' for available diagnostic commands.",
+        "♔ sahil // interactive gm terminal v2.6.0\nType 'help' for available diagnostic commands.",
     },
   ]);
   const [terminalInput, setTerminalInput] = useState("");
@@ -297,7 +297,7 @@ export function EasterEggsController({
           onClick={(e) => e.stopPropagation()}
         >
           <div className="px-3 py-1.5 border-b border-[var(--border-grid)] text-[10px] text-[var(--accent-lime)] font-bold flex justify-between">
-            <span>♔ SAHIL.LAB MENU</span>
+            <span>♔ sahil // menu</span>
             <span className="text-[var(--ink-muted)]">SHIFT+R-CLICK=NATIVE</span>
           </div>
 
@@ -454,7 +454,7 @@ export function EasterEggsController({
             <div className="flex items-center justify-between border-b border-emerald-500/40 pb-2">
               <div className="flex items-center gap-2 font-bold text-[var(--accent-lime)]">
                 <TerminalIcon className="w-4 h-4" />
-                <span>♔ SAHIL.LAB SECRET GM TERMINAL [TTY-1]</span>
+                <span>♔ sahil // secret gm terminal [tty-1]</span>
               </div>
               <button
                 type="button"
@@ -471,7 +471,7 @@ export function EasterEggsController({
                 <div key={idx} className="space-y-0.5">
                   {item.command && (
                     <div className="text-[var(--accent-lime)] font-bold">
-                      guest@sahil-lab:~$ {item.command}
+                      guest@sahil:~$ {item.command}
                     </div>
                   )}
                   <div className="text-[#F4F4F0] whitespace-pre-wrap">{item.output}</div>
@@ -482,7 +482,7 @@ export function EasterEggsController({
 
             {/* Input Form */}
             <form onSubmit={handleTerminalSubmit} className="flex items-center gap-2 border-t border-emerald-500/40 pt-2">
-              <span className="text-[var(--accent-lime)] font-bold">guest@sahil-lab:~$</span>
+              <span className="text-[var(--accent-lime)] font-bold">guest@sahil:~$</span>
               <input
                 type="text"
                 value={terminalInput}

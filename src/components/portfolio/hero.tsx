@@ -9,38 +9,23 @@ interface HeroProps {
   onOverclock?: () => void;
 }
 
-const SCRAMBLE_GLYPHS = "♔♕♖♗♘01#@$%&*!?<>[]{}";
-
 export function HeroSection({ onOverclock }: HeroProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [copied, setCopied] = useState(false);
-  const [displayName, setDisplayName] = useState("SAHIL PAL");
+  const [namePulse, setNamePulse] = useState(false);
+  const [identityStatus, setIdentityStatus] = useState<string | null>(null);
   const [isOverclocked, setIsOverclocked] = useState(false);
   const pointerPosRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const overclockRef = useRef(1);
+  const spawnParticlesRef = useRef<((cx: number, cy: number, count?: number) => void) | null>(null);
 
-  // Scramble decode text effect for Line 1
-  const triggerScramble = useCallback(() => {
-    sound.tick();
-    const original = "SAHIL PAL";
-    let iterations = 0;
-    const interval = setInterval(() => {
-      setDisplayName(() =>
-        original
-          .split("")
-          .map((char, idx) => {
-            if (char === " ") return " ";
-            if (idx < iterations) return original[idx];
-            return SCRAMBLE_GLYPHS[Math.floor(Math.random() * SCRAMBLE_GLYPHS.length)];
-          })
-          .join("")
-      );
-      iterations += 1 / 3;
-      if (iterations >= original.length) {
-        clearInterval(interval);
-        setDisplayName(original);
-      }
-    }, 30);
+  // Tactile Hardware Stamp on Name Click
+  const handleNameClick = useCallback(() => {
+    sound.pulse();
+    setNamePulse(true);
+    setIdentityStatus("IDENTITY // SAHIL PAL // GRANDMASTER ARCHITECT");
+    setTimeout(() => setNamePulse(false), 600);
+    setTimeout(() => setIdentityStatus(null), 3000);
   }, []);
 
   const handleCopyEmail = async () => {
@@ -53,14 +38,29 @@ export function HeroSection({ onOverclock }: HeroProps) {
   };
 
   const handleOverclockClick = () => {
-    sound.turnstile();
-    setIsOverclocked(true);
-    overclockRef.current = 4;
-    if (onOverclock) onOverclock();
-    setTimeout(() => {
+    if (isOverclocked) {
+      // Throttle back down
+      sound.tick();
       setIsOverclocked(false);
       overclockRef.current = 1;
-    }, 3500);
+    } else {
+      // Engage 10x Overclock!
+      sound.overclock();
+      setIsOverclocked(true);
+      overclockRef.current = 8;
+      if (spawnParticlesRef.current && canvasRef.current) {
+        const w = canvasRef.current.width;
+        const h = canvasRef.current.height;
+        spawnParticlesRef.current(w * 0.7, h * 0.45, 64);
+      }
+      if (onOverclock) onOverclock();
+
+      // Auto-cool down after 7 seconds
+      setTimeout(() => {
+        setIsOverclocked(false);
+        overclockRef.current = 1;
+      }, 7000);
+    }
   };
 
   // Full-Bleed Cursor-Reactive 3D Polyhedron Canvas Engine
@@ -115,18 +115,20 @@ export function HeroSection({ onOverclock }: HeroProps) {
       const colors = ["#CCFF00", "#FF3B30", "#3B82F6", "#F4F4F0"];
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = 1.5 + Math.random() * 5 * overclockRef.current;
+        const speed = 2 + Math.random() * 6 * overclockRef.current;
         particles.push({
           x: cx,
           y: cy,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          size: 2 + Math.random() * 4,
+          size: 2.5 + Math.random() * 4,
           alpha: 1,
           color: colors[Math.floor(Math.random() * colors.length)],
         });
       }
     };
+
+    spawnParticlesRef.current = spawnParticles;
 
     const handlePointerMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
@@ -168,6 +170,8 @@ export function HeroSection({ onOverclock }: HeroProps) {
       // 1. Draw 64px Architectural Grid with Cursor Proximity Illumination
       const gridSize = 64;
       ctx.lineWidth = 1;
+      const isBoosted = overclockRef.current > 1;
+      const radius = isBoosted ? 360 : 180;
 
       for (let x = 0; x < width; x += gridSize) {
         for (let y = 0; y < height; y += gridSize) {
@@ -176,13 +180,15 @@ export function HeroSection({ onOverclock }: HeroProps) {
           const dist = Math.hypot(dx, dy);
 
           // Grid line tick / crosshair
-          const radius = 180;
           if (dist < radius) {
             const intensity = (1 - dist / radius);
-            ctx.fillStyle = `rgba(204, 255, 0, ${intensity * 0.9})`;
-            ctx.fillRect(x - 2, y - 2, 4, 4);
+            ctx.fillStyle = isBoosted
+              ? `rgba(204, 255, 0, ${intensity * 1.0})`
+              : `rgba(204, 255, 0, ${intensity * 0.9})`;
+            const size = isBoosted ? 5 : 4;
+            ctx.fillRect(x - size / 2, y - size / 2, size, size);
           } else {
-            ctx.fillStyle = "rgba(100, 110, 130, 0.2)";
+            ctx.fillStyle = isBoosted ? "rgba(204, 255, 0, 0.25)" : "rgba(100, 110, 130, 0.2)";
             ctx.fillRect(x - 1, y - 1, 2, 2);
           }
         }
@@ -323,19 +329,40 @@ export function HeroSection({ onOverclock }: HeroProps) {
           </div>
         </div>
 
+        {/* Floating Overclock HUD Banner */}
+        {isOverclocked && (
+          <div className="mx-auto px-4 py-1.5 bg-[var(--accent-red)] text-white text-xs font-mono font-bold tracking-wider border-2 border-[var(--border-frame)] shadow-[4px_4px_0px_var(--accent-lime)] animate-pulse flex items-center justify-center gap-2">
+            <Zap className="w-4 h-4 fill-current animate-bounce" />
+            <span>[TURBINE OVERCLOCK ACTIVE (10X) // 4.8 GHz BUS // INERTIA MAXED]</span>
+          </div>
+        )}
+
         {/* Hero Central Grid: IMAX 3-Line Title + Product Pitch + Right Telemetry Card */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start pt-2">
           {/* Left Column: 3-Line Monumental Brutalist Title & Pitch */}
           <div className="lg:col-span-8 space-y-6 sm:space-y-8">
             <div
-              className="space-y-1 sm:space-y-2 select-none cursor-pointer"
-              onClick={triggerScramble}
-              title="Click to scramble decode"
+              className="space-y-1 sm:space-y-2 select-none cursor-pointer group"
+              onClick={handleNameClick}
+              title="Sahil Pal — Click to verify identity"
             >
-              {/* Line 1: Solid Ink */}
-              <h1 className="text-[12vw] sm:text-[9.5vw] lg:text-[7.8vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] text-[var(--ink-primary)] uppercase">
-                {displayName}
-              </h1>
+              {/* Line 1: Solid Ink with subtle mechanical tactile interaction */}
+              <div className="relative inline-block">
+                <h1
+                  className={`text-[12vw] sm:text-[9.5vw] lg:text-[7.8vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] text-[var(--ink-primary)] uppercase transition-all duration-200 ${
+                    namePulse
+                      ? "scale-[0.98] text-[var(--accent-lime)] drop-shadow-[0_0_24px_rgba(204,255,0,0.5)]"
+                      : "group-hover:text-[var(--accent-lime)]"
+                  }`}
+                >
+                  SAHIL PAL
+                </h1>
+                {identityStatus && (
+                  <div className="absolute -bottom-6 left-0 text-[10px] font-mono font-bold text-[var(--accent-lime)] bg-[var(--surface-raised)] border border-[var(--accent-lime)] px-2 py-0.5 shadow-[2px_2px_0px_var(--border-frame)] z-20 animate-in fade-in slide-in-from-top-1">
+                    {identityStatus}
+                  </div>
+                )}
+              </div>
 
               {/* Line 2: Hollow 2px Outline Stroke */}
               <div className="text-[12vw] sm:text-[9.5vw] lg:text-[7.8vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] outline-text-stroke uppercase">
@@ -443,14 +470,14 @@ export function HeroSection({ onOverclock }: HeroProps) {
                 <button
                   type="button"
                   onClick={handleOverclockClick}
-                  className={`w-full brutalist-btn py-2 text-xs gap-1.5 transition-all ${
+                  className={`w-full brutalist-btn py-2.5 text-xs gap-1.5 transition-all cursor-pointer font-mono font-bold ${
                     isOverclocked
-                      ? "bg-[var(--accent-red)] text-white border-[var(--border-frame)]"
-                      : "bg-[var(--surface-raised)] text-[var(--accent-lime)]"
+                      ? "bg-[var(--accent-red)] text-white border-2 border-[var(--border-frame)] shadow-[4px_4px_0px_var(--accent-lime)] animate-pulse"
+                      : "bg-[var(--surface-raised)] text-[var(--accent-lime)] border border-[var(--border-frame)] hover:bg-[var(--accent-lime)] hover:text-black shadow-[3px_3px_0px_var(--border-frame)]"
                   }`}
                 >
-                  <Zap className="w-3.5 h-3.5" />
-                  <span>{isOverclocked ? "OVERCLOCK ACTIVE (4X)" : "⚡ OVERCLOCK 3D MESH"}</span>
+                  <Zap className={`w-3.5 h-3.5 ${isOverclocked ? "animate-spin" : ""}`} />
+                  <span>{isOverclocked ? "⚡ DISENGAGE OVERCLOCK (10X)" : "⚡ OVERCLOCK 3D MESH (10X)"}</span>
                 </button>
               </div>
             </div>

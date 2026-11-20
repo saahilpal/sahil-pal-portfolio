@@ -20,6 +20,63 @@ export function SystemsWorkbench() {
   // RAG-DOCAnalyzer live demo state
   const [docQueryIndex, setDocQueryIndex] = useState<0 | 1 | 2>(0);
 
+  // Live simulation states for interactive buttons
+  const [synapseBenchRunning, setSynapseBenchRunning] = useState(false);
+  const [synapseBenchResult, setSynapseBenchResult] = useState<string | null>(null);
+
+  const [propEvalBenchRunning, setPropEvalBenchRunning] = useState(false);
+  const [propEvalBenchResult, setPropEvalBenchResult] = useState<string | null>(null);
+
+  const [dishaBenchRunning, setDishaBenchRunning] = useState(false);
+  const [dishaBenchResult, setDishaBenchResult] = useState<string | null>(null);
+
+  const [ragBenchRunning, setRagBenchRunning] = useState(false);
+  const [ragBenchResult, setRagBenchResult] = useState<string | null>(null);
+
+  const handleRunSynapseBenchmark = () => {
+    sound.tick();
+    setSynapseBenchRunning(true);
+    setSynapseBenchResult(null);
+    setTimeout(() => {
+      sound.thock();
+      setSynapseBenchRunning(false);
+      setSynapseBenchResult("PARSED 1,240 REPO NODES: 34,200 TOKENS -> 5,060 TOKENS (85.2% CUT // 1.4ms)");
+    }, 700);
+  };
+
+  const handleRunPropEvalHarness = () => {
+    sound.tick();
+    setPropEvalBenchRunning(true);
+    setPropEvalBenchResult(null);
+    setTimeout(() => {
+      sound.thock();
+      setPropEvalBenchRunning(false);
+      setPropEvalBenchResult("POSTGRES 17 SKIP LOCKED: 158/158 TESTS PASS // S1 CPU GATE: 0.36ms // F1: 0.99");
+    }, 700);
+  };
+
+  const handleRunDishaSafetyCheck = () => {
+    sound.tick();
+    setDishaBenchRunning(true);
+    setDishaBenchResult(null);
+    setTimeout(() => {
+      sound.error();
+      setDishaBenchRunning(false);
+      setDishaBenchResult("HARD BREAKER TRIPPED IN 6.8µs // CONVERSATION TERMINATED // 112 DISPATCHED");
+    }, 600);
+  };
+
+  const handleRunRagL2Distance = () => {
+    sound.tick();
+    setRagBenchRunning(true);
+    setRagBenchResult(null);
+    setTimeout(() => {
+      sound.thock();
+      setRagBenchRunning(false);
+      setRagBenchResult("PGVECTOR L2 SCAN: 768d GEMINI EMBEDDINGS // NEAREST CHUNK RETRIEVED IN 3.1ms");
+    }, 650);
+  };
+
   // Keyboard shortcut listener: Keys 1, 2, 3, 4 switch systems
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -341,6 +398,23 @@ ORDER BY pagerank.score DESC
                       </pre>
                     )}
                   </div>
+
+                  {/* Interactive Benchmark Runner */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono">
+                    <button
+                      type="button"
+                      onClick={handleRunSynapseBenchmark}
+                      disabled={synapseBenchRunning}
+                      className="brutalist-btn px-3 py-1.5 text-xs bg-[var(--surface-raised)] hover:bg-[var(--accent-lime)] hover:text-black gap-1.5 transition-all cursor-pointer"
+                    >
+                      <span>{synapseBenchRunning ? "PARSING AST REPO..." : "▶ RUN AST TOKEN CUT BENCHMARK"}</span>
+                    </button>
+                    {synapseBenchResult && (
+                      <span className="text-[10px] text-[var(--accent-lime)] font-bold animate-in fade-in">
+                        {synapseBenchResult}
+                      </span>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -431,6 +505,23 @@ ORDER BY pagerank.score DESC
                       </>
                     )}
                   </div>
+
+                  {/* Interactive PropEval Queue Runner */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono">
+                    <button
+                      type="button"
+                      onClick={handleRunPropEvalHarness}
+                      disabled={propEvalBenchRunning}
+                      className="brutalist-btn px-3 py-1.5 text-xs bg-[var(--surface-raised)] hover:bg-[var(--accent-lime)] hover:text-black gap-1.5 transition-all cursor-pointer"
+                    >
+                      <span>{propEvalBenchRunning ? "EXECUTING BATCH..." : "▶ RUN POSTGRES QUEUE BENCHMARK"}</span>
+                    </button>
+                    {propEvalBenchResult && (
+                      <span className="text-[10px] text-emerald-400 font-bold animate-in fade-in">
+                        {propEvalBenchResult}
+                      </span>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -510,6 +601,23 @@ ORDER BY pagerank.score DESC
                       </>
                     )}
                   </div>
+
+                  {/* Interactive Disha Safety Runner */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono">
+                    <button
+                      type="button"
+                      onClick={handleRunDishaSafetyCheck}
+                      disabled={dishaBenchRunning}
+                      className="brutalist-btn px-3 py-1.5 text-xs bg-[var(--surface-raised)] hover:bg-[var(--accent-red)] hover:text-white gap-1.5 transition-all cursor-pointer"
+                    >
+                      <span>{dishaBenchRunning ? "TESTING HARD BREAKER..." : "▶ TEST EMERGENCY HARD BREAKER (<10µs)"}</span>
+                    </button>
+                    {dishaBenchResult && (
+                      <span className="text-[10px] text-[var(--accent-red)] font-bold animate-in fade-in">
+                        {dishaBenchResult}
+                      </span>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -578,6 +686,23 @@ ORDER BY pagerank.score DESC
                           <p className="text-[var(--ink-muted)] mt-1">&quot;Workers utilize FOR UPDATE SKIP LOCKED to prevent duplicate ingestion batches...&quot;</p>
                         </div>
                       </div>
+                    )}
+                  </div>
+
+                  {/* Interactive PGVector Runner */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono">
+                    <button
+                      type="button"
+                      onClick={handleRunRagL2Distance}
+                      disabled={ragBenchRunning}
+                      className="brutalist-btn px-3 py-1.5 text-xs bg-[var(--surface-raised)] hover:bg-[var(--accent-lime)] hover:text-black gap-1.5 transition-all cursor-pointer"
+                    >
+                      <span>{ragBenchRunning ? "COMPUTING EMBEDDING..." : "▶ RUN PGVECTOR L2 DISTANCE SCAN"}</span>
+                    </button>
+                    {ragBenchResult && (
+                      <span className="text-[10px] text-[var(--accent-lime)] font-bold animate-in fade-in">
+                        {ragBenchResult}
+                      </span>
                     )}
                   </div>
                 </div>

@@ -118,7 +118,7 @@ export const FLAGSHIP_SYSTEMS: SystemProject[] = [
 
 export const PROFILE_CORE = {
   name: "Sahil Pal",
-  callsign: "SAHIL.LAB",
+  callsign: "sahil",
   title: "AI Systems Engineer",
   email: "saahilpal17@gmail.com",
   chessHandle: "sahill17",

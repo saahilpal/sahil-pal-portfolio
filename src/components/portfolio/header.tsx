@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { sound } from "@/lib/audio";
 import { Volume2, VolumeX, Command } from "lucide-react";
+import { SahilLogo } from "./logo";
 
 interface HeaderProps {
   onOpenPalette: () => void;
@@ -70,11 +71,11 @@ export function PortfolioHeader({
           <button
             type="button"
             onClick={handleWordmarkClick}
-            className="flex items-center gap-1.5 px-2 py-1 font-[family-name:var(--font-heading)] text-base sm:text-lg font-black tracking-tight text-[var(--ink-primary)] hover:text-[var(--accent-lime)] transition-colors cursor-pointer select-none"
-            title="♔ SAHIL.LAB (Click 5x for Secret GM Terminal)"
+            className="flex items-center gap-2 px-2 py-1 font-[family-name:var(--font-heading)] text-base sm:text-lg font-bold tracking-tight text-[var(--ink-primary)] hover:text-[var(--accent-lime)] transition-colors cursor-pointer select-none group"
+            title="sahil (Click 5x for Secret GM Terminal)"
           >
-            <span className="text-[var(--accent-lime)]">♔</span>
-            <span>SAHIL.LAB</span>
+            <SahilLogo className="w-5 h-5 text-[var(--accent-lime)] group-hover:rotate-12 transition-transform duration-200" />
+            <span className="font-mono lowercase text-sm sm:text-base font-bold tracking-tight">sahil</span>
           </button>
 
           {/* Discoverable Easter Egg Badge: ONLY visible when at least 1 egg is found */}
