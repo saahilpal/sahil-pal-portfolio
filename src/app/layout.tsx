@@ -10,7 +10,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Sahil Pal — Grandmaster Systems Lab",
   description:
-    "Sahil Pal. I love solving problems, exploring AI, and building software that runs fast and just works.",
+    "Sahil Pal. I build backend systems and AI applications. I love solving hard engineering problems and building fast, reliable software that actually works.",
   authors: [{ name: "Sahil Pal", url: "https://github.com/saahilpal" }],
   creator: "Sahil Pal",
   icons: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sahil Pal — Grandmaster Systems Lab",
     description:
-      "I love solving problems, exploring AI, and building software that runs fast and just works.",
+      "I build backend systems and AI applications. I love solving hard engineering problems and building fast, reliable software that actually works.",
     url: "https://sahil-pal-portfolio-d147.vercel.app",
     siteName: "Sahil Pal Systems Lab",
     type: "website",
