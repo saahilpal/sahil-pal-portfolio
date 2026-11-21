@@ -10,7 +10,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Sahil Pal — Grandmaster Systems Lab",
   description:
-    "AI Systems Engineer. Building deterministic context engines, sub-0.4ms evaluation cascades, and Postgres-native retrieval platforms.",
+    "Sahil Pal. I love solving problems, exploring how AI systems work under the hood, and building fast, reliable software with verified benchmarks.",
   authors: [{ name: "Sahil Pal", url: "https://github.com/saahilpal" }],
   creator: "Sahil Pal",
   icons: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sahil Pal — Grandmaster Systems Lab",
     description:
-      "Deterministic guardrails, sub-0.4ms evaluation cascades, and Postgres-native retrieval engines.",
+      "I love solving problems and exploring how AI systems work under the hood. Building fast, practical tools with verified benchmarks.",
     url: "https://sahil-pal-portfolio-d147.vercel.app",
     siteName: "Sahil Pal Systems Lab",
     type: "website",

@@ -126,8 +126,8 @@ export const PROFILE_CORE = {
   githubUrl: "https://github.com/saahilpal",
   linkedinUrl: "https://www.linkedin.com/in/sahiilpal",
   huggingfaceUrl: "https://huggingface.co/sahilpal",
-  pitchLine1: "Building deterministic guardrails, sub-0.4ms evaluation cascades, and Postgres-native retrieval engines.",
-  pitchLine2: "No speculative wrappers. Every system verified against production benchmarks and regression suites.",
+  pitchLine1: "I love solving problems and exploring how AI systems work under the hood.",
+  pitchLine2: "Focused on building fast, practical tools that hold up in production—simple architecture, real benchmarks, and zero hype.",
 };
 
 export const DOCTRINES = [

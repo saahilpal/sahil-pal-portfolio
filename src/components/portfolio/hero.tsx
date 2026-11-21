@@ -361,7 +361,7 @@ export function HeroSection() {
           <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-[var(--accent-lime)]">
             <span>[ACT I // THE PLEDGE]</span>
             <span className="text-[var(--border-frame)]">•</span>
-            <span>SYSTEMS EVALUATION &amp; RUNTIME LAB</span>
+            <span>EXPLORING AI &amp; BUILDING SYSTEMS</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -412,9 +412,9 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Zero-Slop Product Pitch (Strictly 2 lines) */}
+          {/* Simple, Human-First Summary */}
           <p className="max-w-2xl text-base sm:text-xl font-[family-name:var(--font-body)] text-[var(--ink-primary)] leading-relaxed border-l-2 border-[var(--accent-lime)] pl-4">
-            Building deterministic guardrails, sub-0.4ms evaluation cascades, and Postgres-native retrieval engines. No speculative wrappers; every system verified against production benchmarks.
+            I love solving problems and exploring how AI systems work under the hood. Focused on building fast, practical tools that hold up in production—simple architecture, real benchmarks, and zero hype.
           </p>
 
           {/* CTAs Bar */}
