@@ -126,8 +126,8 @@ export const PROFILE_CORE = {
   githubUrl: "https://github.com/saahilpal",
   linkedinUrl: "https://www.linkedin.com/in/sahiilpal",
   huggingfaceUrl: "https://huggingface.co/sahilpal",
-  pitchLine1: "I love solving problems and exploring how AI systems work under the hood.",
-  pitchLine2: "Focused on building fast, practical tools that hold up in production—simple architecture, real benchmarks, and zero hype.",
+  pitchLine1: "I love solving problems, exploring AI, and building software that runs fast and just works.",
+  pitchLine2: "Big fan of clean code, simple architecture, and good chess.",
 };
 
 export const DOCTRINES = [

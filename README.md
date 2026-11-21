@@ -1,6 +1,6 @@
 # Sahil Pal — Grandmaster Systems Lab
 
-> I love solving problems and exploring how AI systems work under the hood. Focused on building fast, practical tools that hold up in production—simple architecture, real benchmarks, and zero hype.
+> I love solving problems, exploring AI, and building software that runs fast and just works. Big fan of clean code, simple architecture, and good chess.
 
 [![Live Production](https://img.shields.io/badge/Production-Live%20Demo-00E5FF?style=for-the-badge&logo=vercel)](https://sahil-pal-portfolio-d147.vercel.app/)
 [![PyPI Package](https://img.shields.io/badge/PyPI-synap--git-3776AB?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/synap-git/)
