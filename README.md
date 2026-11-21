@@ -1,145 +1,158 @@
-# Sahil Pal — Personal Portfolio & Systems Engineering Laboratory
+# Sahil Pal — Grandmaster Systems Lab
 
-> An architectural, distinctive, and technically grounded portfolio built with Next.js App Router, Tailwind CSS v4, Anime.js v4, and TypeScript. Designed to reflect systems depth, AI engineering, deterministic RAG, and production software execution.
+> I love solving problems and exploring how AI systems work under the hood. Focused on building fast, practical tools that hold up in production—simple architecture, real benchmarks, and zero hype.
 
----
-
-## 🏛️ Creative Direction & Architectural Concept
-
-**"The Engineer's Digital Laboratory / Architectural Blueprint & Precision Workshop"**
-
-Rather than imitating standard SaaS templates or relying on generic neon glows and terminal gimmicks, this portfolio is structured as an editorial systems workshop:
-- **Technical Precision Grid:** Fine blueprint grid lines with coordinates, system status telemetry, and corner brackets.
-- **Dual Architectural Theme System:**
-  - **Dark Mode (Default):** Deep obsidian carbon (`#090a0f`), tactile slate surface (`#10121a`), phosphor mint accent (`#0df2a6`), and neural violet (`#8567ff`).
-  - **Light Mode (Technical Blueprint):** Clean engineering drafting paper (`#f5f7fb`), crisp surface cards (`#ffffff`), and high-contrast deep cobalt accent (`#0958d9`).
-- **Anime.js v4 Motion Engine:** Reusable hooks (`useAnimeReveal`, `useStaggerReveal`, `useTelemetryCounter`) coordinating smooth typography reveals, interactive SVG animations, and timeline transitions, with strict adherence to `prefers-reduced-motion: reduce`.
-- **First-Class Responsiveness:** Designed specifically for viewports from 320px (compact mobile) up to 1440px+ (large desktop displays) with zero horizontal overflow, touch-friendly hit targets, and responsive typography.
+[![Live Production](https://img.shields.io/badge/Production-Live%20Demo-00E5FF?style=for-the-badge&logo=vercel)](https://sahil-pal-portfolio-d147.vercel.app/)
+[![PyPI Package](https://img.shields.io/badge/PyPI-synap--git-3776AB?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/synap-git/)
+[![GitHub Profile](https://img.shields.io/badge/GitHub-saahilpal-181717?style=for-the-badge&logo=github)](https://github.com/saahilpal)
+[![Chess.com](https://img.shields.io/badge/Chess.com-sahill17-7FA650?style=for-the-badge&logo=chess.com&logoColor=white)](https://www.chess.com/member/sahill17)
 
 ---
 
-## 🛠️ Featured Systems & Case Studies
+## 🏛️ System Overview
 
-### 1. Synapse (AI Code Intelligence & Structural Context Engine)
-- **Problem:** LLM coding agents exhaust context windows or hallucinate when searching across 50k+ symbol codebases using naive grep or vector-only search.
-- **Solution:** O(1) streaming memory daemon with Tree-sitter AST parsing, WAL-mode SQLite state engine, and an MCP (Model Context Protocol) server.
-- **Interactive Visualizer:** Real-time 3-Lane Retrieval emulator running Lexical FTS5 (BM25), Structural AST graphs, and Semantic Vector similarity fused via Reciprocal Rank Fusion ($k=60$).
-- **Links:** [Live Documentation & Demo](https://synapse-six-eta.vercel.app/) | [GitHub Repository](https://github.com/saahilpal/synapse)
+A high-performance portfolio and systems engineering workbench built with **Next.js 16 (App Router)**, **React 19**, **Tailwind CSS v4**, and the **Web Audio API**. Designed with a Neo-Brutalist architectural aesthetic, high-contrast typography, zero speculative wrappers, and verified benchmark metrics.
 
-### 2. DocAnalyzer (Grounded Document Intelligence & RAG Pipeline)
-- **Problem:** Enterprise document QA systems suffer from ungrounded hallucinations, slow synchronous ingestion queues, and redundant embedding generation.
-- **Solution:** Asynchronous pipeline pairing Gemini embeddings with PostgreSQL `pgvector`, FTS fallback, and PostgreSQL `FOR UPDATE SKIP LOCKED` worker queues.
-- **Interactive Visualizer:** 5-stage interactive dataflow: `01. INGEST (SHA-256)` &rarr; `02. CHUNK (Sliding Window)` &rarr; `03. EMBED (Gemini)` &rarr; `04. RETRIEVE (pgvector)` &rarr; `05. STREAM (SSE)`.
-- **Links:** [Live Production Platform](https://www.docanalyzer.app/) | [GitHub Repository](https://github.com/saahilpal/RAG-DOCAnalyzer)
-
-### 3. Hera Billing (Offline-First Android ERP & Retail POS)
-- **Problem:** Retail storefronts in bandwidth-constrained regions experience POS downtime and lost sales when cloud-only billing loses connectivity.
-- **Solution:** Offline-first Android application built with Kotlin, MVVM, Room Database (SQLite), Coroutines/Flow, and native Android Canvas graphics for immediate thermal Bluetooth receipt printing and PDF invoice compilation.
-- **Interactive Visualizer:** Interactive Android POS simulator with live catalog addition, real-time CGST/SGST tax calculation, and thermal tax invoice voucher generation.
-- **Links:** [Repository Spec](https://github.com/saahilpal)
-
-### 4. LeetSync (Developer Tooling & Vault Sync)
-- **Overview:** Manifest V3 Chrome extension utilizing isolated Shadow DOM injection to capture accepted submissions, format metadata into structured Markdown, and push to GitHub via the Contents API.
-- **Links:** [Live Companion Site](https://leetsync-web.vercel.app/) | [GitHub Repository](https://github.com/saahilpal/LeetSync)
+- **Live URL:** [https://sahil-pal-portfolio-d147.vercel.app/](https://sahil-pal-portfolio-d147.vercel.app/)
+- **Visual Design:** Void (`#050507`) and Blueprint (`#FAF9F5`) dual-polarity color themes with high-contrast architectural framing.
+- **Rhythmic Audio Engine:** Pure Web Audio API mechanical switch synthesis and D-minor pentatonic cadence on interactive elements (zero external audio libraries).
+- **Interactive Chess Arena:** Playable chess engine featuring forced Mate-in-2 tactical puzzles (Philidor's Smothered Mate, Anastasia's Mate, and Boden's Criss-Cross Mate) with high-contrast Staunton pieces and Stockfish evaluation telemetry.
 
 ---
 
-## 🗂️ Project Anatomy
+## 🛠️ The 4 Flagship Systems
+
+### 01 // ♔ Synapse (`synap-git`)
+*Git-Aware Structural Context Engine & MCP Daemon for AI Coding Agents*
+- **Problem:** LLM coding agents exhaust context budgets and repeat reverted mistakes when grepping raw file trees across large repositories.
+- **Mechanism:** Builds an offline-first Tree-sitter AST symbol graph, computes Git blast radius, and serves token-budgeted context packs over Model Context Protocol (MCP) backed by SQLite WAL and FTS5.
+- **Verified Proof:** Published on PyPI as `synap-git`. Benchmarked 85.2% token reduction via AST skeletons. P95 symbol lookup: 2.1ms. P95 graph query: 0.8ms. Incremental re-index: 14ms.
+- **Stack:** Python 3.12, Tree-sitter, MCP, SQLite WAL, FTS5, PageRank.
+- **Links:** [PyPI Package](https://pypi.org/project/synap-git/) • [GitHub Repository](https://github.com/saahilpal/synapse) • [Documentation](https://synapse-six-eta.vercel.app/)
+
+---
+
+### 02 // ♕ PropEval (`v1.0.0`)
+*Hinglish Real-Estate Voice Agent Evaluation & Prompt Regression Workbench*
+- **Problem:** Minor prompt updates can silently cause compliance violations (such as TRAI Do-Not-Call rules) or false commitments over Indian telephony audio.
+- **Mechanism:** Asymmetric confidence cascade ($0.15 < p < 0.85$) where a 0.36ms CPU System-1 classifier resolves 92% of turns, escalating edge cases to frontier LLM judges via PostgreSQL 17 `SKIP LOCKED` queues.
+- **Verified Proof:** 158/158 tests passing green. 0.99 ID / 0.98 OOD Macro-F1 score. $1.984 per 1,000 turns versus $25.00 for pure LLM judges (92.06% net cost reduction).
+- **Stack:** Python 3.12, PostgreSQL 17, Next.js, L-BFGS Temperature Scaling, FastAPI, SKIP LOCKED.
+- **Links:** [GitHub Repository](https://github.com/saahilpal/propeval) • [Training Pipeline](https://github.com/saahilpal/propeval-laya-training)
+
+---
+
+### 03 // ♖ Disha AI
+*Voice-Enabled Clinical Health Coach & Emergency Breaker*
+- **Problem:** Multilingual health coaching across Hindi and Hinglish cannot risk hallucinated clinical guidance or missed acute emergencies.
+- **Mechanism:** Compiled Aho-Corasick emergency breaker trips under 10µs to escalate acute events to emergency services (112) before any model inference. Clinical retrieval uses PostgreSQL `tsvector` and `pg_trgm` reciprocal rank fusion.
+- **Verified Proof:** Zero-ML emergency breaker executes in under 10µs. Curated corpus of 960 ICMR-NIN guideline chunks. Cryptographic SHA-256 Merkle audit ledger.
+- **Stack:** FastAPI, PostgreSQL 16, Aho-Corasick, Reciprocal Rank Fusion, Groq Whisper, Edge-TTS.
+- **Links:** [GitHub Repository](https://github.com/saahilpal/disha-ai)
+
+---
+
+### 04 // ♘ RAG-DOCAnalyzer
+*PostgreSQL pgvector Euclidean Distance Multi-Document Retrieval Platform*
+- **Problem:** Enterprise document retrieval hallucinating when concurrent multi-page PDF ingestion blocks workers and distance metrics lack paragraph attribution.
+- **Mechanism:** Asynchronous worker queue with PostgreSQL row locks, Gemini 768d embeddings, and `pgvector` L2 (`<->`) Euclidean distance ordering with chunk-level citations and full-text search fallback.
+- **Verified Proof:** Verified `c.embedding <-> $3::vector` Euclidean ordering. Exact chunk-level citation coordinates `[Source N | file | chunk K]`. Bit-level SHA-256 upload deduplication.
+- **Stack:** Next.js, Express, PostgreSQL, pgvector L2, Gemini Embeddings, SSE Streaming.
+- **Links:** [Live Application](https://www.docanalyzer.app/) • [GitHub Repository](https://github.com/saahilpal/RAG-DOCAnalyzer)
+
+---
+
+## ♟️ Interactive Chess Arena
+
+The portfolio features a playable chess arena with forced **Mate-in-2 tactical combinations**:
+
+1. **Philidor's Smothered Mate:** Queen sacrifice lure (`1. Qg8+!! Rxg8 2. Nf7#`)
+2. **Anastasia's Mate:** Knight block and Queen sacrifice opening the h-file (`1. Qxh7+!! Kxh7 2. Rh3#`)
+3. **Boden's Criss-Cross Mate:** Queen sacrifice clearing diagonal bishops (`1. Qxc6+!! bxc6 2. Ba6#`)
+
+Features:
+- Dual-theme high-contrast Staunton vector pieces (light squares: `#2A3142`, dark squares: `#11131B`).
+- Automatic forced opponent reply with 320ms pacing.
+- Live algebraic move tape, step indicator, and Brilliant Move (`!!`) indicator.
+- Mechanical rank-pitched wooden thock sound effects.
+
+---
+
+## 🗂️ Project Structure
 
 ```text
 sahil-pal-portfolio/
 ├── src/
 │   ├── app/
-│   │   ├── globals.css         # Architectural theme variables, blueprint grid, noise
-│   │   ├── layout.tsx          # Root layout with Anti-FOUC script & full SEO OpenGraph metadata
-│   │   └── page.tsx            # Redesigned single-page systems portfolio
+│   │   ├── globals.css              # Color tokens, themes (Void / Blueprint), Staunton styling
+│   │   ├── layout.tsx               # Root layout & OpenGraph metadata
+│   │   ├── page.tsx                 # Single-page systems portfolio
+│   │   └── not-found.tsx            # Custom 404 handler
 │   ├── components/
-│   │   ├── architecture/
-│   │   │   └── pillars-section.tsx   # Core engineering principles ("How I Think")
-│   │   ├── experience/
-│   │   │   └── journey-timeline.tsx  # Production work history & academic foundations
-│   │   ├── footer/
-│   │   │   └── site-footer.tsx       # Transmission callout, email dispatch, social channels
-│   │   ├── hero/
-│   │   │   └── ast-canvas.tsx        # Interactive AST & retrieval canvas visualizer
-│   │   ├── navigation/
-│   │   │   ├── command-palette.tsx   # ⌘K / Ctrl+K accessible quick command palette
-│   │   │   └── site-header.tsx       # Telemetry status bar, clock, theme toggle, mobile drawer
-│   │   ├── projects/
-│   │   │   ├── docanalyzer-pipeline.tsx # Interactive 5-stage RAG pipeline emulator
-│   │   │   ├── herabilling-preview.tsx  # Interactive Android POS & Canvas PDF preview
-│   │   │   └── synapse-visualizer.tsx   # Interactive 3-lane RRF retrieval emulator
-│   │   └── skills/
-│   │       └── skills-matrix.tsx     # Capability radar with interactive context inspector
+│   │   └── portfolio/
+│   │       ├── hero.tsx             # Act I — Monumental typography & cursor-reactive 3D mesh
+│   │       ├── systems-workbench.tsx# Act II — Interactive 4 flagship systems workbench
+│   │       ├── chess-arena.tsx      # Act III — Forced Mate-in-2 tactical chess arena
+│   │       ├── chess-piece.tsx      # High-contrast Staunton vector SVG piece set
+│   │       ├── doctrine-and-signal.tsx # Act IV — Engineering doctrine & transmission footer
+│   │       ├── eval-bar.tsx         # Stockfish evaluation bar
+│   │       ├── header.tsx           # Sticky command bar, IST timecode, theme turnstile
+│   │       ├── easter-eggs.tsx      # Interactive terminal, command palette, and discovery
+│   │       ├── ticker-tape.tsx      # Kinetic ticker tape
+│   │       └── logo.tsx             # Sahil geometric logo
 │   └── lib/
-│       ├── anime-motion.ts           # Anime.js v4 hooks (useAnimeReveal, useStaggerReveal)
-│       ├── portfolio-data.ts         # Verified project, capability, and background data
-│       └── utils.ts                  # Utility functions
-├── public/
-│   ├── resume.pdf                    # Verified technical resume
-│   └── media/                        # Project media assets
+│       ├── audio.ts                 # Pure Web Audio API rhythmic button synthesis
+│       ├── portfolio-data.ts        # Verified project data, benchmarks, and profiles
+│       └── utils.ts                 # Helper utilities
+├── scripts/
+│   └── verify-upgrades.mjs          # Playwright test suite verifying 4 viewports
+├── public/                          # Static assets and icons
 ├── package.json
 └── tsconfig.json
 ```
 
 ---
 
-## 🚀 Local Development Setup
+## 🚀 Local Development
 
 ### Prerequisites
-- Node.js 18+ (tested with Node 20 / 22)
+- Node.js 18+ (tested on Node 20 & 22)
 - npm or pnpm
 
-### Installation
+### Getting Started
+
 ```bash
 # Clone the repository
 git clone https://github.com/saahilpal/sahil-pal-portfolio.git
 cd sahil-pal-portfolio
 
-# Switch to the redesign branch
-git checkout feat/portfolio-redesign-animejs
-
 # Install dependencies
 npm install
-```
 
-### Running Locally
-```bash
-# Start Next.js development server
+# Start development server
 npm run dev
-
-# Open in browser: http://localhost:3000
 ```
 
-### Production Build & Verification
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Production Build & Automated Verification
+
 ```bash
-# Compile optimized static bundle
+# Build optimized static production bundle
 npm run build
 
-# Run production server
-npm run start
-
-# Run strict ESLint verification
-npx eslint .
+# Run automated multi-viewport Playwright verification suite
+# Tests 1440x900, 1024x768, 768x1024, and 390x844 with 0 errors
+node scripts/verify-upgrades.mjs
 ```
 
 ---
 
-## ⚡ Verification & Quality Assurance
-
-- **Build:** Static pre-rendering (`○ /`) validated via Turbopack (`npm run build`).
-- **TypeScript:** Strict type checks passing with zero errors.
-- **Linting:** Validated via `npx eslint .` with zero errors and zero warnings.
-- **Motion & Accessibility:** Anime.js v4 animations seamlessly disable when `prefers-reduced-motion: reduce` is detected.
-- **Anti-FOUC:** Synchronous inline head script applies stored theme (`localStorage`) before first layout paint.
-
----
-
-## 📬 Contact & Dispatch
+## 📬 Contact & Links
 
 - **Engineer:** Sahil Pal
-- **Role:** Software Engineer — AI Systems & Backend
 - **Email:** [saahilpal17@gmail.com](mailto:saahilpal17@gmail.com)
-- **LinkedIn:** [linkedin.com/in/sahiilpal](https://www.linkedin.com/in/sahiilpal)
 - **GitHub:** [github.com/saahilpal](https://github.com/saahilpal)
-- **LeetCode:** [leetcode.com/u/saahiilpal/](https://leetcode.com/u/saahiilpal/)
+- **LinkedIn:** [linkedin.com/in/sahiilpal](https://www.linkedin.com/in/sahiilpal)
+- **Chess.com:** [chess.com/member/sahill17](https://www.chess.com/member/sahill17)
+- **Live Portfolio:** [sahil-pal-portfolio-d147.vercel.app](https://sahil-pal-portfolio-d147.vercel.app/)
