@@ -50,7 +50,7 @@ export function KineticTickerTape() {
   return (
     <div
       className="relative w-full overflow-hidden border-y-2 border-[var(--border-frame)] bg-[var(--accent-lime)] text-[#050507] py-2 sm:py-2.5 select-none z-20"
-      aria-label="Grandmaster Systems Lab Telemetry Ticker"
+      aria-label="Sahil Pal Systems Telemetry Ticker"
       style={{
         transform: `skewX(${scrollSkew}deg)`,
         transition: "transform 0.12s ease-out",

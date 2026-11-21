@@ -344,9 +344,9 @@ export function HeroSection() {
 
   return (
     <section
-      id="pledge"
-      aria-label="Act I — The Pledge"
-      className="relative z-10 min-h-[min(94vh,980px)] flex flex-col justify-between pt-6 sm:pt-10 pb-12 sm:pb-16 border-b border-[var(--border-frame)] bg-[var(--canvas)] overflow-hidden"
+      id="about"
+      aria-label="About Sahil Pal"
+      className="relative z-10 min-h-[85vh] sm:min-h-[min(94vh,980px)] flex flex-col justify-between pt-6 sm:pt-10 pb-10 sm:pb-16 border-b border-[var(--border-frame)] bg-[var(--canvas)] overflow-hidden"
     >
       {/* Background Interactive HTML5 Canvas (Spatial Beat Pad + 3D Mesh) */}
       <canvas
@@ -356,24 +356,24 @@ export function HeroSection() {
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 w-full flex-1 flex flex-col justify-between space-y-8 sm:space-y-12">
-        {/* Top Telemetry Header */}
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        {/* Top Status Header */}
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-[var(--accent-lime)]">
-            <span>[ACT I // THE PLEDGE]</span>
+            <span>[01 // ABOUT]</span>
             <span className="text-[var(--border-frame)]">•</span>
-            <span>EXPLORING AI &amp; BUILDING SYSTEMS</span>
+            <span>BACKEND &amp; AI SYSTEMS</span>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold bg-[var(--surface)] border border-[var(--border-frame)] text-[var(--ink-primary)]">
+            <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 text-xs font-mono font-bold bg-[var(--surface)] border border-[var(--border-frame)] text-[var(--ink-primary)]">
               <span className="w-2 h-2 rounded-full bg-[var(--accent-lime)] animate-ping" />
-              <span>ACTIVE ORACLE // CHESS.COM: SAHILL17</span>
+              <span>CHESS: SAHILL17</span>
             </span>
           </div>
         </div>
 
-        {/* Hero Central Space: Oversized 3-Line Monumental Title + Product Pitch + Clean Breathing Room */}
-        <div className="max-w-4xl space-y-6 sm:space-y-8 pt-4 sm:pt-8">
+        {/* Hero Central Space: Oversized 3-Line Title + Human Summary */}
+        <div className="max-w-4xl space-y-5 sm:space-y-8 pt-2 sm:pt-8">
           <div
             className="space-y-1 sm:space-y-2 select-none cursor-pointer group"
             onClick={handleNameClick}
@@ -383,10 +383,10 @@ export function HeroSection() {
               transition: "transform 0.12s ease-out",
             }}
           >
-            {/* Line 1: Solid Ink with subtle mechanical tactile interaction */}
+            {/* Line 1: Solid Ink */}
             <div className="relative inline-block">
               <h1
-                className={`text-[12vw] sm:text-[9.5vw] lg:text-[7.6vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] text-[var(--ink-primary)] uppercase transition-all duration-200 ${
+                className={`text-[11vw] sm:text-[9vw] lg:text-[7vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.88] text-[var(--ink-primary)] uppercase transition-all duration-200 ${
                   namePulse
                     ? "scale-[0.98] text-[var(--accent-lime)] drop-shadow-[0_0_24px_rgba(204,255,0,0.5)]"
                     : "group-hover:text-[var(--accent-lime)]"
@@ -401,45 +401,45 @@ export function HeroSection() {
               )}
             </div>
 
-            {/* Line 2: Hollow 2px Outline Stroke */}
-            <div className="text-[12vw] sm:text-[9.5vw] lg:text-[7.6vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] outline-text-stroke uppercase">
+            {/* Line 2: Hollow Outline Stroke */}
+            <div className="text-[11vw] sm:text-[9vw] lg:text-[7vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.88] outline-text-stroke uppercase">
               BUILDS FAST
             </div>
 
             {/* Line 3: Solid Acid Lime */}
-            <div className="text-[12vw] sm:text-[9.5vw] lg:text-[7.6vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.85] text-[var(--accent-lime)] uppercase">
+            <div className="text-[11vw] sm:text-[9vw] lg:text-[7vw] font-[family-name:var(--font-heading)] font-black tracking-[-0.04em] leading-[0.88] text-[var(--accent-lime)] uppercase">
               AI SYSTEMS.
             </div>
           </div>
 
-          {/* Simple, Human-First Summary */}
-          <p className="max-w-2xl text-base sm:text-xl font-[family-name:var(--font-body)] text-[var(--ink-primary)] leading-relaxed border-l-2 border-[var(--accent-lime)] pl-4">
+          {/* Simple, Human Summary */}
+          <p className="max-w-2xl text-sm sm:text-lg font-[family-name:var(--font-body)] text-[var(--ink-primary)] leading-relaxed border-l-2 border-[var(--accent-lime)] pl-3.5 sm:pl-4">
             I build backend systems and AI applications. I love solving hard engineering problems and building fast, reliable software that actually works.
           </p>
 
-          {/* CTAs Bar */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
+          {/* CTAs Bar — Stacks comfortably on mobile, flex-row on desktop */}
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-4 pt-2 w-full">
             <a
-              href="#arena"
+              href="#chess"
               onClick={() => sound.chessMove(4)}
-              className="brutalist-btn brutalist-btn-primary px-4 sm:px-6 py-3 text-xs sm:text-sm"
+              className="brutalist-btn brutalist-btn-primary px-4 sm:px-6 py-3 text-xs sm:text-sm text-center"
             >
-              <span>♔ ACCEPT CHESS CHALLENGE</span>
+              <span>♔ PLAY CHESS PUZZLE</span>
             </a>
 
             <a
-              href="#systems"
+              href="#projects"
               onClick={() => sound.relay()}
-              className="brutalist-btn px-4 sm:px-5 py-3 text-xs sm:text-sm gap-2"
+              className="brutalist-btn px-4 sm:px-5 py-3 text-xs sm:text-sm gap-2 text-center"
             >
-              <span>INSPECT 4 SYSTEMS</span>
+              <span>VIEW 4 PROJECTS</span>
               <ArrowDown className="w-4 h-4 text-[var(--accent-lime)]" />
             </a>
 
             <button
               type="button"
               onClick={handleCopyEmail}
-              className="brutalist-btn px-4 py-3 text-xs sm:text-sm gap-2"
+              className="brutalist-btn px-4 py-3 text-xs sm:text-sm gap-2 text-center"
             >
               {copied ? (
                 <>
@@ -456,17 +456,16 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Bottom Coordinates & Timecode */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-[var(--border-frame)] text-xs font-mono text-[var(--ink-muted)]">
-          <div className="flex items-center gap-3">
-            <span>COORD: 19.0760° N, 72.8777° E (MUMBAI)</span>
-            <span className="hidden sm:inline">•</span>
-            <span className="hidden sm:inline">IMAX 70MM FRAMING</span>
+        {/* Bottom Location & Quick Status */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-6 border-t border-[var(--border-frame)] text-xs font-mono text-[var(--ink-muted)]">
+          <div className="flex items-center gap-2">
+            <span>MUMBAI, INDIA (IST)</span>
+            <span>•</span>
+            <span className="text-[var(--ink-primary)]">AVAILABLE FOR ROLES</span>
           </div>
 
           <div className="flex items-center gap-2 text-[var(--accent-lime)] font-bold">
-            <span className="hidden sm:inline">SYSTEMS [1–4] • COMMAND [⌘K] •</span>
-            <span>PRESS [1–4] SYSTEMS</span>
+            <span className="hidden sm:inline">PROJECTS [1–4] • COMMAND [⌘K]</span>
           </div>
         </div>
       </div>

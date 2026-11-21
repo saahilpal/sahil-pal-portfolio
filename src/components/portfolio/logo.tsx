@@ -8,7 +8,7 @@ interface LogoProps {
 }
 
 /**
- * Sahil — Grandmaster Systems Lab Logo Mark
+ * Sahil — Systems Lab Logo Mark
  * Geometric neo-brutalist emblem: Interlocking "S" chronometer with tactical chess knight crest.
  */
 export function SahilLogo({ className = "w-6 h-6", size = 24 }: LogoProps) {

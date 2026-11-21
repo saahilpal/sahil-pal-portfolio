@@ -110,8 +110,8 @@ export function SystemsWorkbench() {
 
   return (
     <section
-      id="systems"
-      aria-label="Act II — The Turn (4 Flagship Systems)"
+      id="projects"
+      aria-label="02 — Featured Projects (4 Flagship Systems)"
       className="relative z-20 py-16 sm:py-24 border-b border-[var(--border-frame)] bg-[var(--surface)] text-[var(--ink-primary)]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12 sm:space-y-16">
@@ -119,12 +119,12 @@ export function SystemsWorkbench() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[var(--border-frame)] pb-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-[var(--accent-lime)]">
-              <span>[ACT II {"//"} THE TURN]</span>
+              <span>[02 {"//"} PROJECTS]</span>
               <span className="text-[var(--border-frame)]">•</span>
-              <span>4 FLAGSHIP ARCHITECTURES</span>
+              <span>4 FEATURED SYSTEMS</span>
             </div>
             <h2 className="text-4xl sm:text-6xl font-[family-name:var(--font-heading)] font-black tracking-tight uppercase">
-              SYSTEMS WORKBENCH
+              FEATURED PROJECTS
             </h2>
           </div>
 
@@ -217,20 +217,20 @@ export function SystemsWorkbench() {
               </p>
             </div>
 
-            {/* Hardware-Spec Triple: Problem -> Mechanism -> Proof */}
+            {/* Hardware-Spec Triple: Problem -> Architecture -> Results */}
             <div className="space-y-4 font-mono text-xs sm:text-sm">
-              <div className="p-4 bg-[var(--canvas)] border border-[var(--border-grid)] space-y-1.5">
+              <div className="p-3.5 sm:p-4 bg-[var(--canvas)] border border-[var(--border-grid)] space-y-1.5">
                 <span className="text-[11px] font-bold text-[var(--accent-red)] uppercase flex items-center gap-1.5">
-                  <span>[01 {"//"} THE FAILURE MODE]</span>
+                  <span>[01 {"//"} PROBLEM]</span>
                 </span>
                 <p className="text-[var(--ink-primary)] leading-relaxed">
                   {activeSystem.problem}
                 </p>
               </div>
 
-              <div className="p-4 bg-[var(--canvas)] border border-[var(--border-grid)] space-y-1.5">
+              <div className="p-3.5 sm:p-4 bg-[var(--canvas)] border border-[var(--border-grid)] space-y-1.5">
                 <span className="text-[11px] font-bold text-[var(--accent-lime)] uppercase flex items-center gap-1.5">
-                  <span>[02 {"//"} THE MECHANISM]</span>
+                  <span>[02 {"//"} ARCHITECTURE]</span>
                 </span>
                 <p className="text-[var(--ink-primary)] leading-relaxed">
                   {activeSystem.id === "synapse" ? (
@@ -303,9 +303,9 @@ export function SystemsWorkbench() {
                 </p>
               </div>
 
-              <div className="p-4 bg-[var(--canvas)] border border-[var(--border-grid)] space-y-1.5">
+              <div className="p-3.5 sm:p-4 bg-[var(--canvas)] border border-[var(--border-grid)] space-y-1.5">
                 <span className="text-[11px] font-bold text-[var(--accent-blue)] uppercase flex items-center gap-1.5">
-                  <span>[03 {"//"} VERIFIED PROOF]</span>
+                  <span>[03 {"//"} RESULTS & BENCHMARKS]</span>
                 </span>
                 <p className="text-[var(--ink-primary)] leading-relaxed">
                   {activeSystem.proof}

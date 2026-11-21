@@ -39,7 +39,7 @@ export function StockfishEvalBar() {
 
   return (
     <div
-      className="fixed left-0 top-0 bottom-0 z-40 w-[6px] group cursor-pointer"
+      className="hidden md:block fixed left-0 top-0 bottom-0 z-40 w-[6px] group cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       aria-label={`Stockfish Engine Evaluation: ${evalText}`}

@@ -307,8 +307,8 @@ export function ChessArena() {
 
   return (
     <section
-      id="arena"
-      aria-label="Act III — The Prestige (Playable Chess Arena)"
+      id="chess"
+      aria-label="03 — Playable Chess Arena"
       className="relative z-20 py-16 sm:py-24 border-b border-[var(--border-frame)] bg-[var(--canvas)] text-[var(--ink-primary)]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12 sm:space-y-16">
@@ -316,12 +316,12 @@ export function ChessArena() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[var(--border-frame)] pb-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-[var(--accent-lime)]">
-              <span>[ACT III // THE PRESTIGE]</span>
+              <span>[03 {"//"} CHESS]</span>
               <span className="text-[var(--border-frame)]">•</span>
-              <span>FORCED MATE-IN-2 TACTICAL ARENA</span>
+              <span>FORCED MATE-IN-2 PUZZLES</span>
             </div>
             <h2 className="text-4xl sm:text-6xl font-[family-name:var(--font-heading)] font-black tracking-tight uppercase">
-              SOLVE THE MATE
+              CHESS PUZZLES
             </h2>
           </div>
 
@@ -380,7 +380,7 @@ export function ChessArena() {
           {/* Left Column: 8x8 Interactive Brutalist Chessboard */}
           <div className="lg:col-span-7 flex flex-col items-center gap-4">
             <div
-              className={`relative p-2 sm:p-4 bg-[var(--surface)] border-2 border-[var(--border-frame)] shadow-[6px_6px_0px_var(--accent-lime)] max-w-[480px] w-full transition-transform ${
+              className={`relative p-2 sm:p-4 bg-[var(--surface)] border-2 border-[var(--border-frame)] shadow-[4px_4px_0px_var(--accent-lime)] sm:shadow-[6px_6px_0px_var(--accent-lime)] max-w-[440px] sm:max-w-[480px] w-full transition-transform ${
                 isWrongMove ? "animate-[shake_0.4s_ease-in-out]" : ""
               }`}
             >
@@ -594,7 +594,7 @@ export function ChessArena() {
                     <Trophy className="w-4 h-4" />
                     <span>
                       {totalSolved === 3
-                        ? "GRANDMASTER CLEARANCE: 3/3 SOLVED !!"
+                        ? "ALL 3/3 PUZZLES SOLVED!"
                         : `CHALLENGE UNLOCKED (${totalSolved}/3 PUZZLES SOLVED)`}
                     </span>
                   </div>

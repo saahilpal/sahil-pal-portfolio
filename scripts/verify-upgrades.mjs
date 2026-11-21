@@ -94,12 +94,24 @@ async function run() {
     }
 
     // Test Rhythmic Button Audio Triggers
-    const heroBtn = await page.$('a.brutalist-btn[href="#systems"]');
+    const heroBtn = await page.$('a.brutalist-btn[href="#projects"], a.brutalist-btn[href="#systems"]');
     if (heroBtn) {
       await heroBtn.scrollIntoViewIfNeeded();
       await heroBtn.click();
       await page.waitForTimeout(100);
-      console.log(`✓ PASS [${vp.name}]: Clicked 'INSPECT 4 SYSTEMS' button (rhythmic click triggered).`);
+      console.log(`✓ PASS [${vp.name}]: Clicked 'VIEW 4 PROJECTS' button (rhythmic click triggered).`);
+    }
+
+    // Check No "grandmaster" or "oracle" words in text
+    const hasForbiddenWords = await page.evaluate(() => {
+      const text = document.body.innerText.toLowerCase();
+      return text.includes("grandmaster") || text.includes("oracle");
+    });
+    if (hasForbiddenWords) {
+      console.error(`❌ FAIL [${vp.name}]: Forbidden words 'grandmaster' or 'oracle' found in page text!`);
+      testPassed = false;
+    } else {
+      console.log(`✓ PASS [${vp.name}]: Zero occurrences of 'grandmaster' or 'oracle'.`);
     }
 
     const hasTelemetry = await page.evaluate(() => {
@@ -143,7 +155,7 @@ async function run() {
     // 4. Test Chess Arena (on desktop-1440 and mobile-390)
     if (vp.name === "desktop-1440") {
       console.log(`\n--- Running Full Mate-in-2 Chess Verification on ${vp.name} ---`);
-      const chessSection = await page.$("#arena");
+      const chessSection = await page.$("#chess, #arena");
       if (chessSection) {
         await chessSection.scrollIntoViewIfNeeded();
         await page.waitForTimeout(500);
@@ -168,7 +180,7 @@ async function run() {
           }
 
           // Verify move strip shows 1. Qg8+!!
-          const moveStrip1 = await page.innerText("#arena");
+          const moveStrip1 = await page.innerText("#chess, #arena");
           if (moveStrip1.includes("Qg8+")) {
             console.log("✓ PASS: Algebraic Move Strip contains 1. Qg8+!!");
           } else {
@@ -180,7 +192,7 @@ async function run() {
           console.log("Waiting for Black's forced auto-reply (320ms)...");
           await page.waitForTimeout(500);
 
-          const moveStripReply = await page.innerText("#arena");
+          const moveStripReply = await page.innerText("#chess, #arena");
           if (moveStripReply.includes("Rxg8")) {
             console.log("✓ PASS: Black played forced reply 1... Rxg8 automatically!");
           } else {
@@ -198,7 +210,7 @@ async function run() {
             await f7.click();
             await page.waitForTimeout(300);
 
-            const checkmateText = await page.innerText("#arena");
+            const checkmateText = await page.innerText("#chess, #arena");
             if (checkmateText.includes("CHECKMATE DELIVERED") || checkmateText.includes("Nf7#")) {
               console.log("✓ PASS: Checkmate delivered! 2. Nf7# confirmed.");
             } else {
@@ -232,7 +244,7 @@ async function run() {
             await wrongDest.click();
             await page.waitForTimeout(400);
 
-            const wrongStatus = await page.innerText("#arena");
+            const wrongStatus = await page.innerText("#chess, #arena");
             if (wrongStatus.includes("Incorrect move") || wrongStatus.includes("Defended by Black")) {
               console.log("✓ PASS: Wrong move properly triggered error message and board reset.");
             } else {
@@ -250,7 +262,7 @@ async function run() {
           await nextPuzzleBtn2.click();
           await page.waitForTimeout(600);
 
-          const puzzle3Text = await page.innerText("#arena");
+          const puzzle3Text = await page.innerText("#chess, #arena");
           if (puzzle3Text.includes("BODEN'S CRISS-CROSS MATE")) {
             console.log("✓ PASS: Puzzle 3 title is '03 // BODEN'S CRISS-CROSS MATE'.");
           }
@@ -269,7 +281,7 @@ async function run() {
             console.log("Waiting for Black's forced auto-reply (bxc6)...");
             await page.waitForTimeout(500);
 
-            const moveStrip3 = await page.innerText("#arena");
+            const moveStrip3 = await page.innerText("#chess, #arena");
             if (moveStrip3.includes("bxc6") || moveStrip3.includes("Qxc6+")) {
               console.log("✓ PASS: Step 1 played and Black played forced reply!");
             }
@@ -284,7 +296,7 @@ async function run() {
               await a6.click();
               await page.waitForTimeout(400);
 
-              const checkmate3 = await page.innerText("#arena");
+              const checkmate3 = await page.innerText("#chess, #arena");
               if (checkmate3.includes("CHECKMATE") || checkmate3.includes("Ba6#")) {
                 console.log("✓ PASS: Boden's Criss-Cross Mate delivered! (2. Ba6# confirmed)");
               } else {

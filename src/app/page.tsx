@@ -81,16 +81,16 @@ export default function Home() {
       <KineticTickerTape />
 
       <main className="w-full">
-        {/* ACT I — THE PLEDGE (Monumental Hero + 3D Wireframe Canvas) */}
+        {/* 01 // ABOUT (Summary + 3D Wireframe Canvas) */}
         <HeroSection />
 
-        {/* ACT II — THE TURN (4 Flagship Systems Workbench) */}
+        {/* 02 // PROJECTS (4 Featured Systems Workbench) */}
         <SystemsWorkbench />
 
-        {/* ACT III — THE PRESTIGE (Playable Chess Arena) */}
+        {/* 03 // CHESS (Playable Chess Arena) */}
         <ChessArena />
 
-        {/* ACT IV — THE SIGNAL (Core Doctrine & Open Signal Footer) */}
+        {/* 04 // CONTACT (Principles & Contact Footer) */}
         <DoctrineAndSignal onUnlockEgg={handleEggUnlock} />
       </main>
     </div>

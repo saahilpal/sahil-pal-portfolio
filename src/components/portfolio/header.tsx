@@ -72,7 +72,7 @@ export function PortfolioHeader({
             type="button"
             onClick={handleWordmarkClick}
             className="flex items-center gap-2 px-2 py-1 font-[family-name:var(--font-heading)] text-base sm:text-lg font-bold tracking-tight text-[var(--ink-primary)] hover:text-[var(--accent-lime)] transition-colors cursor-pointer select-none group"
-            title="sahil (Click 5x for Secret GM Terminal)"
+            title="sahil (Click 5x for Terminal)"
           >
             <SahilLogo className="w-5 h-5 text-[var(--accent-lime)] group-hover:rotate-12 transition-transform duration-200" />
             <span className="font-mono lowercase text-sm sm:text-base font-bold tracking-tight">sahil</span>
@@ -88,38 +88,38 @@ export function PortfolioHeader({
           )}
         </div>
 
-        {/* Center: Nolan Three-Act Links (Hidden on small mobile) */}
+        {/* Center: Clean Section Links (Hidden on small mobile) */}
         <nav
-          aria-label="Acts Navigation"
-          className="hidden md:flex items-center gap-4 text-xs font-mono font-bold tracking-wider"
+          aria-label="Section Navigation"
+          className="hidden md:flex items-center gap-5 text-xs font-mono font-bold tracking-wider"
         >
           <a
-            href="#pledge"
+            href="#about"
             onClick={() => sound.tick()}
             className="text-[var(--ink-muted)] hover:text-[var(--ink-primary)] hover:border-b-2 hover:border-[var(--accent-lime)] transition-all py-1"
           >
-            [I] PLEDGE
+            [01] ABOUT
           </a>
           <a
-            href="#systems"
+            href="#projects"
             onClick={() => sound.tick()}
             className="text-[var(--ink-muted)] hover:text-[var(--ink-primary)] hover:border-b-2 hover:border-[var(--accent-lime)] transition-all py-1"
           >
-            [II] SYSTEMS
+            [02] PROJECTS
           </a>
           <a
-            href="#arena"
+            href="#chess"
             onClick={() => sound.tick()}
             className="text-[var(--ink-muted)] hover:text-[var(--ink-primary)] hover:border-b-2 hover:border-[var(--accent-lime)] transition-all py-1"
           >
-            [III] ARENA
+            [03] CHESS
           </a>
           <a
-            href="#signal"
+            href="#contact"
             onClick={() => sound.tick()}
             className="text-[var(--ink-muted)] hover:text-[var(--ink-primary)] hover:border-b-2 hover:border-[var(--accent-lime)] transition-all py-1"
           >
-            [IV] SIGNAL
+            [04] CONTACT
           </a>
         </nav>
 
@@ -167,7 +167,7 @@ export function PortfolioHeader({
             <span className="hidden lg:inline">⌘K</span>
           </button>
 
-          {/* Tenet Temporal Turnstile (VOID / BLUEPRINT) */}
+          {/* Theme Polarity Toggle (VOID / BLUEPRINT) */}
           <button
             type="button"
             onClick={() => {
@@ -175,8 +175,8 @@ export function PortfolioHeader({
               onToggleTheme();
             }}
             className="brutalist-btn px-2.5 py-1 text-[11px] bg-[var(--surface)] text-[var(--accent-lime)] border-[var(--border-frame)]"
-            title="Temporal Turnstile Polarity (Hotkey: T)"
-            aria-label="Toggle Theme Polarity"
+            title="Toggle Theme (Hotkey: T)"
+            aria-label="Toggle Theme"
           >
             <span className="text-[10px] text-[var(--ink-muted)] hidden sm:inline">MODE:</span>
             <span className="font-bold">{theme === "void" ? "VOID" : "PRINT"}</span>

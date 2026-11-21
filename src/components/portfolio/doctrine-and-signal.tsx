@@ -33,8 +33,8 @@ export function DoctrineAndSignal({ onUnlockEgg }: DoctrineAndSignalProps) {
 
   return (
     <footer
-      id="signal"
-      aria-label="Act IV — Engineering Doctrine & Open Signal"
+      id="contact"
+      aria-label="04 — Contact & How I Work"
       className="relative z-20 py-16 sm:py-24 bg-[var(--surface)] text-[var(--ink-primary)] border-t border-[var(--border-frame)]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-16 sm:space-y-20">
@@ -42,12 +42,12 @@ export function DoctrineAndSignal({ onUnlockEgg }: DoctrineAndSignalProps) {
         <div className="space-y-8">
           <div className="space-y-2 border-b border-[var(--border-frame)] pb-4">
             <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-[var(--accent-lime)]">
-              <span>[ACT IV {"//"} THE SIGNAL]</span>
+              <span>[04 {"//"} CONTACT]</span>
               <span className="text-[var(--border-frame)]">•</span>
-              <span>ENGINEERING DOCTRINE</span>
+              <span>ENGINEERING PRINCIPLES</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-[family-name:var(--font-heading)] font-black tracking-tight uppercase">
-              CORE DOCTRINE
+              HOW I WORK
             </h2>
           </div>
 
@@ -55,11 +55,11 @@ export function DoctrineAndSignal({ onUnlockEgg }: DoctrineAndSignalProps) {
             {DOCTRINES.map((doc) => (
               <div
                 key={doc.num}
-                className="brutalist-card p-6 bg-[var(--canvas)] space-y-3 cursor-default"
+                className="brutalist-card p-5 sm:p-6 bg-[var(--canvas)] space-y-3 cursor-default"
               >
                 <div className="flex items-center justify-between font-mono text-xs">
                   <span className="text-[var(--accent-lime)] font-bold">{doc.num} {"//"}</span>
-                  <span className="text-[var(--ink-muted)]">INVARIANT</span>
+                  <span className="text-[var(--ink-muted)]">PRINCIPLE</span>
                 </div>
                 <h3 className="text-lg sm:text-xl font-[family-name:var(--font-heading)] font-bold text-[var(--ink-primary)]">
                   {doc.title}
@@ -73,16 +73,16 @@ export function DoctrineAndSignal({ onUnlockEgg }: DoctrineAndSignalProps) {
         </div>
 
         {/* OPEN SIGNAL CALLOUT */}
-        <div className="brutalist-card p-8 sm:p-12 bg-[var(--canvas)] space-y-8">
+        <div className="brutalist-card p-5 sm:p-10 bg-[var(--canvas)] space-y-8">
           <div className="space-y-3 max-w-3xl">
             <span className="text-xs font-mono font-bold tracking-wider text-[var(--accent-lime)] uppercase">
-              {"//"} OPEN TRANSMISSION CHANNEL
+              {"//"} GET IN TOUCH
             </span>
             <h3 className="text-3xl sm:text-5xl font-[family-name:var(--font-heading)] font-black uppercase tracking-tight text-[var(--ink-primary)]">
-              TRANSMIT A SIGNAL
+              GET IN TOUCH
             </h3>
             <p className="font-mono text-xs sm:text-sm text-[var(--ink-muted)] leading-relaxed">
-              Open to high-impact AI systems engineering roles, evaluation harness contracts, and Postgres retrieval architecture engagements.
+              Open to backend and AI systems engineering roles, evaluation harness contracts, and Postgres retrieval architecture discussions.
             </p>
           </div>
 
@@ -169,7 +169,7 @@ export function DoctrineAndSignal({ onUnlockEgg }: DoctrineAndSignalProps) {
         </div>
 
         {/* ALGEBRAIC FILE COORDINATES DIVIDER (With hidden clickable 'e6' Easter Egg 3!) */}
-        <div className="pt-4 border-t border-[var(--border-frame)] flex items-center justify-between text-xs font-mono text-[var(--ink-muted)] select-none">
+        <div className="pt-4 border-t border-[var(--border-frame)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[var(--ink-muted)] select-none">
           <div className="flex items-center gap-4">
             {files.map((file) => (
               <span key={file} className="hover:text-[var(--ink-primary)] transition-colors">
@@ -193,7 +193,7 @@ export function DoctrineAndSignal({ onUnlockEgg }: DoctrineAndSignalProps) {
             <SahilLogo className="w-4 h-4 text-[var(--accent-lime)]" />
             <span className="font-mono lowercase font-bold text-[var(--ink-primary)]">sahil</span>
             <span className="text-[var(--border-frame)]">•</span>
-            <span>GRANDMASTER SYSTEMS LAB {"//"} 2026</span>
+            <span>SAHIL PAL {"//"} 2026</span>
           </div>
         </div>
       </div>

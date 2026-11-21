@@ -1,4 +1,4 @@
-# Sahil Pal — Grandmaster Systems Lab
+# Sahil Pal — Systems Lab & Portfolio
 
 > I build backend systems and AI applications. I love solving hard engineering problems and building fast, reliable software that actually works.
 
@@ -90,11 +90,11 @@ sahil-pal-portfolio/
 │   │   └── not-found.tsx            # Custom 404 handler
 │   ├── components/
 │   │   └── portfolio/
-│   │       ├── hero.tsx             # Act I — Monumental typography & cursor-reactive 3D mesh
-│   │       ├── systems-workbench.tsx# Act II — Interactive 4 flagship systems workbench
-│   │       ├── chess-arena.tsx      # Act III — Forced Mate-in-2 tactical chess arena
+│   │       ├── hero.tsx             # 01 // About — Summary & cursor-reactive 3D mesh
+│   │       ├── systems-workbench.tsx# 02 // Projects — 4 featured systems workbench
+│   │       ├── chess-arena.tsx      # 03 // Chess — Forced Mate-in-2 tactical chess arena
 │   │       ├── chess-piece.tsx      # High-contrast Staunton vector SVG piece set
-│   │       ├── doctrine-and-signal.tsx # Act IV — Engineering doctrine & transmission footer
+│   │       ├── doctrine-and-signal.tsx # 04 // Contact — Engineering principles & contact footer
 │   │       ├── eval-bar.tsx         # Stockfish evaluation bar
 │   │       ├── header.tsx           # Sticky command bar, IST timecode, theme turnstile
 │   │       ├── easter-eggs.tsx      # Interactive terminal, command palette, and discovery

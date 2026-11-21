@@ -70,7 +70,7 @@ async function run() {
 
     // If desktop, test interactive features
     if (vp.name === "desktop-1440") {
-      console.log("\n--- Testing Interactive Grandmaster Features (Desktop) ---");
+      console.log("\n--- Testing Interactive Portfolio Features (Desktop) ---");
 
       // Test 1: Temporal Turnstile Toggle (VOID -> BLUEPRINT -> VOID)
       const initialTheme = await page.evaluate(() => document.documentElement.getAttribute("data-theme"));

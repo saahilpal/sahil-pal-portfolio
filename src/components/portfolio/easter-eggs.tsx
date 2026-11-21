@@ -49,7 +49,7 @@ export function EasterEggsController({
   >([
     {
       output:
-        "♔ sahil // interactive gm terminal v2.6.0\nType 'help' for available diagnostic commands.",
+        "♔ sahil // interactive terminal v2.6.0\nType 'help' for available diagnostic commands.",
     },
   ]);
   const [terminalInput, setTerminalInput] = useState("");
@@ -93,9 +93,9 @@ export function EasterEggsController({
       `%c
     _ 
    / \\
-  | ♘ |  SAHIL PAL // GRANDMASTER SYSTEMS LAB
+  | ♘ |  SAHIL PAL // AI & BACKEND SYSTEMS
    \\_/   Deterministic AI Systems, Evaluation Cascades & Postgres Engines
-         Hint: Open Secret GM Terminal and run 'console' to claim Egg 5!
+         Hint: Open Terminal and run 'console' to claim Egg 5!
 `,
       "color: #CCFF00; font-family: monospace; font-size: 13px; font-weight: bold; background: #050507; padding: 10px;"
     );
@@ -107,7 +107,7 @@ export function EasterEggsController({
       if (document.hidden) {
         document.title = "Your move — Sahil Pal ♘";
       } else {
-        document.title = "Sahil Pal — Grandmaster Systems Lab";
+        document.title = "Sahil Pal — AI & Backend Systems";
       }
     };
     document.addEventListener("visibilitychange", handleVisibility);
@@ -154,7 +154,7 @@ export function EasterEggsController({
         keyBufferRef.current = "";
         sound.checkmate();
         unlockEgg(1, "Opening Move (e4 / Nf3) — Tactical Arena Jump (!!)");
-        const arenaEl = document.getElementById("arena");
+        const arenaEl = document.getElementById("chess") || document.getElementById("arena");
         if (arenaEl) {
           arenaEl.scrollIntoView({ behavior: "smooth" });
           arenaEl.classList.add("ring-4", "ring-[var(--accent-lime)]");
@@ -254,17 +254,17 @@ export function EasterEggsController({
 
   // Command palette items
   const paletteItems = [
-    { label: "Jump to Act I (The Pledge)", action: () => document.getElementById("pledge")?.scrollIntoView({ behavior: "smooth" }) },
-    { label: "Jump to Act II (The Turn / Systems)", action: () => document.getElementById("systems")?.scrollIntoView({ behavior: "smooth" }) },
-    { label: "Jump to Act III (The Prestige / Chess)", action: () => document.getElementById("arena")?.scrollIntoView({ behavior: "smooth" }) },
-    { label: "Jump to Act IV (The Signal / Doctrine)", action: () => document.getElementById("signal")?.scrollIntoView({ behavior: "smooth" }) },
-    { label: "Inspect 01: Synapse MCP Daemon", action: () => { document.getElementById("systems")?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "1" })); } },
-    { label: "Inspect 02: PropEval v1.0.0", action: () => { document.getElementById("systems")?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "2" })); } },
-    { label: "Inspect 03: Disha AI Clinical Coach", action: () => { document.getElementById("systems")?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "3" })); } },
-    { label: "Inspect 04: RAG-DOCAnalyzer", action: () => { document.getElementById("systems")?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "4" })); } },
+    { label: "Jump to About", action: () => (document.getElementById("about") || document.getElementById("pledge"))?.scrollIntoView({ behavior: "smooth" }) },
+    { label: "Jump to Projects", action: () => (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }) },
+    { label: "Jump to Chess Puzzles", action: () => (document.getElementById("chess") || document.getElementById("arena"))?.scrollIntoView({ behavior: "smooth" }) },
+    { label: "Jump to Contact", action: () => (document.getElementById("contact") || document.getElementById("signal"))?.scrollIntoView({ behavior: "smooth" }) },
+    { label: "Inspect 01: Synapse MCP Daemon", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "1" })); } },
+    { label: "Inspect 02: PropEval v1.0.0", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "2" })); } },
+    { label: "Inspect 03: Disha AI Clinical Coach", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "3" })); } },
+    { label: "Inspect 04: RAG-DOCAnalyzer", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "4" })); } },
     { label: "Invert Polarity (Temporal Turnstile T)", action: () => { sound.turnstile(); onToggleTheme(); unlockEgg(4, "Temporal Turnstile — Tenet Inversion"); } },
     { label: "Toggle Synthesized Audio (SFX)", action: () => sound.toggle() },
-    { label: "Open Secret GM Terminal", action: () => onOpenTerminal() },
+    { label: "Open Terminal", action: () => onOpenTerminal() },
     { label: "Copy Direct Email (saahilpal17@gmail.com)", action: () => navigator.clipboard.writeText(PROFILE_CORE.email) },
     { label: "Send Chess.com Match Challenge", action: () => window.open(PROFILE_CORE.chessUrl, "_blank") },
   ];
