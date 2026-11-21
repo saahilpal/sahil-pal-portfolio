@@ -127,7 +127,7 @@ export const PROFILE_CORE = {
   linkedinUrl: "https://www.linkedin.com/in/sahiilpal",
   huggingfaceUrl: "https://huggingface.co/sahilpal",
   pitchLine1: "I love solving problems, exploring AI, and building software that runs fast and just works.",
-  pitchLine2: "Big fan of clean code, simple architecture, and good chess.",
+  pitchLine2: "Building practical software that actually works.",
 };
 
 export const DOCTRINES = [
