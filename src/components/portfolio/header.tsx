@@ -179,7 +179,7 @@ export function PortfolioHeader({
             aria-label="Toggle Theme"
           >
             <span className="text-[10px] text-[var(--ink-muted)] hidden sm:inline">MODE:</span>
-            <span className="font-bold">{theme === "void" ? "VOID" : "PRINT"}</span>
+            <span className="font-bold">{theme === "void" ? "DARK" : "LIGHT"}</span>
           </button>
         </div>
       </div>

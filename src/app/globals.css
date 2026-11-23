@@ -7,27 +7,8 @@
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 
-/* Nolan Temporal Turnstile: VOID vs BLUEPRINT */
+/* Nolan Temporal Turnstile: BLUEPRINT (Default Light) vs VOID (Dark) */
 :root,
-[data-theme="void"] {
-  --canvas: #050507;
-  --surface: #0D0E12;
-  --surface-raised: #15171E;
-  --ink-primary: #F4F4F0;
-  --ink-muted: #9A9DA8;
-  --border-grid: #262934;
-  --border-frame: #F4F4F0;
-  --accent-lime: #CCFF00;
-  --accent-red: #FF3B30;
-  --accent-blue: #3B82F6;
-  --shadow-card: 5px 5px 0px #CCFF00;
-  --shadow-cta: 4px 4px 0px #FF3B30;
-  --shadow-brutal: 4px 4px 0px #F4F4F0;
-  --square-light: #2A3142;
-  --square-dark: #11131B;
-  --turnstile-label: "BLUEPRINT";
-}
-
 [data-theme="blueprint"] {
   --canvas: #F4F3EC;
   --surface: #FFFFFF;
@@ -45,6 +26,25 @@
   --square-light: #FAF9F5;
   --square-dark: #B8C2D6;
   --turnstile-label: "VOID";
+}
+
+[data-theme="void"] {
+  --canvas: #050507;
+  --surface: #0D0E12;
+  --surface-raised: #15171E;
+  --ink-primary: #F4F4F0;
+  --ink-muted: #9A9DA8;
+  --border-grid: #262934;
+  --border-frame: #F4F4F0;
+  --accent-lime: #CCFF00;
+  --accent-red: #FF3B30;
+  --accent-blue: #3B82F6;
+  --shadow-card: 5px 5px 0px #CCFF00;
+  --shadow-cta: 4px 4px 0px #FF3B30;
+  --shadow-brutal: 4px 4px 0px #F4F4F0;
+  --square-light: #2A3142;
+  --square-dark: #11131B;
+  --turnstile-label: "BLUEPRINT";
 }
 
 html,

@@ -81,7 +81,7 @@ sahil-pal-portfolio/
 │   ├── components/
 │   │   └── portfolio/
 │   │       ├── hero.tsx             # 01 // About — Summary & cursor-reactive 3D mesh
-│   │       ├── systems-workbench.tsx# 02 // Projects — 4 featured systems workbench
+│   │       ├── systems-workbench.tsx# 02 // Projects — 3 featured systems workbench
 │   │       ├── chess-arena.tsx      # 03 // Chess — Forced Mate-in-2 tactical chess arena
 │   │       ├── chess-piece.tsx      # High-contrast Staunton vector SVG piece set
 │   │       ├── doctrine-and-signal.tsx # 04 // Contact — Engineering principles & contact footer

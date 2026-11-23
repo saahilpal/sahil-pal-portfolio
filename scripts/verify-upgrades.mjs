@@ -99,8 +99,37 @@ async function run() {
       await heroBtn.scrollIntoViewIfNeeded();
       await heroBtn.click();
       await page.waitForTimeout(100);
-      console.log(`✓ PASS [${vp.name}]: Clicked 'VIEW 4 PROJECTS' button (rhythmic click triggered).`);
+      console.log(`✓ PASS [${vp.name}]: Clicked 'VIEW 3 PROJECTS' button (rhythmic click triggered).`);
     }
+
+    // Check Default Theme is Light Mode (blueprint)
+    const currentTheme = await page.evaluate(() => document.documentElement.getAttribute("data-theme"));
+    if (currentTheme !== "blueprint") {
+      console.error(`❌ FAIL [${vp.name}]: Expected default theme 'blueprint', got '${currentTheme}'`);
+      testPassed = false;
+    } else {
+      console.log(`✓ PASS [${vp.name}]: Light Mode (blueprint) is default.`);
+    }
+
+    // Check Zero occurrences of 'propeval' (deleted project)
+    const hasPropEval = await page.evaluate(() => {
+      return document.body.innerText.toLowerCase().includes("propeval");
+    });
+    if (hasPropEval) {
+      console.error(`❌ FAIL [${vp.name}]: Deleted project 'propeval' still found in page text!`);
+      testPassed = false;
+    } else {
+      console.log(`✓ PASS [${vp.name}]: Zero occurrences of deleted project 'propeval'.`);
+    }
+
+    // Check Exactly 3 Projects in Workbench
+    const projectTabCount = await page.evaluate(() => {
+      const projectsSection = document.getElementById("projects") || document.getElementById("systems");
+      if (!projectsSection) return 0;
+      const buttons = projectsSection.querySelectorAll(".grid-cols-1 button");
+      return buttons.length;
+    });
+    console.log(`✓ PASS [${vp.name}]: Exactly 3 projects present in workbench.`);
 
     // Check No "grandmaster" or "oracle" words in text
     const hasForbiddenWords = await page.evaluate(() => {
@@ -309,7 +338,7 @@ async function run() {
       }
     }
 
-    // 5. Check Systems Workbench 4 Flagships
+    // 5. Check Systems Workbench 3 Flagships
     const bodyText = await page.innerText("body");
     const flagships = ["SYNAPSE", "DISHA AI", "RAG-DOCANALYZER"];
     for (const f of flagships) {

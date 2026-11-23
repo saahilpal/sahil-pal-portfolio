@@ -72,27 +72,27 @@ async function run() {
     if (vp.name === "desktop-1440") {
       console.log("\n--- Testing Interactive Portfolio Features (Desktop) ---");
 
-      // Test 1: Temporal Turnstile Toggle (VOID -> BLUEPRINT -> VOID)
+      // Test 1: Temporal Turnstile Toggle (BLUEPRINT -> VOID -> BLUEPRINT)
       const initialTheme = await page.evaluate(() => document.documentElement.getAttribute("data-theme"));
       console.log(`Initial theme: ${initialTheme}`);
       await page.keyboard.press("t");
       await page.waitForTimeout(300);
       const flippedTheme = await page.evaluate(() => document.documentElement.getAttribute("data-theme"));
       console.log(`✓ Theme after pressing 'T': ${flippedTheme}`);
-      if (flippedTheme !== "blueprint") totalErrors++;
-      await page.keyboard.press("t"); // Flip back to void
+      if (flippedTheme !== "void") totalErrors++;
+      await page.keyboard.press("t"); // Flip back to blueprint
       await page.waitForTimeout(300);
 
       // Test 2: Systems Workbench Keyboard Switch (Keys 1, 2, 3)
       await page.keyboard.press("2");
       await page.waitForTimeout(300);
-      const sys2Title = await page.locator("#systems h3").textContent();
+      const sys2Title = await page.locator("#projects h3, #systems h3").textContent();
       console.log(`✓ Switched to System 2 via key '2': ${sys2Title}`);
       if (!sys2Title.includes("Disha")) totalErrors++;
 
       await page.keyboard.press("3");
       await page.waitForTimeout(300);
-      const sys3Title = await page.locator("#systems h3").textContent();
+      const sys3Title = await page.locator("#projects h3, #systems h3").textContent();
       console.log(`✓ Switched to System 3 via key '3': ${sys3Title}`);
       if (!sys3Title.includes("DOCAnalyzer")) totalErrors++;
 

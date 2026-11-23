@@ -191,6 +191,8 @@ export function HeroSection() {
       const px = pointerPosRef.current.x;
       const py = pointerPosRef.current.y;
 
+      const isBlueprint = document.documentElement.getAttribute("data-theme") === "blueprint";
+
       // 1. Draw 64px Architectural Grid with Cursor Proximity Illumination
       const gridSize = 64;
       ctx.lineWidth = 1;
@@ -204,10 +206,14 @@ export function HeroSection() {
 
           if (dist < radius) {
             const intensity = 1 - dist / radius;
-            ctx.fillStyle = `rgba(204, 255, 0, ${intensity * 0.9})`;
+            ctx.fillStyle = isBlueprint
+              ? `rgba(22, 163, 74, ${intensity * 0.9})`
+              : `rgba(204, 255, 0, ${intensity * 0.9})`;
             ctx.fillRect(x - 2, y - 2, 4, 4);
           } else {
-            ctx.fillStyle = "rgba(100, 110, 130, 0.2)";
+            ctx.fillStyle = isBlueprint
+              ? "rgba(160, 165, 175, 0.4)"
+              : "rgba(100, 110, 130, 0.2)";
             ctx.fillRect(x - 1, y - 1, 2, 2);
           }
         }
@@ -264,9 +270,15 @@ export function HeroSection() {
         const avgZ = (p1.z + p2.z) / 2;
         const edgeAlpha = Math.max(0.18, Math.min(0.85, (avgZ + 120) / 240));
 
-        ctx.strokeStyle = beatPulse > 0.5
-          ? `rgba(204, 255, 0, ${edgeAlpha * 0.9})`
-          : `rgba(244, 244, 240, ${edgeAlpha * 0.65})`;
+        if (isBlueprint) {
+          ctx.strokeStyle = beatPulse > 0.5
+            ? `rgba(22, 163, 74, ${edgeAlpha * 0.95})`
+            : `rgba(10, 10, 12, ${edgeAlpha * 0.75})`;
+        } else {
+          ctx.strokeStyle = beatPulse > 0.5
+            ? `rgba(204, 255, 0, ${edgeAlpha * 0.9})`
+            : `rgba(244, 244, 240, ${edgeAlpha * 0.65})`;
+        }
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
@@ -275,7 +287,11 @@ export function HeroSection() {
 
       // Draw Vertex Nodes with Audio Flare
       projected.forEach((p) => {
-        ctx.fillStyle = beatPulse > 0.5 ? "#00E5FF" : "#CCFF00";
+        if (isBlueprint) {
+          ctx.fillStyle = beatPulse > 0.5 ? "#0044FF" : "#16A34A";
+        } else {
+          ctx.fillStyle = beatPulse > 0.5 ? "#00E5FF" : "#CCFF00";
+        }
         ctx.beginPath();
         ctx.arc(p.x, p.y, 2.5 + beatPulse * 2.2, 0, Math.PI * 2);
         ctx.fill();
@@ -432,7 +448,7 @@ export function HeroSection() {
               onClick={() => sound.relay()}
               className="brutalist-btn px-4 sm:px-5 py-3 text-xs sm:text-sm gap-2 text-center"
             >
-              <span>VIEW 4 PROJECTS</span>
+              <span>VIEW 3 PROJECTS</span>
               <ArrowDown className="w-4 h-4 text-[var(--accent-lime)]" />
             </a>
 
@@ -465,7 +481,7 @@ export function HeroSection() {
           </div>
 
           <div className="flex items-center gap-2 text-[var(--accent-lime)] font-bold">
-            <span className="hidden sm:inline">PROJECTS [1–4] • COMMAND [⌘K]</span>
+            <span className="hidden sm:inline">PROJECTS [1–3] • COMMAND [⌘K]</span>
           </div>
         </div>
       </div>

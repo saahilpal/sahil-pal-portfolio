@@ -111,7 +111,7 @@ export function SystemsWorkbench() {
           <div className="flex items-center gap-2 font-mono text-xs text-[var(--ink-muted)]">
             <span className="hidden sm:inline">SELECT OR PRESS</span>
             <div className="flex gap-1">
-              {[1, 2, 3, 4].map((num, i) => (
+              {[1, 2, 3].map((num, i) => (
                 <button
                   key={num}
                   type="button"
@@ -130,7 +130,7 @@ export function SystemsWorkbench() {
         </div>
 
         {/* System Tabs Strip with Hopping Knight */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {FLAGSHIP_SYSTEMS.map((sys, idx) => {
             const isActive = activeIndex === idx;
             return (
@@ -634,7 +634,7 @@ ORDER BY pagerank.score DESC
               {/* Bottom Stage Footnote */}
               <div className="pt-4 border-t border-[var(--border-grid)] flex justify-between items-center text-[10px] font-mono text-[var(--ink-muted)]">
                 <span>STAGE VERIFIED: ZERO FABRICATED DATA</span>
-                <span>KEYS [1–4] TO SWITCH</span>
+                <span>KEYS [1–3] TO SWITCH</span>
               </div>
             </div>
           </div>

@@ -16,7 +16,7 @@ export default function Home() {
       const saved = localStorage.getItem("sahil_theme");
       if (saved === "blueprint" || saved === "void") return saved;
     }
-    return "void";
+    return "blueprint";
   });
   const [eggCount, setEggCount] = useState(0);
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
@@ -84,7 +84,7 @@ export default function Home() {
         {/* 01 // ABOUT (Summary + 3D Wireframe Canvas) */}
         <HeroSection />
 
-        {/* 02 // PROJECTS (4 Featured Systems Workbench) */}
+        {/* 02 // PROJECTS (3 Featured Systems Workbench) */}
         <SystemsWorkbench />
 
         {/* 03 // CHESS (Playable Chess Arena) */}

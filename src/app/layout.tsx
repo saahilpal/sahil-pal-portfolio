@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const viewport: Viewport = {
-  themeColor: "#050507",
+  themeColor: "#F4F3EC",
   width: "device-width",
   initialScale: 1,
 };
@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="void">
+    <html lang="en" data-theme="blueprint">
       <body className="bg-[var(--canvas)] text-[var(--ink-primary)] antialiased font-[family-name:var(--font-body)] overflow-x-clip selection:bg-[var(--accent-lime)] selection:text-[#050507]">
         {children}
       </body>

@@ -217,7 +217,7 @@ export function EasterEggsController({
         reply = "RAG-DOCAnalyzer: PostgreSQL pgvector Euclidean distance (L2 <->) multi-document QA.";
         break;
       case "chess":
-        reply = "Chess.com profile: sahill17. Challenge unlocked at Act III.";
+        reply = "Chess.com profile: sahill17. Challenge unlocked in Chess section.";
         break;
       case "eggs":
         reply = `Unlocked Easter Eggs: ${eggCount}/5. Check header badge for status!`;
