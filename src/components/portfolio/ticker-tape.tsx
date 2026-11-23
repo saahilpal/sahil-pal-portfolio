@@ -38,7 +38,6 @@ export function KineticTickerTape() {
 
   const items = [
     "SYNAPSE MCP ★ FLAGSHIP",
-    "PROPEVAL v1.0.0 — 0.36MS CPU CASCADE",
     "DISHA AI — MULTILINGUAL HYBRID RAG",
     "PGVECTOR DOCANALYZER",
     "CHESS.COM/MEMBER/SAHILL17 — SEND A CHALLENGE",

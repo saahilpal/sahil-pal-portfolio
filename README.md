@@ -20,7 +20,7 @@ A high-performance portfolio and systems engineering workbench built with **Next
 
 ---
 
-## 🛠️ The 4 Flagship Systems
+## 🛠️ The 3 Flagship Systems
 
 ### 01 // ♔ Synapse (`synap-git`)
 *Git-Aware Structural Context Engine & MCP Daemon for AI Coding Agents*
@@ -32,17 +32,7 @@ A high-performance portfolio and systems engineering workbench built with **Next
 
 ---
 
-### 02 // ♕ PropEval (`v1.0.0`)
-*Hinglish Real-Estate Voice Agent Evaluation & Prompt Regression Workbench*
-- **Problem:** Minor prompt updates can silently cause compliance violations (such as TRAI Do-Not-Call rules) or false commitments over Indian telephony audio.
-- **Mechanism:** Asymmetric confidence cascade ($0.15 < p < 0.85$) where a 0.36ms CPU System-1 classifier resolves 92% of turns, escalating edge cases to frontier LLM judges via PostgreSQL 17 `SKIP LOCKED` queues.
-- **Verified Proof:** 158/158 tests passing green. 0.99 ID / 0.98 OOD Macro-F1 score. $1.984 per 1,000 turns versus $25.00 for pure LLM judges (92.06% net cost reduction).
-- **Stack:** Python 3.12, PostgreSQL 17, Next.js, L-BFGS Temperature Scaling, FastAPI, SKIP LOCKED.
-- **Links:** [GitHub Repository](https://github.com/saahilpal/propeval) • [Training Pipeline](https://github.com/saahilpal/propeval-laya-training)
-
----
-
-### 03 // ♖ Disha AI
+### 02 // ♖ Disha AI
 *Voice-Enabled Clinical Health Coach & Emergency Breaker*
 - **Problem:** Multilingual health coaching across Hindi and Hinglish cannot risk hallucinated clinical guidance or missed acute emergencies.
 - **Mechanism:** Compiled Aho-Corasick emergency breaker trips under 10µs to escalate acute events to emergency services (112) before any model inference. Clinical retrieval uses PostgreSQL `tsvector` and `pg_trgm` reciprocal rank fusion.
@@ -52,7 +42,7 @@ A high-performance portfolio and systems engineering workbench built with **Next
 
 ---
 
-### 04 // ♘ RAG-DOCAnalyzer
+### 03 // ♘ RAG-DOCAnalyzer
 *PostgreSQL pgvector Euclidean Distance Multi-Document Retrieval Platform*
 - **Problem:** Enterprise document retrieval hallucinating when concurrent multi-page PDF ingestion blocks workers and distance metrics lack paragraph attribution.
 - **Mechanism:** Asynchronous worker queue with PostgreSQL row locks, Gemini 768d embeddings, and `pgvector` L2 (`<->`) Euclidean distance ordering with chunk-level citations and full-text search fallback.

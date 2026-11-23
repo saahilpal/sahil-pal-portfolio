@@ -311,7 +311,7 @@ async function run() {
 
     // 5. Check Systems Workbench 4 Flagships
     const bodyText = await page.innerText("body");
-    const flagships = ["SYNAPSE", "PROPEVAL", "DISHA AI", "RAG-DOCANALYZER"];
+    const flagships = ["SYNAPSE", "DISHA AI", "RAG-DOCANALYZER"];
     for (const f of flagships) {
       if (bodyText.toUpperCase().includes(f)) {
         console.log(`✓ PASS [${vp.name}]: Flagship system '${f}' present.`);

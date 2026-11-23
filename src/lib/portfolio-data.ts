@@ -41,33 +41,8 @@ export const FLAGSHIP_SYSTEMS: SystemProject[] = [
     ],
   },
   {
-    id: "propeval",
-    keyNum: "02",
-    symbol: "♕",
-    badge: "v1.0.0",
-    name: "PropEval",
-    tagline: "Hinglish Real-Estate Voice Agent Evaluation & Prompt Regression Workbench",
-    problem:
-      "A single prompt edit can silently trigger TRAI Do-Not-Call compliance violations and false booking commitments over Indian phone audio.",
-    mechanism:
-      "Executes an asymmetric confidence cascade (0.15 < p < 0.85) where a 0.36ms CPU System-1 classifier resolves 92% of turns, escalating edge cases to frontier LLM judges via PostgreSQL 17 SKIP LOCKED queues.",
-    proof:
-      "158/158 tests passing. 0.99 ID / 0.98 OOD Macro-F1. $1.984 per 1,000 turns versus $25.00 for pure LLM judges (92.06% net cost reduction).",
-    stats: [
-      { label: "Test Suite", value: "158/158 GREEN" },
-      { label: "System-1 CPU P95", value: "0.36ms" },
-      { label: "Turn Escalation", value: "7.94%" },
-      { label: "Cost vs Pure LLM", value: "-92.06%" },
-    ],
-    tools: ["Python 3.12", "PostgreSQL 17", "Next.js", "L-BFGS Temperature Scaling", "FastAPI", "SKIP LOCKED"],
-    links: [
-      { label: "GitHub Source", url: "https://github.com/saahilpal/propeval" },
-      { label: "Training Pipeline", url: "https://github.com/saahilpal/propeval-laya-training" },
-    ],
-  },
-  {
     id: "disha",
-    keyNum: "03",
+    keyNum: "02",
     symbol: "♖",
     badge: "HEALTH AI",
     name: "Disha AI",
@@ -91,7 +66,7 @@ export const FLAGSHIP_SYSTEMS: SystemProject[] = [
   },
   {
     id: "docanalyzer",
-    keyNum: "04",
+    keyNum: "03",
     symbol: "♘",
     badge: "RETRIEVAL",
     name: "RAG-DOCAnalyzer",

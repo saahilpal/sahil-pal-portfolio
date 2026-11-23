@@ -11,9 +11,6 @@ export function SystemsWorkbench() {
   // Synapse live demo state
   const [synapseActiveNode, setSynapseActiveNode] = useState<"parser" | "db" | "mcp">("mcp");
 
-  // PropEval live demo state
-  const [propEvalScenario, setPropEvalScenario] = useState<0 | 1 | 2>(0);
-
   // Disha AI live demo state
   const [dishaScenario, setDishaScenario] = useState<0 | 1 | 2>(0);
 
@@ -23,9 +20,6 @@ export function SystemsWorkbench() {
   // Live simulation states for interactive buttons
   const [synapseBenchRunning, setSynapseBenchRunning] = useState(false);
   const [synapseBenchResult, setSynapseBenchResult] = useState<string | null>(null);
-
-  const [propEvalBenchRunning, setPropEvalBenchRunning] = useState(false);
-  const [propEvalBenchResult, setPropEvalBenchResult] = useState<string | null>(null);
 
   const [dishaBenchRunning, setDishaBenchRunning] = useState(false);
   const [dishaBenchResult, setDishaBenchResult] = useState<string | null>(null);
@@ -41,17 +35,6 @@ export function SystemsWorkbench() {
       sound.thock();
       setSynapseBenchRunning(false);
       setSynapseBenchResult("PARSED 1,240 REPO NODES: 34,200 TOKENS -> 5,060 TOKENS (85.2% CUT // 1.4ms)");
-    }, 700);
-  };
-
-  const handleRunPropEvalHarness = () => {
-    sound.tick();
-    setPropEvalBenchRunning(true);
-    setPropEvalBenchResult(null);
-    setTimeout(() => {
-      sound.thock();
-      setPropEvalBenchRunning(false);
-      setPropEvalBenchResult("POSTGRES 17 SKIP LOCKED: 158/158 TESTS PASS // S1 CPU GATE: 0.36ms // F1: 0.99");
     }, 700);
   };
 
@@ -77,7 +60,7 @@ export function SystemsWorkbench() {
     }, 650);
   };
 
-  // Keyboard shortcut listener: Keys 1, 2, 3, 4 switch systems
+  // Keyboard shortcut listener: Keys 1, 2, 3 switch systems
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ignore if user is typing in an input
@@ -91,9 +74,6 @@ export function SystemsWorkbench() {
       } else if (e.key === "3") {
         sound.tabSwitch(2);
         setActiveIndex(2);
-      } else if (e.key === "4") {
-        sound.tabSwitch(3);
-        setActiveIndex(3);
       }
     };
 
@@ -111,7 +91,7 @@ export function SystemsWorkbench() {
   return (
     <section
       id="projects"
-      aria-label="02 — Featured Projects (4 Flagship Systems)"
+      aria-label="02 — Featured Projects (3 Flagship Systems)"
       className="relative z-20 py-16 sm:py-24 border-b border-[var(--border-frame)] bg-[var(--surface)] text-[var(--ink-primary)]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12 sm:space-y-16">
@@ -121,7 +101,7 @@ export function SystemsWorkbench() {
             <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-[var(--accent-lime)]">
               <span>[02 {"//"} PROJECTS]</span>
               <span className="text-[var(--border-frame)]">•</span>
-              <span>4 FEATURED SYSTEMS</span>
+              <span>3 FEATURED SYSTEMS</span>
             </div>
             <h2 className="text-4xl sm:text-6xl font-[family-name:var(--font-heading)] font-black tracking-tight uppercase">
               FEATURED PROJECTS
@@ -248,22 +228,6 @@ export function SystemsWorkbench() {
                         </span>
                       </span>{" "}
                       symbol graph, computes Git blast radius, and serves token-budgeted context packs over MCP backed by SQLite WAL and FTS5.
-                    </>
-                  ) : activeSystem.id === "propeval" ? (
-                    <>
-                      Executes an asymmetric confidence cascade (0.15 &lt; p &lt; 0.85) where a 0.36ms CPU System-1 classifier resolves 92% of turns, escalating edge cases to frontier LLM judges via PostgreSQL 17{" "}
-                      <span className="relative inline-block group/tip">
-                        <span className="border-b border-dashed border-[var(--accent-lime)] text-[var(--accent-lime)] font-bold cursor-help">
-                          SKIP LOCKED
-                        </span>
-                        <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 bg-[#090A0E] border border-[var(--accent-lime)] text-[10px] font-mono text-[var(--accent-lime)] shadow-[3px_3px_0px_#CCFF00] opacity-0 group-hover/tip:opacity-100 transition-opacity z-30 leading-snug">
-                          <span className="block text-[9px] uppercase tracking-wider text-[var(--ink-muted)] mb-0.5 border-b border-[var(--border-grid)] pb-0.5">
-                            ENGINEERING X-RAY //
-                          </span>
-                          Postgres 17 lock-free concurrency; background workers dequeue jobs concurrently without double-processing.
-                        </span>
-                      </span>{" "}
-                      queues.
                     </>
                   ) : activeSystem.id === "disha" ? (
                     <>
@@ -484,115 +448,8 @@ ORDER BY pagerank.score DESC
                 </div>
               )}
 
-              {/* STAGE 2: PROPEVAL LIVE HINGLISH CASCADE DIFF */}
+              {/* STAGE 2: DISHA AI PIPELINE STAGES */}
               {activeIndex === 1 && (
-                <div className="space-y-4">
-                  <div className="text-xs font-mono text-[var(--ink-muted)]">
-                    Select Indian telephony turn to inspect System-1 confidence gate:
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-2 text-xs font-mono">
-                    {[
-                      { title: "Clear RERA", scenario: 0 },
-                      { title: "Carpet-Area Trap", scenario: 1 },
-                      { title: "HTTP 503 Fault", scenario: 2 },
-                    ].map((sc) => (
-                      <button
-                        key={sc.scenario}
-                        type="button"
-                        onClick={() => {
-                          sound.tick();
-                          setPropEvalScenario(sc.scenario as 0 | 1 | 2);
-                        }}
-                        className={`p-2 border text-left cursor-pointer transition-all ${
-                          propEvalScenario === sc.scenario
-                            ? "bg-[var(--surface-raised)] border-[var(--accent-lime)] text-[var(--accent-lime)] font-bold"
-                            : "bg-[var(--surface)] border-[var(--border-grid)] text-[var(--ink-muted)]"
-                        }`}
-                      >
-                        {sc.title}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Scenario Diff Screen */}
-                  <div className="p-3.5 bg-[#090A0E] border border-[var(--border-frame)] font-mono text-xs space-y-3">
-                    {propEvalScenario === 0 && (
-                      <>
-                        <div className="text-[var(--ink-muted)]">Turn: &quot;RERA registration number batao pehle, tab aage baat karenge&quot;</div>
-                        <div className="flex items-center justify-between p-2 bg-[var(--surface)] border border-[var(--border-grid)]">
-                          <span>S1 Probability: p = 0.96</span>
-                          <span className="text-[var(--accent-lime)] font-bold">TERMINATION AT S1 (0.36ms)</span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2 text-[11px]">
-                          <div className="p-2 border border-emerald-500/30 text-emerald-400">
-                            v1.0 Baseline: PASS (Proper RERA cited)
-                          </div>
-                          <div className="p-2 border border-emerald-500/30 text-emerald-400">
-                            v2.0 Candidate: PASS (Concordance 1.0)
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    {propEvalScenario === 1 && (
-                      <>
-                        <div className="text-[var(--ink-muted)]">Turn: &quot;1200 sqft super builtup bol rahe ho, actual carpet kitna milega?&quot;</div>
-                        <div className="flex items-center justify-between p-2 bg-[var(--surface)] border border-[var(--border-grid)]">
-                          <span>S1 Probability: p = 0.62 (Ambiguous)</span>
-                          <span className="text-[var(--accent-red)] font-bold">ESCALATED TO SYSTEM-2 JUDGE</span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2 text-[11px]">
-                          <div className="p-2 border border-red-500/40 text-red-400">
-                            v1.0: DEFECT (Super vs carpet evasive)
-                          </div>
-                          <div className="p-2 border border-emerald-500/30 text-emerald-400">
-                            v2.0: PASS (Exact 850 sqft carpet cited)
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    {propEvalScenario === 2 && (
-                      <>
-                        <div className="text-[var(--ink-muted)]">Turn: CRM returns HTTP 503 during WhatsApp brochure request.</div>
-                        <div className="flex items-center justify-between p-2 bg-[var(--surface)] border border-[var(--border-grid)]">
-                          <span>S1 Check: Tool Execution Fault</span>
-                          <span className="text-[var(--accent-red)] font-bold">CRITICAL REGRESSION HALT</span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2 text-[11px]">
-                          <div className="p-2 border border-red-500/40 text-red-400">
-                            v1.0: False confirmation emitted
-                          </div>
-                          <div className="p-2 border border-emerald-500/30 text-emerald-400">
-                            v2.0: Graceful fallback message
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Interactive PropEval Queue Runner */}
-                  <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono">
-                    <button
-                      type="button"
-                      onClick={handleRunPropEvalHarness}
-                      disabled={propEvalBenchRunning}
-                      className="brutalist-btn px-3 py-1.5 text-xs bg-[var(--surface-raised)] hover:bg-[var(--accent-lime)] hover:text-black gap-1.5 transition-all cursor-pointer"
-                    >
-                      <span>{propEvalBenchRunning ? "EXECUTING BATCH..." : "▶ RUN POSTGRES QUEUE BENCHMARK"}</span>
-                    </button>
-                    {propEvalBenchResult && (
-                      <span className="text-[10px] text-emerald-400 font-bold animate-in fade-in">
-                        {propEvalBenchResult}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* STAGE 3: DISHA AI PIPELINE STAGES */}
-              {activeIndex === 2 && (
                 <div className="space-y-4">
                   <div className="text-xs font-mono text-[var(--ink-muted)]">
                     Trigger test patient utterances through Disha clinical safety harness:
@@ -687,8 +544,8 @@ ORDER BY pagerank.score DESC
                 </div>
               )}
 
-              {/* STAGE 4: RAG-DOCANALYZER PGVECTOR RETRIEVAL */}
-              {activeIndex === 3 && (
+              {/* STAGE 3: RAG-DOCANALYZER PGVECTOR RETRIEVAL */}
+              {activeIndex === 2 && (
                 <div className="space-y-4">
                   <div className="text-xs font-mono text-[var(--ink-muted)]">
                     Query pgvector with Gemini 768d embedding via Euclidean distance:

@@ -202,16 +202,13 @@ export function EasterEggsController({
     switch (cmd) {
       case "help":
         reply =
-          "Available commands: whoami, synapse, propeval, disha, docanalyzer, chess, eggs, console, hire, clear";
+          "Available commands: whoami, synapse, disha, docanalyzer, chess, eggs, console, hire, clear";
         break;
       case "whoami":
         reply = `${PROFILE_CORE.name} — ${PROFILE_CORE.title}. ${PROFILE_CORE.pitchLine1}`;
         break;
       case "synapse":
         reply = "Synapse (synap-git): Tree-sitter AST Context Engine for AI Coding Agents. PyPI: synap-git";
-        break;
-      case "propeval":
-        reply = "PropEval: Hinglish Real-Estate Voice Agent Evaluation Workbench. 158/158 tests green.";
         break;
       case "disha":
         reply = "Disha AI: Real-time clinical voice health coach with <10µs Aho-Corasick emergency breaker.";
@@ -259,9 +256,8 @@ export function EasterEggsController({
     { label: "Jump to Chess Puzzles", action: () => (document.getElementById("chess") || document.getElementById("arena"))?.scrollIntoView({ behavior: "smooth" }) },
     { label: "Jump to Contact", action: () => (document.getElementById("contact") || document.getElementById("signal"))?.scrollIntoView({ behavior: "smooth" }) },
     { label: "Inspect 01: Synapse MCP Daemon", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "1" })); } },
-    { label: "Inspect 02: PropEval v1.0.0", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "2" })); } },
-    { label: "Inspect 03: Disha AI Clinical Coach", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "3" })); } },
-    { label: "Inspect 04: RAG-DOCAnalyzer", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "4" })); } },
+    { label: "Inspect 02: Disha AI Clinical Coach", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "2" })); } },
+    { label: "Inspect 03: RAG-DOCAnalyzer", action: () => { (document.getElementById("projects") || document.getElementById("systems"))?.scrollIntoView({ behavior: "smooth" }); window.dispatchEvent(new KeyboardEvent("keydown", { key: "3" })); } },
     { label: "Invert Polarity (Temporal Turnstile T)", action: () => { sound.turnstile(); onToggleTheme(); unlockEgg(4, "Temporal Turnstile — Tenet Inversion"); } },
     { label: "Toggle Synthesized Audio (SFX)", action: () => sound.toggle() },
     { label: "Open Terminal", action: () => onOpenTerminal() },

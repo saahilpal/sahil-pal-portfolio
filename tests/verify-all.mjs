@@ -83,18 +83,18 @@ async function run() {
       await page.keyboard.press("t"); // Flip back to void
       await page.waitForTimeout(300);
 
-      // Test 2: Systems Workbench Keyboard Switch (Keys 1, 2, 3, 4)
+      // Test 2: Systems Workbench Keyboard Switch (Keys 1, 2, 3)
       await page.keyboard.press("2");
       await page.waitForTimeout(300);
       const sys2Title = await page.locator("#systems h3").textContent();
       console.log(`✓ Switched to System 2 via key '2': ${sys2Title}`);
-      if (!sys2Title.includes("PropEval")) totalErrors++;
+      if (!sys2Title.includes("Disha")) totalErrors++;
 
       await page.keyboard.press("3");
       await page.waitForTimeout(300);
       const sys3Title = await page.locator("#systems h3").textContent();
       console.log(`✓ Switched to System 3 via key '3': ${sys3Title}`);
-      if (!sys3Title.includes("Disha")) totalErrors++;
+      if (!sys3Title.includes("DOCAnalyzer")) totalErrors++;
 
       await page.keyboard.press("1");
       await page.waitForTimeout(300);
